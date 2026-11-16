@@ -43,7 +43,7 @@
     start: $('#start'), startErr: $('#start-error'), grid: $('#scene-grid'),
     meter: $('#meter'), fill: $('#meter .fill'), mark: $('#meter .mark'),
     ring: $('#next .ring'), starCount: $('#star-count'), toast: $('#toast'),
-    paused: $('#paused'), dialog: $('#settings'),
+    dialog: $('#settings'),
     threshold: $('#set-threshold'), step: $('#set-step'), mode: $('#set-mode'), max: $('#set-max'), hidehud: $('#set-hidehud'),
     scene: $('#set-scene'), random: $('#set-random'), awake: $('#set-awake'), awakeStatus: $('#awake-status'),
     albumDlg: $('#album'), albumTabs: $('#album-tabs'), albumGrid: $('#album-grid'), albumCount: $('#album-count'),
@@ -64,7 +64,7 @@
   // ---------- Zustand ----------
   const state = {
     running: false, paused: false, demo: false, demoLoud: false,
-    level: 0, visible: 0,
+    level: 0, shown: 0, visible: 0,
     quietFor: 0, loudFor: 0, cooldown: 0,
     celebrated: false, calibrating: null,
   };
@@ -572,14 +572,17 @@
     last = now;
 
     if (state.running) {
-      const raw = readLevel();
+      const raw = state.paused ? 0 : readLevel(); // in der Pause sinkt der Balken langsam ab
       // schnell hoch, langsam runter
       const k = raw > state.level ? 0.35 : 0.08;
       state.level += (raw - state.level) * k;
 
       if (state.calibrating) state.calibrating.push(raw);
 
-      const loud = state.level > settings.threshold;
+      const loud = !state.paused && state.level > settings.threshold;
+      // Anzeige ruhiger als die Erkennung: langsam steigen, noch langsamer fallen
+      const tau = state.level > state.shown ? 0.45 : 1.2;
+      state.shown += (state.level - state.shown) * (1 - Math.exp(-dt / tau));
       updateMeter(loud);
 
       if (!state.paused && !state.calibrating) {
@@ -602,15 +605,19 @@
         els.ring.style.strokeDashoffset = RING_LEN * (1 - frac);
       }
     }
-    if (!state.paused) updateAnimals(dt);
+    updateAnimals(dt); // auch in der Pause bewegen sich die Tiere weiter
     requestAnimationFrame(tick);
   }
 
   function updateMeter(loud) {
-    els.fill.style.width = state.level.toFixed(1) + '%';
-    els.meter.classList.toggle('over', loud);
-    els.meter.classList.toggle('near', !loud && state.level > settings.threshold * 0.8);
-    if (mood) mood.classList.toggle('loud', loud);
+    els.fill.style.width = state.shown.toFixed(1) + '%';
+    const over = state.shown > settings.threshold;
+    els.meter.classList.toggle('over', over);
+    els.meter.classList.toggle('near', !over && state.shown > settings.threshold * 0.8);
+    // Stimmungsfigur bleibt nach Lärm noch kurz erschrocken (kein Flackern)
+    const now = performance.now();
+    if (loud) state.moodUntil = now + 1200;
+    if (mood) mood.classList.toggle('loud', now < (state.moodUntil || 0));
   }
 
   function applySettings() {
@@ -740,8 +747,8 @@
   function togglePause() {
     if (!state.running) return;
     state.paused = !state.paused;
-    els.paused.hidden = !state.paused;
     $('#btn-pause').textContent = state.paused ? '▶' : '⏸';
+    document.body.classList.toggle('is-paused', state.paused);
     if (audioCtx) state.paused ? audioCtx.suspend() : audioCtx.resume();
   }
 

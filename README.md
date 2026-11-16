@@ -55,7 +55,7 @@ Updates werden beim nächsten Start mit Internet automatisch im Hintergrund gela
 
 | Taste | Funktion |
 |---|---|
-| Leertaste | Pause / weiter |
+| Leertaste | Pause / weiter (Tiere bewegen sich weiter, es kommen und gehen aber keine) |
 | R | Neu starten |
 | F | Vollbild |
 | E | Einstellungen |
@@ -64,7 +64,7 @@ Updates werden beim nächsten Start mit Internet automatisch im Hintergrund gela
 | L (gedrückt halten) | „Laut“ simulieren (nur Vorschau ohne Mikrofon) |
 
 Einstellungen: Sammelalbum, Bereich, Bildschirm nicht abdunkeln/ausschalten (standardmäßig an),
-Grenze (wie leise muss es sein), „Raum einmessen“, Tempo (Sekunden pro Tier), bei Lärm verstecken
+Grenze (wie leise muss es sein), „Raum einmessen“, Tempo (3 Sekunden bis 30 Minuten pro Tier), bei Lärm verstecken
 sich ein Tier / einige Tiere / alle Tiere, Höchstzahl (10/20/30), Lautstärke-Balken ausblenden.
 
 ### Bildschirm bleibt an
