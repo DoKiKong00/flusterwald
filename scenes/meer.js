@@ -115,8 +115,9 @@
   ${c(70, -90, 14, '#fff')}${eye(72, -90, 8)}${s('M80 -56 Q100 -50 114 -62', '#2a5a9a', 4)}${c(86, -70, 9, '#ff9ec4', 'opacity=".5"')}`;
 
   FW.scene({
-    id: 'meer', name: 'Meer', icon: '🐠', bg: '#1f8fc8',
+    id: 'meer', name: 'Meer', icon: '🐠', bg: '#5fd0f0',
     back, front,
+    under: '#e8c985',
     ground: 722, lane: [775, 815],
     covers: [
       { x: 220, top: 610, w: 120 },

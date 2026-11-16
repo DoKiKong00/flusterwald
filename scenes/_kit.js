@@ -9,6 +9,7 @@
  *   bg                    – Hintergrundfarbe der Seite
  *   back                  – SVG hinter den Tieren (Himmel, Stimmungsfigur mit id="mood", Hintergrund)
  *   front                 – SVG vor den versteckten Tieren (Boden und Verstecke)
+ *   under                 – Bodenfarbe; damit wird der Boden auf großen/hohen Bildschirmen verlängert
  *   ground                – Oberkante des Bodens; darunter sind versteckte Tiere unsichtbar
  *   lane                  – [oben, unten]: hier laufen die Tiere
  *   covers                – Verstecke: { x, top, w }

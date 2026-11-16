@@ -53,8 +53,21 @@ Updates werden beim nächsten Start mit Internet automatisch im Hintergrund gela
 | B | Bereich wählen |
 | L (gedrückt halten) | „Laut“ simulieren (nur Vorschau ohne Mikrofon) |
 
-Einstellungen: Grenze (wie leise muss es sein), „Raum einmessen“, Tempo (Sekunden pro Tier),
+Einstellungen: Bildschirm nicht abdunkeln/ausschalten (standardmäßig an), Grenze (wie leise muss es sein), „Raum einmessen“, Tempo (Sekunden pro Tier),
 ein Tier oder alle Tiere verstecken sich bei Lärm, Lautstärke-Balken ausblenden.
+
+### Bildschirm bleibt an
+
+Solange Flüsterwald läuft, verhindert die App, dass der Bildschirm dunkel wird oder ausgeht
+(Einstellung „Bildschirm nicht abdunkeln oder ausschalten“). Das funktioniert in Chrome, Edge
+und Safari ab iPadOS 16.4. Klappt es auf einem Gerät nicht, zeigt die App einen Hinweis; dann
+in den Geräte-Einstellungen die automatische Sperre ausschalten
+(iPad: Einstellungen → Anzeige & Helligkeit → Automatische Sperre → Nie).
+
+### Bildschirmgrößen
+
+Die Szene passt sich jedem Format an (Beamer, Whiteboard, Laptop, Tablet hoch/quer, Handy):
+Es wird nichts Wichtiges abgeschnitten, stattdessen werden Himmel und Boden verlängert.
 
 ## Lokal starten
 

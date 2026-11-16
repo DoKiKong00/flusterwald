@@ -114,8 +114,9 @@
   ${eye(16, -78, 4.5)}${s('M-6 -12 L-6 0 M6 -12 L6 0', '#5a5a5a', 3)}`;
 
   FW.scene({
-    id: 'savanne', name: 'Savanne', icon: '🦁', bg: '#ffe2a6',
+    id: 'savanne', name: 'Savanne', icon: '🦁', bg: '#8fd0f0',
     back, front,
+    under: '#e0b450',
     ground: 700, lane: [760, 808],
     covers: [
       { x: 230, top: 610, w: 160 },

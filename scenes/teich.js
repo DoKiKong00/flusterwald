@@ -107,6 +107,7 @@
   FW.scene({
     id: 'teich', name: 'Teich', icon: '🐸', bg: '#8ed6f6',
     back, front,
+    under: '#7cc35a',
     ground: 740, lane: [782, 815],
     covers: [
       { x: 230, top: 540, w: 180, big: true },

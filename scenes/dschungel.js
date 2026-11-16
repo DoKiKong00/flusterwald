@@ -103,6 +103,7 @@
   FW.scene({
     id: 'dschungel', name: 'Dschungel', icon: '🐒', bg: '#9fe0c8',
     back, front,
+    under: '#5aae4a',
     ground: 700, lane: [760, 808],
     covers: [
       { x: 230, top: 580, w: 200, big: true },

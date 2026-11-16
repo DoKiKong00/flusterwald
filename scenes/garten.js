@@ -96,6 +96,7 @@
   FW.scene({
     id: 'garten', name: 'Garten', icon: '🌷', bg: '#8fd3f4',
     back, front,
+    under: '#7cc35a',
     ground: 700, lane: [760, 808],
     covers: [
       { x: 250, top: 622, w: 130 },

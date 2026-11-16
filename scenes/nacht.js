@@ -103,6 +103,7 @@
   FW.scene({
     id: 'nacht', name: 'Nacht', icon: '🌙', bg: '#141c44',
     back, front,
+    under: '#2e5a44',
     ground: 700, lane: [760, 805],
     covers: [
       { x: 270, top: 545, w: 200, big: true },

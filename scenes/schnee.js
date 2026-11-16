@@ -105,6 +105,7 @@
   FW.scene({
     id: 'schnee', name: 'Schnee', icon: '❄️', bg: '#9fc8ef',
     back, front,
+    under: '#f6fbff',
     ground: 700, lane: [760, 808],
     covers: [
       { x: 255, top: 525, w: 180, big: true },

@@ -21,7 +21,7 @@ body {
   user-select: none;
 }
 #app { position: fixed; inset: 0; }
-#scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
 
 button { font: inherit; cursor: pointer; }
 
@@ -265,10 +265,35 @@ dialog::backdrop { background: rgba(0, 0, 0, .35); }
 #btn-calibrate { align-self: flex-start; padding: 8px 16px; border-radius: 999px; border: 2px solid var(--green); background: #fff; color: var(--green-dark); font-weight: 700; font-size: 17px; }
 .actions { text-align: right; }
 
+
+.awake-status { margin: -10px 0 18px 32px; }
+
+/* Niedrige Bildschirme (Handy quer): Anzeigen kleiner */
+@media (max-height: 500px) {
+  #hud, #controls { top: 8px; }
+  #hud { left: 8px; gap: 6px; }
+  #progress .dot { width: 24px; height: 24px; }
+  #progress { padding: 4px 8px; }
+  #next { width: 38px; height: 38px; }
+  #stars { padding: 4px 12px; font-size: 18px; }
+  #controls button { width: 40px; height: 40px; font-size: 18px; }
+  #meter { bottom: 6px; padding: 3px 10px; width: min(420px, 50%); }
+  #meter .bar { height: 12px; }
+  #meter .lbl { font-size: 18px; }
+  .card { padding: 18px; }
+  h1 { font-size: 34px; }
+  .lead { font-size: 16px; margin-bottom: 12px; }
+  .scene-card .ic { font-size: 26px; }
+  #scene-grid { grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); margin-bottom: 12px; }
+}
+/* Schmale Bildschirme (Handy hoch) */
 @media (max-width: 600px) {
-  #hud { gap: 6px; left: 8px; top: 8px; }
-  #controls { top: auto; bottom: 76px; right: 8px; }
-  #next { width: 42px; height: 42px; }
+  #hud { flex-wrap: wrap; max-width: calc(100% - 16px); }
+  #controls { top: auto; bottom: 64px; right: 8px; flex-direction: column; }
+  #controls button { width: 44px; height: 44px; font-size: 20px; }
+  #progress .dot { width: 26px; height: 26px; }
+  .card { padding: 20px 16px; }
+  .lead { font-size: 17px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

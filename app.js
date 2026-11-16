@@ -10,7 +10,7 @@
   const STARTLE_COOLDOWN = 1.5; // Pause (s) zwischen zwei Erschreckern
 
   // ---------- Einstellungen ----------
-  const DEFAULTS = { threshold: 55, step: 20, mode: 'one', hidehud: false, scene: 'wald', random: false };
+  const DEFAULTS = { threshold: 55, step: 20, mode: 'one', hidehud: false, scene: 'wald', random: false, awake: true };
   const store = {
     get(key, fallback) {
       try { const v = localStorage.getItem('fw.' + key); return v === null ? fallback : JSON.parse(v); }
@@ -38,7 +38,7 @@
     celebrate: $('#celebrate'), paused: $('#paused'),
     dialog: $('#settings'),
     threshold: $('#set-threshold'), step: $('#set-step'), mode: $('#set-mode'), hidehud: $('#set-hidehud'),
-    scene: $('#set-scene'), random: $('#set-random'),
+    scene: $('#set-scene'), random: $('#set-random'), awake: $('#set-awake'), awakeStatus: $('#awake-status'),
     themeColor: document.querySelector('meta[name="theme-color"]'),
   };
   const svg = document.getElementById('scene');
@@ -93,12 +93,18 @@
   let dots = [];
   let outStack = []; // Reihenfolge, in der die Tiere herausgekommen sind
   let mood = null;
+  let moodWrap = null;
   let zOrder = '';
 
   function loadScene(id) {
     scene = SCENES.find((s) => s.id === id) || SCENES[0];
     layers.bg.innerHTML = scene.back;
-    layers.fg.innerHTML = scene.front;
+    // Boden nach unten und zur Seite verlängern (für hohe oder sehr breite Bildschirme)
+    const u = scene.under || '#7cc35a';
+    layers.fg.innerHTML = scene.front
+      + `<rect x="-4000" y="880" width="9600" height="4000" fill="${u}"/>`
+      + `<rect x="-4000" y="${scene.ground}" width="4000" height="900" fill="${u}"/>`
+      + `<rect x="1600" y="${scene.ground}" width="4000" height="900" fill="${u}"/>`;
     for (const k of ['back', 'front', 'hole']) layers[k].replaceChildren();
     const h = scene.hole;
     holeClip.setAttribute('cx', h ? h.x : -100); holeClip.setAttribute('cy', h ? h.y : -100);
@@ -106,7 +112,15 @@
     document.body.style.background = scene.bg;
     document.body.dataset.scene = scene.id;
     els.themeColor.setAttribute('content', scene.bg);
+    // Himmel (erstes Rechteck der Szene) zur Seite verlängern
+    const sky = layers.bg.querySelector('rect');
+    if (sky && sky.getAttribute('width') === '1600') { sky.setAttribute('x', '-4000'); sky.setAttribute('width', '9600'); }
     mood = layers.bg.querySelector('#mood');
+    if (mood) { // Stimmungsfigur einpacken, damit sie immer im sichtbaren Bereich bleibt
+      moodWrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      mood.before(moodWrap); moodWrap.appendChild(mood);
+    }
+    fitScene();
 
     animals = scene.animals.map((cfg) => {
       const el = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -153,11 +167,38 @@
   const laneOf = (a) => a.cfg.lane || scene.lane;
 
   // Sichtbarer Bereich (auf schmalen Bildschirmen wird links/rechts abgeschnitten)
+  // Bildausschnitt passend zum Bildschirm. Die Szene ist 1600 × 900 groß.
+  //  - Querformat bis 16:9 (Laptop, Whiteboard, Tablet quer): ganze Breite, oben/unten mehr Himmel/Boden
+  //  - breiter als 16:9 (Handy quer): oben etwas Himmel weglassen; extrem breit: seitlich verlängern
+  //  - Hochformat: mindestens 1000 breit, darüber/darunter Himmel/Boden
+  const view = { x: 0, y: 0, w: 1600, h: 900 };
+  function fitScene() {
+    const rw = window.innerWidth || 1600, rh = window.innerHeight || 900;
+    const a = rw / rh;
+    let x = 0, y = 0, w = 1600, h = 900;
+    if (a >= 1600 / 900) {
+      h = Math.max(640, 1600 / a);
+      w = h * a;
+      x = 800 - w / 2;
+      y = Math.max(0, 870 - h);
+    } else if (a >= 1) {
+      h = 1600 / a;
+      y = -(h - 900) * 0.4;
+    } else {
+      w = Math.min(1600, Math.max(1000, 1600 * a));
+      h = w / a;
+      x = 800 - w / 2;
+      y = -(h - 900) * 0.62;
+    }
+    Object.assign(view, { x, y, w, h });
+    svg.setAttribute('viewBox', `${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);
+    if (moodWrap) moodWrap.setAttribute('transform', `translate(${Math.max(0, x).toFixed(1)} ${Math.max(0, y).toFixed(1)})`);
+  }
+  addEventListener('resize', fitScene);
+  addEventListener('orientationchange', () => setTimeout(fitScene, 200));
+
   function viewRange() {
-    const r = svg.getBoundingClientRect();
-    const scale = Math.max(r.width / 1600, r.height / 900) || 1;
-    const w = Math.min(1600, r.width / scale);
-    return { min: 800 - w / 2, max: 800 + w / 2 };
+    return { min: Math.max(-200, view.x), max: Math.min(1800, view.x + view.w) };
   }
   function visibleCovers(a) {
     const v = viewRange();
@@ -471,8 +512,38 @@
     els.mode.value = settings.mode;
     els.hidehud.checked = settings.hidehud;
     els.random.checked = settings.random;
+    els.awake.checked = settings.awake;
     document.body.classList.toggle('hidehud', settings.hidehud);
   }
+
+  // ---------- Bildschirm wach halten ----------
+  let wakeLock = null;
+  const wakeSupported = 'wakeLock' in navigator;
+  async function updateWakeLock() {
+    const want = settings.awake && state.running && document.visibilityState === 'visible';
+    if (!wakeSupported) {
+      els.awakeStatus.hidden = !settings.awake;
+      els.awakeStatus.textContent = 'Dieser Browser kann das leider nicht. Bitte in den Geräte-Einstellungen die automatische Bildschirmsperre ausschalten (iPad: Anzeige & Helligkeit → Automatische Sperre → Nie).';
+      return;
+    }
+    try {
+      if (want && !wakeLock) {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => { wakeLock = null; showAwake(); });
+      } else if (!want && wakeLock) {
+        await wakeLock.release();
+        wakeLock = null;
+      }
+    } catch { wakeLock = null; }
+    showAwake();
+  }
+  function showAwake() {
+    if (!wakeSupported) return;
+    els.awakeStatus.hidden = !settings.awake || !state.running;
+    els.awakeStatus.textContent = wakeLock ? '✅ Der Bildschirm bleibt an.' : '⚠️ Gerade nicht möglich (z. B. Energiesparmodus). Wird beim nächsten Antippen erneut versucht.';
+  }
+  document.addEventListener('visibilitychange', updateWakeLock);
+  document.addEventListener('pointerdown', () => { if (settings.awake && state.running && !wakeLock) updateWakeLock(); });
 
   // ---------- Bereichsauswahl ----------
   let chosen = settings.scene;
@@ -543,6 +614,7 @@
     if (state.paused) togglePause();
     useScene(chosen);
     reset();
+    updateWakeLock();
     if (state.demo) toast('Vorschau: Taste L gedrückt halten = laut', 3000);
   }
 
@@ -581,6 +653,7 @@
   els.mode.addEventListener('change', () => { settings.mode = els.mode.value; saveSettings(); });
   els.hidehud.addEventListener('change', () => { settings.hidehud = els.hidehud.checked; saveSettings(); applySettings(); });
   els.random.addEventListener('change', () => { settings.random = els.random.checked; saveSettings(); });
+  els.awake.addEventListener('change', () => { settings.awake = els.awake.checked; saveSettings(); updateWakeLock(); });
   els.scene.addEventListener('change', () => { chosen = els.scene.value; useScene(chosen); });
 
   document.addEventListener('keydown', (e) => {

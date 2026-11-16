@@ -128,6 +128,7 @@
   FW.scene({
     id: 'bauernhof', name: 'Bauernhof', icon: '🚜', bg: '#9ad8f7',
     back, front,
+    under: '#7cc35a',
     ground: 700, lane: [762, 808],
     covers: [
       { x: 250, top: 652, w: 150 },

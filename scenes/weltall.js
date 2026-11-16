@@ -106,6 +106,7 @@
   FW.scene({
     id: 'weltall', name: 'Weltall', icon: '🚀', bg: '#0b0f2e',
     back, front,
+    under: '#c4c4d4',
     ground: 700, lane: [760, 808],
     covers: [
       { x: 250, top: 645, w: 150 },

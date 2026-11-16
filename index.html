@@ -19,7 +19,7 @@
 <body>
   <main id="app">
     <!-- ============ WALD-SZENE ============ -->
-    <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Bereich mit Tieren">
+    <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Bereich mit Tieren">
       <defs><clipPath id="holeClip"><ellipse id="holeClipShape" cx="-100" cy="-100" rx="1" ry="1"/></clipPath></defs>
       <g id="bg"></g>          <!-- Hintergrund der Szene -->
       <g id="layer-hole" clip-path="url(#holeClip)"></g>  <!-- Tiere in einer Höhle -->
@@ -124,6 +124,12 @@
             <option value="all">verstecken sich alle Tiere</option>
           </select>
         </label>
+
+        <label class="row check">
+          <input type="checkbox" id="set-awake">
+          <span>Bildschirm nicht abdunkeln oder ausschalten</span>
+        </label>
+        <p id="awake-status" class="hint awake-status" hidden></p>
 
         <label class="row check">
           <input type="checkbox" id="set-hidehud">

@@ -97,6 +97,7 @@
   FW.scene({
     id: 'wald', name: 'Wald', icon: '🌳', bg: '#8fd3f4',
     back, front,
+    under: '#4a9a3a',
     ground: 700, lane: [758, 805],
     covers: [
       { x: 270, top: 668, w: 140 },
