@@ -19,6 +19,7 @@ Wird es laut, flitzen sie ins nächste Versteck. Sind alle sechs Tiere da, gibt 
 | 🐸 Teich | Frosch, Ente, Libelle, Biber, Storch, Schwan | Wolke (regnet bei Lärm) |
 | 🌷 Garten | Marienkäfer, Schmetterling, Biene, Schnecke, Regenwurm, Maulwurf | Sonnenblume |
 | 🐒 Dschungel | Affe, Tukan, Faultier, Tiger, Schlange, Chamäleon | Sonne |
+| 🚀 Weltall | Astronauten-Katze, Astronauten-Hund, Alien, Roboter, UFO, Rakete | Saturn |
 
 Den Bereich wählt man auf dem Startbildschirm, über den Knopf 🗺 (Taste B) oder in den Einstellungen.
 Dort lässt sich auch einstellen, dass bei jedem Start ein anderer Bereich kommt.
