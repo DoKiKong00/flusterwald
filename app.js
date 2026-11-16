@@ -526,6 +526,32 @@
   };
   ['mousemove', 'pointerdown', 'keydown'].forEach((ev) => document.addEventListener(ev, wake));
 
+  // ---------- Als App (PWA) ----------
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* ohne Offline-Modus weiter */ });
+  }
+  const isInstalled = matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches || navigator.standalone;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  let installPrompt = null;
+  if (!isInstalled && isIOS) {
+    $('#install').hidden = false;
+    $('#btn-install').hidden = true;
+    $('#install-ios').hidden = false;
+  }
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    installPrompt = e;
+    $('#install').hidden = false;
+  });
+  $('#btn-install').addEventListener('click', async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    await installPrompt.userChoice.catch(() => {});
+    installPrompt = null;
+    $('#install').hidden = true;
+  });
+  window.addEventListener('appinstalled', () => { $('#install').hidden = true; toast('Installiert! 🎉', 2500); });
+
   // Für Tests und Vorschau
   window.fluesterwald = { state, settings, showNext, startle, reset, animals };
 

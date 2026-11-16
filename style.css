@@ -203,6 +203,12 @@ button.big {
   box-shadow: 0 4px 0 var(--green-dark);
 }
 button.big:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--green-dark); }
+#install { margin-top: 18px; padding-top: 16px; border-top: 2px dashed #e4e0d0; }
+button.install {
+  background: #fff; color: var(--green-dark); border: 2px solid var(--green);
+  font-size: 18px; font-weight: 800; padding: 10px 22px; border-radius: 999px;
+}
+.hint { font-size: 15px; line-height: 1.4; color: #555; margin: 8px 0 0; }
 button.link { background: none; border: none; color: var(--green-dark); text-decoration: underline; font-size: 15px; margin-top: 6px; }
 
 dialog { padding: 28px; }

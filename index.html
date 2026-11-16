@@ -6,6 +6,14 @@
   <title>Flüsterwald</title>
   <meta name="description" content="Lautstärke-Ampel für Kita und Grundschule: Wenn es leise ist, trauen sich die Waldtiere heraus.">
   <meta name="theme-color" content="#3f8f4f">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Flüsterwald">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -268,6 +276,10 @@
         <p class="privacy">🔒 Das Mikrofon misst nur, wie laut es ist. Es wird nichts aufgenommen, gespeichert oder verschickt. Alles bleibt auf diesem Gerät.</p>
         <p id="start-error" class="error" hidden></p>
         <button id="btn-demo" class="link">Ohne Mikrofon ausprobieren (Taste L = laut)</button>
+        <div id="install" hidden>
+          <button id="btn-install" class="install">📲 Als App installieren</button>
+          <p id="install-ios" class="hint" hidden>Auf dem iPad: unten bzw. oben auf <b>Teilen</b> <span aria-hidden="true">⎙</span> tippen und <b>„Zum Home-Bildschirm“</b> wählen.</p>
+        </div>
       </div>
     </section>
 

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Flüsterwald-Symbol: Hase lugt hinter einem Busch hervor -->
+  <rect width="512" height="512" fill="#8fd3f4"/>
+  <circle cx="400" cy="110" r="52" fill="#ffd23f"/>
+  <rect y="360" width="512" height="152" fill="#5aaf45"/>
+  <g transform="translate(256 400)">
+    <ellipse cx="-34" cy="-250" rx="24" ry="72" fill="#c9b6a4" transform="rotate(-8 -34 -250)"/>
+    <ellipse cx="-34" cy="-246" rx="11" ry="52" fill="#f2b5b5" transform="rotate(-8 -34 -246)"/>
+    <ellipse cx="34" cy="-250" rx="24" ry="72" fill="#c9b6a4" transform="rotate(8 34 -250)"/>
+    <ellipse cx="34" cy="-246" rx="11" ry="52" fill="#f2b5b5" transform="rotate(8 34 -246)"/>
+    <circle cx="0" cy="-150" r="72" fill="#d6c4b2"/>
+    <circle cx="-40" cy="-128" r="14" fill="#f2a5a5" opacity=".6"/>
+    <circle cx="40" cy="-128" r="14" fill="#f2a5a5" opacity=".6"/>
+    <circle cx="-25" cy="-160" r="10" fill="#2b1d14"/><circle cx="25" cy="-160" r="10" fill="#2b1d14"/>
+    <circle cx="-22" cy="-163" r="3.4" fill="#fff"/><circle cx="28" cy="-163" r="3.4" fill="#fff"/>
+    <ellipse cx="0" cy="-134" rx="9" ry="7" fill="#e07a8a"/>
+  </g>
+  <g fill="#3f8f3f">
+    <circle cx="120" cy="400" r="92"/><circle cx="256" cy="372" r="100"/><circle cx="392" cy="400" r="92"/>
+    <rect x="0" y="400" width="512" height="112"/>
+  </g>
+  <g fill="#4ea54b"><circle cx="190" cy="350" r="34"/><circle cx="330" cy="356" r="30"/></g>
+  <g fill="#e8504a"><circle cx="150" cy="380" r="10"/><circle cx="300" cy="330" r="10"/><circle cx="380" cy="400" r="10"/></g>
+</svg>

@@ -13,6 +13,18 @@ Sind alle sechs Tiere da, gibt es einen Stern.
 - Kein Konto, keine Werbung, kein Tracking, kein Server. Alles läuft im Browser.
 - Gespeichert werden nur die Einstellungen und die Sterne des Tages (im Browser, `localStorage`).
 
+## Als App installieren (funktioniert dann auch offline)
+
+Seite einmal mit Internet öffnen: **https://dokikong00.github.io/flusterwald/**
+
+- **Windows-Laptop / Whiteboard (Chrome oder Edge):** Auf dem Startbildschirm auf
+  „📲 Als App installieren“ klicken – oder rechts in der Adressleiste auf das Installieren-Symbol.
+- **iPad (Safari):** Teilen ⎙ → „Zum Home-Bildschirm“.
+- **Android-Tablet (Chrome):** Menü ⋮ → „App installieren“.
+
+Danach startet Flüsterwald über das eigene Symbol, ohne Browserleiste und ohne Internet.
+Updates werden beim nächsten Start mit Internet automatisch im Hintergrund geladen.
+
 ## Bedienung
 
 | Taste | Funktion |
@@ -41,5 +53,9 @@ Dann `http://localhost:3000` (bzw. `:8000`) öffnen.
 - `index.html` – Szene (SVG, alle Grafiken selbst gezeichnet) und Oberfläche
 - `style.css` – Gestaltung und Animationen
 - `app.js` – Pegelmessung (Web Audio API) und Spiellogik
+- `manifest.webmanifest`, `icons/` – App-Name und -Symbole
+- `sw.js` – Service Worker für den Offline-Betrieb.
+  **Wichtig:** Bei jeder Änderung an den Dateien `VERSION` in `sw.js` hochzählen,
+  sonst bekommen installierte Apps das Update nicht.
 
 Kein Build-Schritt nötig.
