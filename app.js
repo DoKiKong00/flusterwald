@@ -70,10 +70,12 @@
   };
 
   // ---------- Audio ----------
-  let audioCtx, analyser, buf;
+  let audioCtx, analyser, buf, stream;
+  let silentFor = 0;    // so lange (s) kam nur exakte Stille – Zeichen für ein hängendes Mikrofon
+  let restarting = false;
 
   async function startMic() {
-    const stream = await navigator.mediaDevices.getUserMedia({
+    stream = await navigator.mediaDevices.getUserMedia({
       audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
     });
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -82,14 +84,43 @@
     analyser.fftSize = 2048;
     src.connect(analyser);
     buf = new Float32Array(analyser.fftSize);
+    silentFor = 0;
+    if (audioCtx.state !== 'running') audioCtx.resume().catch(() => {});
   }
 
+  // Mikrofon neu verbinden (z. B. nach Unterbrechung durch das Betriebssystem)
+  async function restartMic() {
+    if (restarting || state.demo) return;
+    restarting = true;
+    try {
+      stream?.getTracks().forEach((t) => t.stop());
+      await audioCtx?.close().catch(() => {});
+      await startMic();
+    } catch { /* nächster Versuch beim nächsten Antippen */ }
+    restarting = false;
+  }
+
+  // Prüfen, ob das Mikrofon noch läuft; sonst wieder anwerfen
+  function checkMic() {
+    if (!state.running || state.demo || !audioCtx) return;
+    const track = stream && stream.getAudioTracks()[0];
+    if (!track || track.readyState === 'ended' || silentFor > 4) restartMic();
+    else if (audioCtx.state !== 'running') audioCtx.resume().catch(() => {});
+  }
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkMic(); });
+  document.addEventListener('pointerdown', checkMic);
+  document.addEventListener('keydown', checkMic);
+  setInterval(checkMic, 3000);
+
   // Pegel 0–100 (−60 dB … −10 dB)
-  function readLevel() {
+  function readLevel(dt = 0) {
     if (state.demo) return state.demoLoud ? 80 + Math.random() * 10 : 12 + Math.random() * 8;
+    if (!analyser) return 0;
     analyser.getFloatTimeDomainData(buf);
     let sum = 0;
     for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
+    // Ein echtes Mikrofon rauscht immer ein wenig; exakt 0 heißt: es kommt nichts an
+    silentFor = sum === 0 ? silentFor + dt : 0;
     const rms = Math.sqrt(sum / buf.length);
     const db = 20 * Math.log10(rms + 1e-9);
     return Math.max(0, Math.min(100, ((db + 60) / 50) * 100));
@@ -572,7 +603,8 @@
     last = now;
 
     if (state.running) {
-      const raw = state.paused ? 0 : readLevel(); // in der Pause sinkt der Balken langsam ab
+      // Mikrofon läuft immer weiter; in der Pause zählt der Wert nur nicht (Balken sinkt ab)
+      const raw = state.paused ? (readLevel(dt), 0) : readLevel(dt);
       // schnell hoch, langsam runter
       const k = raw > state.level ? 0.35 : 0.08;
       state.level += (raw - state.level) * k;
@@ -580,8 +612,8 @@
       if (state.calibrating) state.calibrating.push(raw);
 
       const loud = !state.paused && state.level > settings.threshold;
-      // Anzeige ruhiger als die Erkennung: langsam steigen, noch langsamer fallen
-      const tau = state.level > state.shown ? 0.45 : 1.2;
+      // Anzeige etwas ruhiger als die Erkennung: zügig steigen, sanft fallen
+      const tau = state.level > state.shown ? 0.2 : 0.6;
       state.shown += (state.level - state.shown) * (1 - Math.exp(-dt / tau));
       updateMeter(loud);
 
@@ -749,7 +781,8 @@
     state.paused = !state.paused;
     $('#btn-pause').textContent = state.paused ? '▶' : '⏸';
     document.body.classList.toggle('is-paused', state.paused);
-    if (audioCtx) state.paused ? audioCtx.suspend() : audioCtx.resume();
+    // Das Mikrofon läuft in der Pause weiter (Anhalten und Fortsetzen ist in manchen Browsern unzuverlässig)
+    if (!state.paused) checkMic();
   }
 
   function toggleFullscreen() {
@@ -830,6 +863,7 @@
   window.fluesterwald = {
     state, settings, showNext, startle, reset, loadScene, openAlbum, album,
     get animals() { return animals; }, get scene() { return scene; },
+    get audio() { return { ctx: audioCtx, stream }; },
   };
 
   applySettings();
