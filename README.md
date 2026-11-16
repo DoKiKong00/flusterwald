@@ -1,11 +1,27 @@
 # 🌳 Flüsterwald
 
 Eine Lautstärke-Ampel für Kita und Grundschule (1./2. Klasse).
-Wenn es im Raum leise ist, trauen sich nach und nach die Waldtiere heraus:
-Hase, Igel, Eichhörnchen, Fuchs, Eule und Reh. Welches Tier kommt und aus welchem
-Versteck, ist jedes Mal zufällig. Erst lugen die Tiere vorsichtig hervor, dann laufen,
-hoppeln und fliegen sie durch den Wald. Wird es laut, flitzen sie ins nächste Versteck.
-Sind alle sechs Tiere da, gibt es einen Stern.
+Wenn es im Raum leise ist, trauen sich nach und nach die Tiere heraus.
+Welches Tier kommt und aus welchem Versteck, ist jedes Mal zufällig. Erst lugen die Tiere
+vorsichtig hervor, dann laufen, hoppeln, fliegen oder schwimmen sie herum.
+Wird es laut, flitzen sie ins nächste Versteck. Sind alle sechs Tiere da, gibt es einen Stern.
+
+## Bereiche
+
+| Bereich | Tiere | Stimmungsfigur |
+|---|---|---|
+| 🌳 Wald | Hase, Igel, Eichhörnchen, Fuchs, Eule, Reh | Sonne |
+| 🚜 Bauernhof | Huhn, Schwein, Schaf, Kuh, Katze, Schwalbe | Hahn auf dem Dach |
+| 🐠 Meer | Fisch, Krake, Krabbe, Seepferdchen, Schildkröte, Wal | Seestern |
+| 🌙 Nacht | Fledermaus, Waschbär, Dachs, Maus, Uhu, Glühwürmchen | Mond (schläft, solange es leise ist) |
+| 🦁 Savanne | Löwe, Giraffe, Zebra, Elefant, Erdmännchen, Papagei | Sonne |
+| ❄️ Schnee | Pinguin, Eisbär, Robbe, Polarfuchs, Schneehase, Schneeeule | Schneemann |
+| 🐸 Teich | Frosch, Ente, Libelle, Biber, Storch, Schwan | Wolke (regnet bei Lärm) |
+| 🌷 Garten | Marienkäfer, Schmetterling, Biene, Schnecke, Regenwurm, Maulwurf | Sonnenblume |
+| 🐒 Dschungel | Affe, Tukan, Faultier, Tiger, Schlange, Chamäleon | Sonne |
+
+Den Bereich wählt man auf dem Startbildschirm, über den Knopf 🗺 (Taste B) oder in den Einstellungen.
+Dort lässt sich auch einstellen, dass bei jedem Start ein anderer Bereich kommt.
 
 ## Datenschutz
 
@@ -33,6 +49,7 @@ Updates werden beim nächsten Start mit Internet automatisch im Hintergrund gela
 | R | Neu starten |
 | F | Vollbild |
 | E | Einstellungen |
+| B | Bereich wählen |
 | L (gedrückt halten) | „Laut“ simulieren (nur Vorschau ohne Mikrofon) |
 
 Einstellungen: Grenze (wie leise muss es sein), „Raum einmessen“, Tempo (Sekunden pro Tier),
@@ -52,7 +69,10 @@ Dann `http://localhost:3000` (bzw. `:8000`) öffnen.
 
 - `index.html` – Szene (SVG, alle Grafiken selbst gezeichnet) und Oberfläche
 - `style.css` – Gestaltung und Animationen
-- `app.js` – Pegelmessung (Web Audio API) und Spiellogik
+- `app.js` – Pegelmessung (Web Audio API) und Spiellogik (für alle Bereiche gleich)
+- `scenes/_kit.js` – Baukasten für Bereiche (Formen, Augen, Gesichter); erklärt alle Felder einer Szene
+- `scenes/*.js` – je ein Bereich mit Hintergrund, Verstecken und sechs Tieren.
+  Neuer Bereich: Datei anlegen, in `index.html` und in die Liste in `sw.js` eintragen.
 - `manifest.webmanifest`, `icons/` – App-Name und -Symbole
 - `sw.js` – Service Worker für den Offline-Betrieb.
   **Wichtig:** Bei jeder Änderung an den Dateien `VERSION` in `sw.js` hochzählen,

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Flüsterwald</title>
-  <meta name="description" content="Lautstärke-Ampel für Kita und Grundschule: Wenn es leise ist, trauen sich die Waldtiere heraus.">
+  <meta name="description" content="Lautstärke-Ampel für Kita und Grundschule: Wenn es leise ist, trauen sich die Tiere heraus.">
   <meta name="theme-color" content="#3f8f4f">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
@@ -19,217 +19,13 @@
 <body>
   <main id="app">
     <!-- ============ WALD-SZENE ============ -->
-    <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-label="Wald mit Tieren" role="img">
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#8fd3f4"/>
-          <stop offset="1" stop-color="#e9f7e1"/>
-        </linearGradient>
-        <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#6cbf4f"/>
-          <stop offset="1" stop-color="#4a9a3a"/>
-        </linearGradient>
-        <clipPath id="holeClip"><ellipse cx="1150" cy="400" rx="40" ry="48"/></clipPath>
-      </defs>
-
-      <!-- Himmel -->
-      <rect width="1600" height="900" fill="url(#sky)"/>
-
-      <!-- Sonne mit Gesicht (reagiert auf Lautstärke) -->
-      <g id="sun" transform="translate(220 150)">
-        <g class="rays">
-          <circle r="96" fill="#ffe680" opacity=".45"/>
-        </g>
-        <circle r="70" fill="#ffd23f"/>
-        <circle cx="-38" cy="18" r="11" fill="#ff9e7a" opacity=".55"/>
-        <circle cx="38" cy="18" r="11" fill="#ff9e7a" opacity=".55"/>
-        <g class="eyes">
-          <ellipse class="eye" cx="-22" cy="-8" rx="7" ry="9" fill="#5a3a1a"/>
-          <ellipse class="eye" cx="22" cy="-8" rx="7" ry="9" fill="#5a3a1a"/>
-        </g>
-        <path class="mouth-happy" d="M-24 18 Q0 42 24 18" fill="none" stroke="#5a3a1a" stroke-width="6" stroke-linecap="round"/>
-        <ellipse class="mouth-o" cx="0" cy="26" rx="11" ry="14" fill="#5a3a1a"/>
-      </g>
-
-      <!-- Wolken -->
-      <g class="cloud c1" fill="#fff" opacity=".9">
-        <ellipse cx="560" cy="130" rx="80" ry="34"/><ellipse cx="610" cy="110" rx="56" ry="38"/><ellipse cx="510" cy="118" rx="44" ry="30"/>
-      </g>
-      <g class="cloud c2" fill="#fff" opacity=".8">
-        <ellipse cx="880" cy="200" rx="66" ry="26"/><ellipse cx="920" cy="185" rx="44" ry="30"/>
-      </g>
-
-      <!-- Hügel hinten -->
-      <path d="M0 610 Q200 500 420 580 T860 560 T1300 570 T1600 540 V900 H0Z" fill="#a8d98a"/>
-      <path d="M0 660 Q260 580 520 640 T1040 630 T1600 610 V900 H0Z" fill="#8ccb6e"/>
-      <!-- kleine Tannen hinten -->
-      <g fill="#5fae5a">
-        <path d="M70 620 L110 520 L150 620Z"/><path d="M130 630 L165 545 L200 630Z"/>
-        <path d="M680 600 L715 510 L750 600Z"/><path d="M1480 600 L1515 500 L1550 600Z"/>
-      </g>
-
-      <!-- Baum: Krone -->
-      <g id="tree-crown">
-        <circle cx="1060" cy="230" r="120" fill="#3f9a4a"/>
-        <circle cx="1250" cy="220" r="125" fill="#3f9a4a"/>
-        <circle cx="1150" cy="140" r="135" fill="#4aaa55"/>
-        <circle cx="1100" cy="190" r="50" fill="#56b862" opacity=".7"/>
-        <circle cx="1210" cy="120" r="40" fill="#5fc06b" opacity=".7"/>
-        <circle cx="1020" cy="200" r="10" fill="#e8504a"/><circle cx="1290" cy="250" r="10" fill="#e8504a"/><circle cx="1180" cy="90" r="10" fill="#e8504a"/>
-      </g>
-      <!-- Ast -->
-      <path d="M1210 572 Q1290 560 1370 548 L1372 566 Q1290 578 1210 592Z" fill="#7a4f2e"/>
-      <ellipse cx="1340" cy="545" rx="22" ry="10" fill="#56b862"/>
-
-      <!-- Baum: Stamm -->
-      <path d="M1068 740 Q1080 560 1078 300 L1222 300 Q1220 560 1234 740Z" fill="#8a5a33"/>
-      <path d="M1110 340 Q1116 480 1112 700" stroke="#74482a" stroke-width="6" fill="none"/>
-      <path d="M1188 360 Q1182 520 1192 690" stroke="#74482a" stroke-width="6" fill="none"/>
-      <!-- Baumhöhle -->
-      <ellipse cx="1150" cy="400" rx="44" ry="52" fill="#6b4226"/>
-      <ellipse cx="1150" cy="400" rx="40" ry="48" fill="#2e1a0e"/>
-
-      <!-- Ebene: in der Baumhöhle (abgeschnitten) -->
-      <g id="layer-hole" clip-path="url(#holeClip)"></g>
-
-      <!-- Ebene: hinter den Verstecken. Alle Tiere starten hier, Position setzt app.js -->
-      <g id="layer-back">
-
-        <g class="animal" id="a-bunny">
-          <g class="ears">
-            <ellipse cx="-20" cy="-158" rx="13" ry="42" fill="#c9b6a4" transform="rotate(-8 -20 -158)"/>
-            <ellipse cx="-20" cy="-156" rx="6" ry="30" fill="#f2b5b5" transform="rotate(-8 -20 -156)"/>
-            <ellipse cx="20" cy="-158" rx="13" ry="42" fill="#c9b6a4" transform="rotate(8 20 -158)"/>
-            <ellipse cx="20" cy="-156" rx="6" ry="30" fill="#f2b5b5" transform="rotate(8 20 -156)"/>
-          </g>
-          <ellipse cx="-30" cy="-6" rx="18" ry="9" fill="#bba693"/>
-          <ellipse cx="30" cy="-6" rx="18" ry="9" fill="#bba693"/>
-          <ellipse cx="0" cy="-44" rx="50" ry="46" fill="#c9b6a4"/>
-          <ellipse cx="0" cy="-36" rx="26" ry="28" fill="#eadfd3"/>
-          <circle cx="0" cy="-100" r="40" fill="#d6c4b2"/>
-          <circle cx="-22" cy="-88" r="8" fill="#f2a5a5" opacity=".6"/>
-          <circle cx="22" cy="-88" r="8" fill="#f2a5a5" opacity=".6"/>
-          <g class="blink"><circle cx="-14" cy="-106" r="5.5" fill="#2b1d14"/><circle cx="14" cy="-106" r="5.5" fill="#2b1d14"/></g>
-          <circle cx="-12.5" cy="-107.5" r="1.8" fill="#fff"/><circle cx="15.5" cy="-107.5" r="1.8" fill="#fff"/>
-          <ellipse cx="0" cy="-92" rx="5" ry="4" fill="#e07a8a"/>
-          <path d="M0 -88 Q-6 -80 -10 -82 M0 -88 Q6 -80 10 -82" stroke="#8a6a5a" stroke-width="2" fill="none" stroke-linecap="round"/>
-        </g>
-
-        <g class="animal" id="a-hedgehog">
-          <ellipse cx="-30" cy="-4" rx="10" ry="6" fill="#3e2a1c"/><ellipse cx="30" cy="-4" rx="10" ry="6" fill="#3e2a1c"/>
-          <path d="M-66 -14 L-64 -48 L-50 -36 L-44 -74 L-30 -52 L-20 -88 L-6 -60 L6 -94 L18 -62 L30 -88 L38 -56 L52 -72 L54 -42 L66 -30 L60 -10Z" fill="#5a3f2c"/>
-          <ellipse cx="-4" cy="-30" rx="60" ry="32" fill="#6b4f3a"/>
-          <path d="M-40 -50 L-34 -66 M-18 -60 L-12 -78 M6 -62 L10 -80 M26 -56 L32 -72" stroke="#4a3322" stroke-width="5" stroke-linecap="round"/>
-          <ellipse cx="44" cy="-30" rx="32" ry="24" fill="#ead3b0"/>
-          <path d="M64 -38 Q86 -32 80 -24 Q70 -20 62 -22Z" fill="#ead3b0"/>
-          <circle cx="82" cy="-30" r="6" fill="#2b1d14"/>
-          <g class="blink"><circle cx="50" cy="-40" r="5" fill="#2b1d14"/></g>
-          <circle cx="51.5" cy="-41.5" r="1.6" fill="#fff"/>
-          <circle cx="40" cy="-24" r="7" fill="#f2a5a5" opacity=".6"/>
-        </g>
-
-        <g class="animal" id="a-squirrel">
-          <path d="M-18 -8 C-90 -10 -95 -120 -40 -130 C-12 -136 2 -112 -14 -100 C-48 -92 -52 -46 -8 -30Z" fill="#d0662f"/>
-          <path d="M-30 -40 C-55 -60 -50 -100 -32 -112" fill="none" stroke="#e8894f" stroke-width="8" stroke-linecap="round"/>
-          <ellipse cx="0" cy="-34" rx="28" ry="34" fill="#c0592a"/>
-          <ellipse cx="6" cy="-28" rx="15" ry="22" fill="#f3d2a8"/>
-          <ellipse cx="14" cy="-4" rx="12" ry="6" fill="#a8471f"/>
-          <path d="M-10 -96 L-16 -122 L2 -102Z" fill="#a8471f"/>
-          <path d="M10 -98 L14 -124 L24 -100Z" fill="#a8471f"/>
-          <circle cx="4" cy="-82" r="24" fill="#c0592a"/>
-          <ellipse cx="18" cy="-76" rx="12" ry="9" fill="#f3d2a8"/>
-          <g class="blink"><circle cx="10" cy="-88" r="4.5" fill="#2b1d14"/></g>
-          <circle cx="11.5" cy="-89.5" r="1.4" fill="#fff"/>
-          <circle cx="29" cy="-78" r="3.5" fill="#2b1d14"/>
-          <ellipse cx="22" cy="-44" rx="10" ry="12" fill="#8a5a2b"/>
-          <path d="M14 -54 Q22 -60 30 -54" fill="#5e3b1a"/>
-        </g>
-
-        <g class="animal" id="a-fox">
-          <path d="M40 -20 C110 -30 120 -100 80 -120 C100 -80 80 -50 40 -50Z" fill="#e07b2a"/>
-          <path d="M80 -120 C100 -112 104 -96 98 -88 C90 -100 82 -108 80 -120Z" fill="#fff"/>
-          <rect x="-34" y="-20" width="16" height="22" rx="7" fill="#5a2e12"/>
-          <rect x="18" y="-20" width="16" height="22" rx="7" fill="#5a2e12"/>
-          <ellipse cx="0" cy="-30" rx="52" ry="36" fill="#e07b2a"/>
-          <path d="M-40 -106 L-34 -160 L-6 -124Z" fill="#e8842f"/>
-          <path d="M-32 -112 L-30 -146 L-14 -124Z" fill="#5a2e12"/>
-          <path d="M40 -106 L34 -160 L6 -124Z" fill="#e8842f"/>
-          <path d="M32 -112 L30 -146 L14 -124Z" fill="#5a2e12"/>
-          <ellipse cx="0" cy="-92" rx="46" ry="40" fill="#e8842f"/>
-          <path d="M-46 -84 Q-30 -54 0 -56 Q30 -54 46 -84 Q30 -70 0 -72 Q-30 -70 -46 -84Z" fill="#fff"/>
-          <ellipse cx="0" cy="-66" rx="16" ry="12" fill="#fff"/>
-          <circle cx="0" cy="-72" r="6.5" fill="#2b1d14"/>
-          <g class="blink"><ellipse cx="-17" cy="-98" rx="5.5" ry="6.5" fill="#2b1d14"/><ellipse cx="17" cy="-98" rx="5.5" ry="6.5" fill="#2b1d14"/></g>
-          <circle cx="-15.5" cy="-100" r="1.8" fill="#fff"/><circle cx="18.5" cy="-100" r="1.8" fill="#fff"/>
-        </g>
-
-        <g class="animal" id="a-owl">
-          <g class="wing wl"><ellipse cx="-34" cy="-46" rx="13" ry="30" fill="#6e5236"/></g>
-          <g class="wing wr"><ellipse cx="34" cy="-46" rx="13" ry="30" fill="#6e5236"/></g>
-          <path d="M-30 -78 L-24 -100 L-12 -82Z" fill="#7a5a3c"/>
-          <path d="M30 -78 L24 -100 L12 -82Z" fill="#7a5a3c"/>
-          <ellipse cx="0" cy="-42" rx="36" ry="44" fill="#8a6a4a"/>
-          <ellipse cx="0" cy="-24" rx="22" ry="22" fill="#d9c09a"/>
-          <path d="M-12 -2 L-8 4 L-4 -2 M4 -2 L8 4 L12 -2" stroke="#f0a030" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <circle cx="-14" cy="-58" r="13" fill="#fff"/>
-          <circle cx="14" cy="-58" r="13" fill="#fff"/>
-          <g class="blink"><circle cx="-13" cy="-57" r="6.5" fill="#2b1d14"/><circle cx="13" cy="-57" r="6.5" fill="#2b1d14"/></g>
-          <circle cx="-11" cy="-59" r="2" fill="#fff"/><circle cx="15" cy="-59" r="2" fill="#fff"/>
-          <path d="M-6 -46 L6 -46 L0 -36Z" fill="#f0a030"/>
-        </g>
-
-        <g class="animal" id="a-deer">
-          <rect x="-52" y="-30" width="13" height="32" rx="6" fill="#8a5a30"/>
-          <rect x="38" y="-30" width="13" height="32" rx="6" fill="#8a5a30"/>
-          <ellipse cx="0" cy="-60" rx="72" ry="44" fill="#b07a46"/>
-          <circle cx="-30" cy="-74" r="6" fill="#f3e2c8"/><circle cx="-6" cy="-84" r="5" fill="#f3e2c8"/><circle cx="20" cy="-72" r="6" fill="#f3e2c8"/>
-          <path d="M-30 -96 Q-28 -150 -14 -176 L18 -176 Q20 -140 22 -96Z" fill="#b07a46"/>
-          <ellipse cx="-44" cy="-214" rx="32" ry="14" fill="#a06a3a" transform="rotate(-28 -44 -214)"/>
-          <ellipse cx="-44" cy="-214" rx="20" ry="7" fill="#f2c9b0" transform="rotate(-28 -44 -214)"/>
-          <ellipse cx="44" cy="-214" rx="32" ry="14" fill="#a06a3a" transform="rotate(28 44 -214)"/>
-          <ellipse cx="44" cy="-214" rx="20" ry="7" fill="#f2c9b0" transform="rotate(28 44 -214)"/>
-          <ellipse cx="0" cy="-196" rx="36" ry="32" fill="#bd8650"/>
-          <ellipse cx="0" cy="-172" rx="20" ry="15" fill="#f3e2c8"/>
-          <ellipse cx="0" cy="-178" rx="8" ry="6" fill="#2b1d14"/>
-          <g class="blink"><ellipse cx="-16" cy="-204" rx="6.5" ry="8" fill="#2b1d14"/><ellipse cx="16" cy="-204" rx="6.5" ry="8" fill="#2b1d14"/></g>
-          <circle cx="-14" cy="-207" r="2.2" fill="#fff"/><circle cx="18" cy="-207" r="2.2" fill="#fff"/>
-        </g>
-      </g>
-
-      <!-- Boden und Verstecke (vor den versteckten Tieren) -->
-      <rect y="700" width="1600" height="200" fill="url(#ground)"/>
-      <!-- Erdhügel -->
-      <ellipse cx="270" cy="740" rx="150" ry="70" fill="#8a6a45"/>
-      <ellipse cx="270" cy="730" rx="150" ry="56" fill="#9c7a50"/>
-      <path d="M140 712 Q270 660 400 712" fill="none" stroke="#6cbf4f" stroke-width="16" stroke-linecap="round"/>
-      <!-- Busch -->
-      <g fill="#3f8f3f">
-        <circle cx="500" cy="728" r="56"/><circle cx="560" cy="712" r="62"/><circle cx="625" cy="730" r="52"/>
-      </g>
-      <g fill="#4ea54b"><circle cx="530" cy="700" r="26"/><circle cx="600" cy="706" r="22"/></g>
-      <!-- liegender Baumstamm -->
-      <rect x="740" y="640" width="230" height="86" rx="40" fill="#8a5a33"/>
-      <path d="M770 668 H900 M790 696 H940" stroke="#74482a" stroke-width="6" stroke-linecap="round"/>
-      <ellipse cx="960" cy="683" rx="28" ry="43" fill="#c79a6a"/>
-      <ellipse cx="960" cy="683" rx="16" ry="26" fill="none" stroke="#a8784a" stroke-width="4"/>
-      <ellipse cx="800" cy="640" rx="26" ry="9" fill="#5fae5a"/>
-      <!-- großer Busch -->
-      <g fill="#3a8a3c">
-        <circle cx="1370" cy="720" r="80"/><circle cx="1450" cy="700" r="88"/><circle cx="1530" cy="722" r="72"/><circle cx="1590" cy="740" r="60"/>
-      </g>
-      <g fill="#4ea54b"><circle cx="1410" cy="660" r="30"/><circle cx="1500" cy="664" r="26"/></g>
-      <g fill="#e8504a"><circle cx="1400" cy="690" r="7"/><circle cx="1470" cy="650" r="7"/><circle cx="1540" cy="700" r="7"/></g>
-
-      <!-- Blumen -->
-      <g class="flowers">
-        <g transform="translate(90 860)"><circle cx="0" cy="-14" r="9" fill="#ff8fb1"/><circle cx="13" cy="-4" r="9" fill="#ff8fb1"/><circle cx="8" cy="12" r="9" fill="#ff8fb1"/><circle cx="-8" cy="12" r="9" fill="#ff8fb1"/><circle cx="-13" cy="-4" r="9" fill="#ff8fb1"/><circle r="7" fill="#ffd23f"/></g>
-        <g transform="translate(700 870)"><circle cx="0" cy="-12" r="8" fill="#fff"/><circle cx="11" cy="-3" r="8" fill="#fff"/><circle cx="7" cy="10" r="8" fill="#fff"/><circle cx="-7" cy="10" r="8" fill="#fff"/><circle cx="-11" cy="-3" r="8" fill="#fff"/><circle r="6" fill="#ffd23f"/></g>
-        <g transform="translate(1040 760)"><circle cx="0" cy="-12" r="8" fill="#9ad0ff"/><circle cx="11" cy="-3" r="8" fill="#9ad0ff"/><circle cx="7" cy="10" r="8" fill="#9ad0ff"/><circle cx="-7" cy="10" r="8" fill="#9ad0ff"/><circle cx="-11" cy="-3" r="8" fill="#9ad0ff"/><circle r="6" fill="#ffd23f"/></g>
-        <g transform="translate(1290 880)"><circle cx="0" cy="-12" r="8" fill="#ff8fb1"/><circle cx="11" cy="-3" r="8" fill="#ff8fb1"/><circle cx="7" cy="10" r="8" fill="#ff8fb1"/><circle cx="-7" cy="10" r="8" fill="#ff8fb1"/><circle cx="-11" cy="-3" r="8" fill="#ff8fb1"/><circle r="6" fill="#ffd23f"/></g>
-      </g>
-
-      <!-- Ebene: vor den Verstecken (Tiere auf der Wiese und in der Luft) -->
-      <g id="layer-front"></g>
+    <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Bereich mit Tieren">
+      <defs><clipPath id="holeClip"><ellipse id="holeClipShape" cx="-100" cy="-100" rx="1" ry="1"/></clipPath></defs>
+      <g id="bg"></g>          <!-- Hintergrund der Szene -->
+      <g id="layer-hole" clip-path="url(#holeClip)"></g>  <!-- Tiere in einer Höhle -->
+      <g id="layer-back"></g>  <!-- Tiere hinter den Verstecken -->
+      <g id="fg"></g>          <!-- Boden und Verstecke -->
+      <g id="layer-front"></g> <!-- Tiere unterwegs -->
     </svg>
 
     <!-- ============ ANZEIGEN ============ -->
@@ -244,6 +40,7 @@
     </div>
 
     <div id="controls">
+      <button id="btn-scenes" title="Bereich wählen (B)" aria-label="Bereich wählen">🗺</button>
       <button id="btn-pause" title="Pause (Leertaste)" aria-label="Pause">⏸</button>
       <button id="btn-reset" title="Neu starten (R)" aria-label="Neu starten">↺</button>
       <button id="btn-full" title="Vollbild (F)" aria-label="Vollbild">⛶</button>
@@ -271,7 +68,8 @@
     <section id="start" class="overlay">
       <div class="card">
         <h1>Flüsterwald</h1>
-        <p class="lead">Wenn es ganz leise ist, trauen sich die Waldtiere heraus.<br>Wird es laut, verstecken sie sich schnell wieder.</p>
+        <p class="lead">Wenn es ganz leise ist, trauen sich die Tiere heraus.<br>Wird es laut, verstecken sie sich schnell wieder.</p>
+        <div id="scene-grid" role="radiogroup" aria-label="Bereich"></div>
         <button id="btn-start" class="big">🎤 Los geht's</button>
         <p class="privacy">🔒 Das Mikrofon misst nur, wie laut es ist. Es wird nichts aufgenommen, gespeichert oder verschickt. Alles bleibt auf diesem Gerät.</p>
         <p id="start-error" class="error" hidden></p>
@@ -287,6 +85,15 @@
     <dialog id="settings">
       <form method="dialog">
         <h2>Einstellungen</h2>
+
+        <label class="row">
+          <span>Bereich</span>
+          <select id="set-scene"></select>
+        </label>
+        <label class="row check">
+          <input type="checkbox" id="set-random">
+          <span>Bei jedem Start ein anderer Bereich</span>
+        </label>
 
         <label class="row">
           <span>Wie leise muss es sein?</span>
@@ -330,6 +137,16 @@
     </dialog>
   </main>
 
+  <script src="scenes/_kit.js"></script>
+  <script src="scenes/wald.js"></script>
+  <script src="scenes/bauernhof.js"></script>
+  <script src="scenes/meer.js"></script>
+  <script src="scenes/nacht.js"></script>
+  <script src="scenes/savanne.js"></script>
+  <script src="scenes/schnee.js"></script>
+  <script src="scenes/teich.js"></script>
+  <script src="scenes/garten.js"></script>
+  <script src="scenes/dschungel.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

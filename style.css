@@ -39,7 +39,7 @@ button { font: inherit; cursor: pointer; }
   0%, 94%, 100% { transform: scaleY(1); }
   97% { transform: scaleY(.1); }
 }
-.animal.out .ears {
+.animal.out .ears, .animal.out .wiggle {
   transform-box: fill-box;
   transform-origin: bottom center;
   animation: wiggle 3.2s ease-in-out infinite;
@@ -57,13 +57,40 @@ button { font: inherit; cursor: pointer; }
   92% { transform: rotate(4deg); }
 }
 
-/* ---------- Sonne ---------- */
-#sun .mouth-o { opacity: 0; transition: opacity .2s; }
-#sun .mouth-happy { transition: opacity .2s; }
-#sun.loud .mouth-o { opacity: 1; }
-#sun.loud .mouth-happy { opacity: 0; }
-#sun .rays { transform-box: fill-box; transform-origin: center; animation: pulse 4s ease-in-out infinite; }
+/* ---------- Stimmungsfigur (Sonne, Mond, Hahn …) ---------- */
+#mood .calm, #mood .loud { transition: opacity .2s; }
+#mood .loud { opacity: 0; }
+#mood.loud .loud { opacity: 1; }
+#mood.loud .calm { opacity: 0; }
+#mood.loud .shake-me { animation: wobble .3s infinite; }
+.pulse { transform-box: fill-box; transform-origin: center; animation: pulse 4s ease-in-out infinite; }
 @keyframes pulse { 50% { transform: scale(1.08); } }
+@keyframes wobble { 25% { transform: rotate(-4deg); } 75% { transform: rotate(4deg); } }
+.shake-me { transform-box: fill-box; transform-origin: center bottom; }
+
+/* ---------- Kleine Animationen in den Szenen ---------- */
+.sway { transform-box: fill-box; transform-origin: center bottom; animation: sway 4s ease-in-out infinite alternate; }
+.sway.d2 { animation-delay: -1.5s; animation-duration: 5s; }
+@keyframes sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+.bubble { animation: rise 6s linear infinite; }
+.bubble.d2 { animation-delay: -2s; } .bubble.d3 { animation-delay: -4s; }
+@keyframes rise { from { transform: translateY(0); opacity: .8; } to { transform: translateY(-700px); opacity: 0; } }
+.twinkle { animation: twinkle 2.5s ease-in-out infinite alternate; }
+.twinkle.d2 { animation-delay: -1s; } .twinkle.d3 { animation-delay: -1.8s; }
+@keyframes twinkle { from { opacity: .25; } to { opacity: 1; } }
+.snow { animation: snowfall 9s linear infinite; }
+.snow.s1 { animation-duration: 12s; animation-delay: -3s; } .snow.s2 { animation-duration: 10s; animation-delay: -6s; } .snow.s3 { animation-duration: 14s; animation-delay: -9s; }
+@keyframes snowfall { from { transform: translate(0, 0); } to { transform: translate(60px, 1000px); } }
+.glow { animation: twinkle 1.2s ease-in-out infinite alternate; }
+.animal .tail, .animal .fin { transform-box: fill-box; transform-origin: left center; }
+.animal.swim.out .tail, .animal.swim.moving .tail { animation: tailwag .6s ease-in-out infinite alternate; }
+.animal .fin { transform-origin: center top; }
+.animal.out .fin { animation: tailwag .9s ease-in-out infinite alternate; }
+@keyframes tailwag { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
+.animal.moving .legs { transform-box: fill-box; transform-origin: center top; animation: tailwag .25s ease-in-out infinite alternate; }
+.animal .wings2 { transform-box: fill-box; transform-origin: center bottom; }
+.animal.flying .wings2 { animation: flutter .12s ease-in-out infinite alternate; }
+@keyframes flutter { from { transform: scaleY(1); } to { transform: scaleY(.35); } }
 
 /* ---------- Wolken ---------- */
 .cloud { animation: drift 40s ease-in-out infinite alternate; }
@@ -82,8 +109,8 @@ button { font: inherit; cursor: pointer; }
 }
 #progress { display: flex; gap: 4px; padding: 6px 12px; }
 #progress .dot {
-  font-size: clamp(22px, 3vw, 34px);
-  line-height: 1;
+  width: clamp(26px, 3.2vw, 40px); height: clamp(26px, 3.2vw, 40px);
+  display: block;
   filter: grayscale(1) opacity(.3);
   transition: filter .5s, transform .5s;
 }
@@ -188,7 +215,8 @@ body.hidehud #meter { opacity: 0; }
 .card, dialog {
   background: var(--card); border-radius: 28px; border: none;
   box-shadow: 0 10px 40px rgba(0, 0, 0, .25);
-  max-width: 560px; width: 100%;
+  max-width: 640px; width: 100%;
+  max-height: calc(100vh - 32px); overflow-y: auto;
 }
 .card { padding: 32px; text-align: center; }
 h1 { margin: 0 0 8px; font-size: clamp(40px, 7vw, 72px); color: var(--green-dark); letter-spacing: .5px; }
@@ -203,6 +231,20 @@ button.big {
   box-shadow: 0 4px 0 var(--green-dark);
 }
 button.big:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--green-dark); }
+#scene-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px;
+  margin: 0 0 20px;
+}
+.scene-card {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 10px 4px 8px; border-radius: 18px;
+  border: 3px solid #e4e0d0; background: #fff;
+  transition: transform .15s, border-color .15s, background .15s;
+}
+.scene-card .ic { font-size: 38px; line-height: 1.1; }
+.scene-card .nm { font-size: 15px; font-weight: 800; color: var(--ink); }
+.scene-card:hover { transform: translateY(-2px); }
+.scene-card[aria-checked="true"] { border-color: var(--green); background: #eaf6e4; }
 #install { margin-top: 18px; padding-top: 16px; border-top: 2px dashed #e4e0d0; }
 button.install {
   background: #fff; color: var(--green-dark); border: 2px solid var(--green);
@@ -230,5 +272,5 @@ dialog::backdrop { background: rgba(0, 0, 0, .35); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blink, .wing, .cloud, #sun .rays, .ears, .sparkle, #celebrate .banner, #celebrate .banner span { animation: none !important; }
+  .blink, .wing, .cloud, .snow, .pulse, .sway, .bubble, .twinkle, .glow, .tail, .fin, .legs, .wings2, .wiggle, .ears, .sparkle, #celebrate .banner, #celebrate .banner span { animation: none !important; }
 }

@@ -1,41 +1,16 @@
-/* Flüsterwald – Lautstärke-Ampel mit Waldtieren.
+/* Flüsterwald – Lautstärke-Ampel mit Tieren.
  * Alles läuft lokal im Browser. Das Mikrofon wird nur zur Pegelmessung genutzt,
- * es wird nichts aufgenommen oder übertragen. */
+ * es wird nichts aufgenommen oder übertragen. Die Bereiche stehen in scenes/*.js. */
 (() => {
   'use strict';
 
-  // Tier-Eigenschaften: h = Höhe, eye = Augenhöhe (beides in Zeichen-Einheiten),
-  // speed = Laufgeschwindigkeit, hop/freq = Hüpfhöhe und -takt beim Laufen
-  const ANIMALS = [
-    { id: 'a-bunny',    icon: '🐰', h: 200, eye: 106, speed: 170, hop: 30, freq: 2.4, kind: 'walk' },
-    { id: 'a-hedgehog', icon: '🦔', h: 95,  eye: 40,  speed: 70,  hop: 3,  freq: 6,   kind: 'walk', tilt: 4 },
-    { id: 'a-squirrel', icon: '🐿️', h: 135, eye: 88,  speed: 230, hop: 22, freq: 3.6, kind: 'walk' },
-    { id: 'a-fox',      icon: '🦊', h: 160, eye: 98,  speed: 150, hop: 6,  freq: 3.2, kind: 'walk' },
-    { id: 'a-owl',      icon: '🦉', h: 100, eye: 57,  speed: 300, kind: 'fly' },
-    { id: 'a-deer',     icon: '🦌', h: 230, eye: 204, speed: 130, hop: 8,  freq: 2.2, kind: 'walk' },
-  ];
-  const S = 0.85;              // Grundgröße der Tiere
-  const GROUND = 700;          // Oberkante der Wiese (Szenen-Koordinaten)
-  const LANE = [758, 805];     // hier laufen die Tiere auf der Wiese
-  // Verstecke: x = Mitte, top = Oberkante, w = nutzbare Breite
-  const COVERS = [
-    { id: 'mound',   x: 270,  top: 668, w: 140 },
-    { id: 'bush',    x: 560,  top: 650, w: 120 },
-    { id: 'log',     x: 855,  top: 642, w: 150 },
-    { id: 'bigbush', x: 1450, top: 612, w: 160 },
-  ];
-  const HOLE = { id: 'hole', x: 1150, y: 400, hole: true }; // Baumhöhle (nur für die Eule)
-  // Sitzplätze für die Eule
-  const PERCHES = [
-    { x: 1335, y: 548 }, { x: 1015, y: 160 }, { x: 1285, y: 150 }, { x: 1150, y: 40 },
-    { x: 820, y: 642 }, { x: 900, y: 642 }, { x: 270, y: 672 }, { x: 560, y: 652 }, { x: 1450, y: 614 },
-  ];
-
-  const LOUD_GRACE = 0.35;   // so lange (s) muss es laut sein, bevor die Tiere erschrecken
+  const SCENES = window.FW.scenes;
+  const S = 0.85;               // Grundgröße der Tiere
+  const LOUD_GRACE = 0.35;      // so lange (s) muss es laut sein, bevor die Tiere erschrecken
   const STARTLE_COOLDOWN = 1.5; // Pause (s) zwischen zwei Erschreckern
 
   // ---------- Einstellungen ----------
-  const DEFAULTS = { threshold: 55, step: 20, mode: 'one', hidehud: false };
+  const DEFAULTS = { threshold: 55, step: 20, mode: 'one', hidehud: false, scene: 'wald', random: false };
   const store = {
     get(key, fallback) {
       try { const v = localStorage.getItem('fw.' + key); return v === null ? fallback : JSON.parse(v); }
@@ -56,21 +31,27 @@
   // ---------- DOM ----------
   const $ = (s) => document.querySelector(s);
   const els = {
-    start: $('#start'), startErr: $('#start-error'),
+    start: $('#start'), startErr: $('#start-error'), grid: $('#scene-grid'),
     meter: $('#meter'), fill: $('#meter .fill'), mark: $('#meter .mark'),
-    sun: $('#sun'), ring: $('#next .ring'), progress: $('#progress'),
+    ring: $('#next .ring'), progress: $('#progress'),
     starCount: $('#star-count'), toast: $('#toast'),
     celebrate: $('#celebrate'), paused: $('#paused'),
     dialog: $('#settings'),
     threshold: $('#set-threshold'), step: $('#set-step'), mode: $('#set-mode'), hidehud: $('#set-hidehud'),
+    scene: $('#set-scene'), random: $('#set-random'),
+    themeColor: document.querySelector('meta[name="theme-color"]'),
   };
-  const dots = ANIMALS.map((a) => {
-    const d = document.createElement('span');
-    d.className = 'dot'; d.textContent = a.icon;
-    els.progress.appendChild(d);
-    return d;
-  });
+  const svg = document.getElementById('scene');
+  const layers = {
+    bg: document.getElementById('bg'),
+    fg: document.getElementById('fg'),
+    back: document.getElementById('layer-back'),
+    front: document.getElementById('layer-front'),
+    hole: document.getElementById('layer-hole'),
+  };
+  const holeClip = document.getElementById('holeClipShape');
   const RING_LEN = 2 * Math.PI * 18;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ---------- Zustand ----------
   const state = {
@@ -81,10 +62,10 @@
   };
 
   // ---------- Audio ----------
-  let audioCtx, analyser, buf, stream;
+  let audioCtx, analyser, buf;
 
   async function startMic() {
-    stream = await navigator.mediaDevices.getUserMedia({
+    const stream = await navigator.mediaDevices.getUserMedia({
       audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
     });
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -106,54 +87,96 @@
     return Math.max(0, Math.min(100, ((db + 60) / 50) * 100));
   }
 
+  // ---------- Szene ----------
+  let scene = null;
+  let animals = [];
+  let dots = [];
+  let outStack = []; // Reihenfolge, in der die Tiere herausgekommen sind
+  let mood = null;
+  let zOrder = '';
+
+  function loadScene(id) {
+    scene = SCENES.find((s) => s.id === id) || SCENES[0];
+    layers.bg.innerHTML = scene.back;
+    layers.fg.innerHTML = scene.front;
+    for (const k of ['back', 'front', 'hole']) layers[k].replaceChildren();
+    const h = scene.hole;
+    holeClip.setAttribute('cx', h ? h.x : -100); holeClip.setAttribute('cy', h ? h.y : -100);
+    holeClip.setAttribute('rx', h ? h.rx : 1); holeClip.setAttribute('ry', h ? h.ry : 1);
+    document.body.style.background = scene.bg;
+    document.body.dataset.scene = scene.id;
+    els.themeColor.setAttribute('content', scene.bg);
+    mood = layers.bg.querySelector('#mood');
+
+    animals = scene.animals.map((cfg) => {
+      const el = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      el.setAttribute('class', 'animal ' + cfg.kind);
+      el.setAttribute('aria-label', cfg.name);
+      el.innerHTML = cfg.art;
+      layers.back.appendChild(el);
+      return {
+        cfg, el, s: S * (cfg.s || 1),
+        x: 0, y: 2000, dir: 1, bob: 0, phase: Math.random() * 6, tilt: 0,
+        layer: 'back', mode: 'hidden', cover: null, steps: [], cur: null,
+      };
+    });
+    els.progress.replaceChildren();
+    // Fortschrittsleiste: kleine Bilder der Tiere dieses Bereichs
+    dots = animals.map((a) => {
+      const d = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      d.setAttribute('class', 'dot');
+      d.setAttribute('role', 'img');
+      d.setAttribute('aria-label', a.cfg.name);
+      d.innerHTML = `<g>${a.cfg.art}</g>`;
+      els.progress.appendChild(d);
+      const b = d.firstChild.getBBox();
+      const m = Math.max(b.width, b.height) * 0.04;
+      d.setAttribute('viewBox', `${b.x - m} ${b.y - m} ${b.width + 2 * m} ${b.height + 2 * m}`);
+      return d;
+    });
+    zOrder = '';
+    syncScenePickers();
+    reset();
+  }
+
   // ---------- Tiere ----------
-  const svg = document.getElementById('scene');
-  const layers = {
-    back: document.getElementById('layer-back'),
-    front: document.getElementById('layer-front'),
-    hole: document.getElementById('layer-hole'),
-  };
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const rand = (a, b) => a + Math.random() * (b - a);
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const ease = {
     lin: (p) => p,
     out: (p) => 1 - (1 - p) * (1 - p),
     in: (p) => p * p,
     io: (p) => (p < 0.5 ? 2 * p * p : 1 - 2 * (1 - p) * (1 - p)),
   };
+  const flies = (a) => a.cfg.kind === 'fly' || a.cfg.kind === 'swim';
+  const laneOf = (a) => a.cfg.lane || scene.lane;
 
-  const animals = ANIMALS.map((cfg) => ({
-    cfg, el: document.getElementById(cfg.id),
-    x: 0, y: 1000, dir: 1, bob: 0, phase: 0, tilt: 0,
-    layer: 'back', mode: 'hidden', cover: null,
-    steps: [], cur: null,
-  }));
-  // Reihenfolge, in der die Tiere herausgekommen sind (das letzte erschrickt zuerst)
-  let outStack = [];
-
-  // Sichtbarer Bereich der Szene (auf schmalen Bildschirmen wird links/rechts abgeschnitten)
+  // Sichtbarer Bereich (auf schmalen Bildschirmen wird links/rechts abgeschnitten)
   function viewRange() {
     const r = svg.getBoundingClientRect();
     const scale = Math.max(r.width / 1600, r.height / 900) || 1;
     const w = Math.min(1600, r.width / scale);
     return { min: 800 - w / 2, max: 800 + w / 2 };
   }
-  const visibleCovers = (withHole) => {
+  function visibleCovers(a) {
     const v = viewRange();
-    let list = COVERS.filter((c) => c.x > v.min + 40 && c.x < v.max - 40);
-    if (!list.length) list = [COVERS.reduce((a, b) => (Math.abs(a.x - 800) < Math.abs(b.x - 800) ? a : b))];
-    if (withHole && HOLE.x > v.min + 40 && HOLE.x < v.max - 40) list = list.concat(HOLE, HOLE); // Eule mag die Höhle
+    // große Tiere (big) nutzen nur große Verstecke, sofern es welche gibt
+    const all = a.cfg.big && scene.covers.some((c) => c.big) ? scene.covers.filter((c) => c.big) : scene.covers;
+    let list = all.filter((c) => c.x > v.min + 40 && c.x < v.max - 40);
+    if (!list.length) list = [all.reduce((p, q) => (Math.abs(p.x - 800) < Math.abs(q.x - 800) ? p : q))];
+    const h = scene.hole;
+    if (h && a.cfg.kind === 'fly' && h.x > v.min + 40 && h.x < v.max - 40) list = list.concat({ ...h, hole: true }, { ...h, hole: true });
     return list;
-  };
+  }
 
   // Positionen rund um ein Versteck
   const hiddenPos = (a, c, x) => (c.hole
-    ? { x: c.x, y: c.y + 50 + a.cfg.h * S }
-    : { x, y: GROUND + a.cfg.h * S + 10 });
+    ? { x: c.x, y: c.y + c.ry + 2 + a.cfg.h * a.s }
+    : { x, y: scene.ground + a.cfg.h * a.s + 10 });
   const peekPos = (a, c, x) => (c.hole
-    ? { x: c.x, y: c.y + 52 }
-    : { x, y: c.top - 14 + a.cfg.eye * S });
+    ? { x: c.x, y: c.y - c.ry + 12 + a.cfg.eye * a.s }
+    : { x, y: c.top - 14 + a.cfg.eye * a.s });
   const coverX = (c) => (c.hole ? c.x : c.x + rand(-c.w, c.w) * 0.25);
 
   function setLayer(a, name) {
@@ -172,19 +195,21 @@
   };
   const flyTo = (a, from, x, y, fast = 1) => {
     const d = Math.hypot(x - from.x, y - from.y);
-    return move(x, y, 0.4 + d / (a.cfg.speed * fast), { ease: 'io', gait: 'fly', arc: Math.min(160, 40 + d * 0.18) });
+    const swim = a.cfg.kind === 'swim';
+    return move(x, y, 0.4 + d / (a.cfg.speed * fast), {
+      ease: 'io', gait: swim ? 'swim' : 'fly', arc: swim ? Math.min(60, d * 0.08) : Math.min(160, 40 + d * 0.18),
+    });
   };
   function plan(a, steps) { a.steps = steps; a.cur = null; }
 
   // --- Verhalten ---
   function placeHidden(a) {
-    const c = pick(visibleCovers(a.cfg.kind === 'fly'));
-    const x = coverX(c);
+    const c = pick(visibleCovers(a));
     a.cover = c;
     setLayer(a, c.hole ? 'hole' : 'back');
-    Object.assign(a, hiddenPos(a, c, x));
+    Object.assign(a, hiddenPos(a, c, coverX(c)));
     a.mode = 'hidden'; a.bob = 0; a.tilt = 0;
-    a.el.classList.remove('out', 'flying');
+    a.el.classList.remove('out', 'flying', 'moving');
     plan(a, []);
   }
 
@@ -198,75 +223,81 @@
       wait(rand(0.8, 1.8), true),
       call(() => { a.mode = 'out'; a.el.classList.add('out'); }),
     ];
-    if (a.cfg.kind === 'fly') {
-      const p = pickPerch(a);
-      if (c.hole) steps.push(layer('front'));
-      else steps.push(move(peek.x, c.top - 8, 0.35, { ease: 'out' }), layer('front'));
-      steps.push(flyTo(a, { x: peek.x, y: c.hole ? peek.y : c.top - 8 }, p.x, p.y), call(() => roam(a)));
+    if (flies(a)) {
+      const exit = c.hole ? { x: c.x, y: peek.y } : { x: peek.x, y: c.top - 8 };
+      if (!c.hole) steps.push(move(exit.x, exit.y, 0.35, { ease: 'out' }));
+      const t = pickSpot(a);
+      steps.push(layer('front'), flyTo(a, exit, t.x, t.y), call(() => roam(a)));
     } else {
       const v = viewRange();
-      const tx = Math.max(v.min + 70, Math.min(v.max - 70, peek.x + (Math.random() < 0.5 ? -1 : 1) * rand(90, 170)));
+      const [l0, l1] = laneOf(a);
+      const tx = clamp(peek.x + (Math.random() < 0.5 ? -1 : 1) * rand(90, 170), v.min + 70, v.max - 70);
       steps.push(
         move(peek.x, c.top - 6, 0.35, { ease: 'out' }), // hochspringen
         layer('front'),
-        move(tx, rand(LANE[0], LANE[1]), 0.5, { ease: 'in' }), // nach vorn auf die Wiese
+        move(tx, rand(l0, l1), 0.5, { ease: 'in' }), // nach vorn
         call(() => roam(a)),
       );
     }
     plan(a, steps);
   }
 
-  function pickPerch(a) {
+  // Ziel für Flieger und Schwimmer: Sitzplatz oder freier Punkt
+  function pickSpot(a) {
     const v = viewRange();
-    let list = PERCHES.filter((p) => p.x > v.min + 50 && p.x < v.max - 50 && Math.hypot(p.x - a.x, p.y - a.y) > 60);
-    if (!list.length) list = [{ x: (v.min + v.max) / 2, y: 200 }];
-    return pick(list);
+    const area = a.cfg.area || scene.air;
+    const perches = (a.cfg.perches || scene.perches || [])
+      .filter((p) => p.x > v.min + 50 && p.x < v.max - 50 && Math.hypot(p.x - a.x, p.y - a.y) > 60);
+    if (area && (!perches.length || Math.random() < (a.cfg.kind === 'swim' ? 0.85 : 0.4))) {
+      const top = Math.min(area.y1, Math.max(area.y0, 150 + a.cfg.h * a.s)); // nicht über die Anzeige oben
+      return { x: rand(Math.max(area.x0, v.min + 70), Math.min(area.x1, v.max - 70)), y: rand(top, area.y1) };
+    }
+    return perches.length ? pick(perches) : { x: (v.min + v.max) / 2, y: 200 };
   }
 
-  // Herumlaufen / -fliegen, solange es ruhig bleibt
+  // Herumlaufen / -fliegen / -schwimmen, solange es ruhig bleibt
   function roam(a) {
     if (a.mode !== 'out') return;
     if (reduceMotion) { plan(a, [wait(5, true), call(() => roam(a))]); return; }
-    if (a.cfg.kind === 'fly') {
-      const p = pickPerch(a);
-      plan(a, [wait(rand(3, 7), true), flyTo(a, a, p.x, p.y), call(() => roam(a))]);
+    if (flies(a)) {
+      const t = pickSpot(a);
+      const pause = a.cfg.kind === 'swim' ? rand(0.5, 2.5) : rand(2.5, 6);
+      plan(a, [wait(pause, true), flyTo(a, a, t.x, t.y), call(() => roam(a))]);
       return;
     }
     const v = viewRange();
-    const tx = rand(v.min + 80, v.max - 80);
-    const ty = rand(LANE[0], LANE[1]);
-    plan(a, [wait(rand(0.8, 4), Math.random() < 0.6), walkTo(a, tx, ty), call(() => roam(a))]);
+    const [l0, l1] = laneOf(a);
+    plan(a, [wait(rand(0.8, 4), Math.random() < 0.6), walkTo(a, rand(v.min + 80, v.max - 80), rand(l0, l1)), call(() => roam(a))]);
   }
 
   // Flucht ins nächste Versteck
   function flee(a) {
     if (a.mode === 'hidden') return;
     a.el.classList.remove('out');
+    a.mode = 'flee';
     if (a.layer !== 'front') {
       // war noch beim Hervorlugen: einfach wieder abtauchen
-      a.mode = 'flee';
       const h = hiddenPos(a, a.cover, a.x);
       plan(a, [move(h.x, h.y, 0.3, { ease: 'in' }), call(() => { a.mode = 'hidden'; })]);
       return;
     }
-    a.mode = 'flee';
-    const options = visibleCovers(a.cfg.kind === 'fly');
-    const c = options.reduce((best, k) => (Math.abs(k.x - a.x) < Math.abs(best.x - a.x) ? k : best));
+    const c = visibleCovers(a).reduce((best, k) => (Math.abs(k.x - a.x) < Math.abs(best.x - a.x) ? k : best));
     a.cover = c;
     const x = coverX(c);
     const h = hiddenPos(a, c, x);
     let steps;
-    if (a.cfg.kind === 'fly') {
-      const entry = c.hole ? { x: c.x, y: c.y + 52 } : { x, y: c.top - 8 };
+    if (flies(a)) {
+      const entry = c.hole ? { x: c.x, y: peekPos(a, c, c.x).y } : { x, y: c.top - 8 };
       steps = [flyTo(a, a, entry.x, entry.y, 2.5), layer(c.hole ? 'hole' : 'back')];
     } else {
+      const [l0, l1] = laneOf(a);
       steps = [
-        walkTo(a, x, Math.max(LANE[0], Math.min(LANE[1], a.y)), 2.6),
+        walkTo(a, x, clamp(a.y, l0, l1), 2.6),
         move(x, c.top - 6, 0.3, { ease: 'out' }), // hineinspringen
         layer('back'),
       ];
     }
-    steps.push(move(h.x, h.y, 0.3, { ease: 'in' }), call(() => { a.mode = 'hidden'; a.el.classList.remove('flying'); }));
+    steps.push(move(h.x, h.y, 0.3, { ease: 'in' }), call(() => { a.mode = 'hidden'; }));
     plan(a, steps);
   }
 
@@ -282,6 +313,8 @@
     }
     const s = a.cur;
     a.el.classList.toggle('flying', !!(s && s.gait === 'fly'));
+    a.el.classList.toggle('moving', !!(s && s.type === 'move' && s.gait));
+    a.phase += dt;
     if (!s) { a.bob *= 0.8; a.tilt = 0; return; }
     s.t += dt;
     const p = Math.min(1, s.t / s.dur);
@@ -290,25 +323,29 @@
       a.x = s.x0 + (s.x - s.x0) * e;
       a.y = s.y0 + (s.y - s.y0) * e - s.arc * Math.sin(Math.PI * p);
       if (s.gait === 'walk') {
-        a.phase += dt * a.cfg.freq * Math.PI;
-        a.bob = -Math.abs(Math.sin(a.phase)) * a.cfg.hop;
-        a.tilt = a.cfg.tilt ? Math.sin(a.phase * 2) * a.cfg.tilt : 0;
+        const ph = a.phase * a.cfg.freq * Math.PI;
+        a.bob = -Math.abs(Math.sin(ph)) * a.cfg.hop;
+        a.tilt = a.cfg.tilt ? Math.sin(ph * 2) * a.cfg.tilt : 0;
       } else if (s.gait === 'fly') {
         a.bob = Math.sin(s.t * 9) * 4;
+      } else if (s.gait === 'swim') {
+        a.bob = Math.sin(a.phase * 2.2) * 8;
+        a.tilt = Math.sin(a.phase * 2.2) * 4;
       } else { a.bob = 0; a.tilt = 0; }
     } else if (s.type === 'wait') {
-      a.bob *= 0.8; a.tilt = 0;
+      // Schwimmer schweben auf der Stelle, alle anderen stehen still
+      if (a.cfg.kind === 'swim' && a.mode === 'out') a.bob = Math.sin(a.phase * 1.6) * 6;
+      else { a.bob *= 0.8; a.tilt = 0; }
       if (s.look && !s.flipped && p > 0.5) { a.dir *= -1; s.flipped = true; } // umschauen
     }
     if (p >= 1) a.cur = null;
   }
 
-  let zOrder = '';
   function updateAnimals(dt) {
     for (const a of animals) {
       updateAnimal(a, dt);
       a.el.setAttribute('transform',
-        `translate(${a.x.toFixed(1)} ${(a.y + a.bob).toFixed(1)}) rotate(${a.tilt.toFixed(1)}) scale(${S * a.dir} ${S})`);
+        `translate(${a.x.toFixed(1)} ${(a.y + a.bob).toFixed(1)}) rotate(${a.tilt.toFixed(1)}) scale(${(a.s * a.dir).toFixed(3)} ${a.s.toFixed(3)})`);
     }
     // weiter unten im Bild = weiter vorne
     const front = animals.filter((a) => a.layer === 'front').sort((p, q) => p.y - q.y);
@@ -325,12 +362,12 @@
 
   function showNext() {
     const hidden = animals.filter((a) => a.mode === 'hidden' && !outStack.includes(a));
-    if (!hidden.length || outStack.length >= ANIMALS.length) return;
+    if (!hidden.length || outStack.length >= animals.length) return;
     const a = pick(hidden);
     outStack.push(a);
     emerge(a);
     render();
-    if (outStack.length === ANIMALS.length && !state.celebrated) celebrate();
+    if (outStack.length === animals.length && !state.celebrated) celebrate();
   }
 
   function startle() {
@@ -352,7 +389,7 @@
       for (let i = 0; i < 26; i++) {
         const s = document.createElement('span');
         s.className = 'sparkle';
-        s.textContent = ['⭐', '✨', '🌟', '🍃'][i % 4];
+        s.textContent = ['⭐', '✨', '🌟', scene.icon][i % 4];
         s.style.left = Math.random() * 100 + 'vw';
         s.style.top = '0';
         s.style.animationDelay = Math.random() * 1.2 + 's';
@@ -407,12 +444,12 @@
           }
         } else {
           state.loudFor = 0;
-          if (state.visible < ANIMALS.length) {
+          if (state.visible < animals.length) {
             state.quietFor += dt;
             if (state.quietFor >= settings.step) { state.quietFor = 0; showNext(); }
           }
         }
-        const frac = state.visible >= ANIMALS.length ? 1 : state.quietFor / settings.step;
+        const frac = state.visible >= animals.length ? 1 : state.quietFor / settings.step;
         els.ring.style.strokeDashoffset = RING_LEN * (1 - frac);
       }
     }
@@ -424,7 +461,7 @@
     els.fill.style.width = state.level.toFixed(1) + '%';
     els.meter.classList.toggle('over', loud);
     els.meter.classList.toggle('near', !loud && state.level > settings.threshold * 0.8);
-    els.sun.classList.toggle('loud', loud);
+    if (mood) mood.classList.toggle('loud', loud);
   }
 
   function applySettings() {
@@ -433,12 +470,34 @@
     els.step.value = String(settings.step);
     els.mode.value = settings.mode;
     els.hidehud.checked = settings.hidehud;
+    els.random.checked = settings.random;
     document.body.classList.toggle('hidehud', settings.hidehud);
+  }
+
+  // ---------- Bereichsauswahl ----------
+  let chosen = settings.scene;
+  for (const sc of SCENES) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'scene-card'; b.dataset.id = sc.id;
+    b.setAttribute('role', 'radio');
+    b.innerHTML = `<span class="ic">${sc.icon}</span><span class="nm">${sc.name}</span>`;
+    b.addEventListener('click', () => { chosen = sc.id; syncScenePickers(); if (!state.running) loadScene(sc.id); });
+    els.grid.appendChild(b);
+    els.scene.add(new Option(`${sc.icon} ${sc.name}`, sc.id));
+  }
+  function syncScenePickers() {
+    for (const b of els.grid.children) b.setAttribute('aria-checked', String(b.dataset.id === chosen));
+    if (scene) els.scene.value = scene.id;
+  }
+  function useScene(id) {
+    settings.scene = id; saveSettings();
+    if (!scene || scene.id !== id) loadScene(id);
   }
 
   // ---------- Kalibrieren ----------
   function calibrate() {
     if (state.calibrating) return;
+    if (!state.running) { toast('Erst „Los geht\'s“ drücken', 2000); return; }
     state.calibrating = [];
     const btn = $('#btn-calibrate');
     btn.disabled = true;
@@ -462,21 +521,37 @@
   // ---------- Bedienung ----------
   async function begin(demo) {
     els.startErr.hidden = true;
-    state.demo = demo;
-    if (!demo) {
-      try { await startMic(); }
-      catch (e) {
-        els.startErr.textContent = e && e.name === 'NotAllowedError'
-          ? 'Das Mikrofon wurde nicht erlaubt. Bitte im Browser oben in der Adressleiste das Mikrofon freigeben und erneut versuchen.'
-          : 'Es wurde kein Mikrofon gefunden. Ist eines angeschlossen?';
-        els.startErr.hidden = false;
-        return;
+    if (!state.running) {
+      state.demo = demo;
+      if (!demo) {
+        try { await startMic(); }
+        catch (e) {
+          els.startErr.textContent = e && e.name === 'NotAllowedError'
+            ? 'Das Mikrofon wurde nicht erlaubt. Bitte im Browser oben in der Adressleiste das Mikrofon freigeben und erneut versuchen.'
+            : 'Es wurde kein Mikrofon gefunden. Ist eines angeschlossen?';
+          els.startErr.hidden = false;
+          return;
+        }
       }
+    }
+    if (settings.random && !state.running) {
+      const others = SCENES.filter((s) => s.id !== settings.scene);
+      chosen = (others.length ? pick(others) : SCENES[0]).id;
     }
     state.running = true;
     els.start.hidden = true;
+    if (state.paused) togglePause();
+    useScene(chosen);
     reset();
-    if (demo) toast('Vorschau: Taste L gedrückt halten = laut', 3000);
+    if (state.demo) toast('Vorschau: Taste L gedrückt halten = laut', 3000);
+  }
+
+  function openScenes() {
+    chosen = scene.id;
+    syncScenePickers();
+    els.start.hidden = false;
+    $('#btn-start').textContent = state.running ? '▶ Weiter' : "🎤 Los geht's";
+    $('#btn-demo').hidden = state.running;
   }
 
   function togglePause() {
@@ -494,6 +569,7 @@
 
   $('#btn-start').addEventListener('click', () => begin(false));
   $('#btn-demo').addEventListener('click', () => begin(true));
+  $('#btn-scenes').addEventListener('click', openScenes);
   $('#btn-pause').addEventListener('click', togglePause);
   $('#btn-reset').addEventListener('click', reset);
   $('#btn-full').addEventListener('click', toggleFullscreen);
@@ -504,6 +580,8 @@
   els.step.addEventListener('change', () => { settings.step = +els.step.value; saveSettings(); });
   els.mode.addEventListener('change', () => { settings.mode = els.mode.value; saveSettings(); });
   els.hidehud.addEventListener('change', () => { settings.hidehud = els.hidehud.checked; saveSettings(); applySettings(); });
+  els.random.addEventListener('change', () => { settings.random = els.random.checked; saveSettings(); });
+  els.scene.addEventListener('change', () => { chosen = els.scene.value; useScene(chosen); });
 
   document.addEventListener('keydown', (e) => {
     if (els.dialog.open || e.target.closest('input, select')) return;
@@ -512,6 +590,7 @@
       case 'r': reset(); break;
       case 'f': toggleFullscreen(); break;
       case 'e': els.dialog.showModal(); break;
+      case 'b': openScenes(); break;
       case 'l': state.demoLoud = true; break;
     }
   });
@@ -553,9 +632,12 @@
   window.addEventListener('appinstalled', () => { $('#install').hidden = true; toast('Installiert! 🎉', 2500); });
 
   // Für Tests und Vorschau
-  window.fluesterwald = { state, settings, showNext, startle, reset, animals };
+  window.fluesterwald = {
+    state, settings, showNext, startle, reset, loadScene,
+    get animals() { return animals; }, get scene() { return scene; },
+  };
 
   applySettings();
-  reset();
+  loadScene(settings.scene);
   requestAnimationFrame(tick);
 })();

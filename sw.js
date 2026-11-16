@@ -1,12 +1,22 @@
 /* Service Worker: hält alle Dateien vor, damit Flüsterwald auch ohne Internet startet.
  * Bei jeder Änderung an den Dateien VERSION hochzählen. */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'fluesterwald-' + VERSION;
 const FILES = [
   './',
   './index.html',
   './style.css',
   './app.js',
+  './scenes/_kit.js',
+  './scenes/wald.js',
+  './scenes/bauernhof.js',
+  './scenes/meer.js',
+  './scenes/nacht.js',
+  './scenes/savanne.js',
+  './scenes/schnee.js',
+  './scenes/teich.js',
+  './scenes/garten.js',
+  './scenes/dschungel.js',
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/icon-192.png',
