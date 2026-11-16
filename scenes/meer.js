@@ -114,6 +114,45 @@
   <g class="fin">${p('M-6 -40 Q-30 -10 -14 -6 Q0 -18 6 -36Z', '#4a8fd8')}</g>
   ${c(70, -90, 14, '#fff')}${eye(72, -90, 8)}${s('M80 -56 Q100 -50 114 -62', '#2a5a9a', 4)}${c(86, -70, 9, '#ff9ec4', 'opacity=".5"')}`;
 
+  // ---- weitere Tiere ----
+  const extra = (() => {
+    const { c, e, p, s, r, eyes, eye, cheeks } = FW;
+    const jelly = `
+    ${[-24, -10, 4, 18].map((x, i) => s(`M${x} -60 Q${x - 10} -30 ${x + 4} -10 Q${x + 12} 0 ${x} 10`, '#f2a8e0', 6, i % 2 ? 'class="sway"' : 'class="sway d2"')).join('')}
+    ${p('M-40 -60 Q-40 -120 0 -120 Q40 -120 40 -60 Q20 -52 0 -60 Q-20 -52 -40 -60Z', '#f8b8ec', 'opacity=".92"')}
+    ${e(-14, -100, 10, 6, '#fff', 'opacity=".6"')}${eyes(-12, 12, -82, 5)}${s('M-8 -70 Q0 -64 8 -70', '#a04a8a', 3)}${cheeks(-22, 22, -74, 5, '#ff7ac0')}`;
+    const dolphin = `
+    <g class="tail">${p('M-90 -50 Q-120 -80 -130 -76 Q-118 -60 -120 -48 Q-128 -30 -136 -26 Q-110 -26 -92 -40Z', '#5a8ab8')}</g>
+    ${p('M-96 -46 Q-60 -110 30 -96 Q80 -88 100 -60 Q120 -58 124 -50 Q100 -40 80 -40 Q0 -20 -96 -46Z', '#6a9ac8')}
+    ${p('M-40 -40 Q20 -26 90 -44 Q60 -30 -10 -30Z', '#e8f2fa')}
+    ${p('M-10 -98 Q0 -130 20 -134 Q14 -110 22 -96Z', '#5a8ab8')}
+    <g class="fin">${p('M10 -40 Q0 -12 16 -14 Q20 -26 26 -40Z', '#5a8ab8')}</g>
+    ${eye(70, -70, 5)}${s('M88 -50 Q100 -48 110 -52', '#3a6a98', 3)}${c(66, -56, 6, '#ff9ec4', 'opacity=".5"')}`;
+    const shark = `
+    <g class="tail">${p('M-110 -60 L-150 -110 L-136 -60 L-150 -20Z', '#7a8ea8')}</g>
+    ${p('M-116 -60 Q-60 -116 40 -104 Q110 -96 130 -64 Q110 -30 40 -26 Q-60 -20 -116 -60Z', '#8aa0bc')}
+    ${p('M-60 -44 Q20 -24 120 -52 Q100 -34 40 -30 Q-20 -28 -60 -44Z', '#f0f4f8')}
+    ${p('M-10 -104 L10 -150 L30 -102Z', '#7a8ea8')}
+    <g class="fin">${p('M0 -44 L-10 -10 L20 -40Z', '#7a8ea8')}</g>
+    ${s('M70 -78 v14 M78 -80 v14 M86 -80 v14', '#6a7e98', 2)}
+    ${eye(100, -76, 6)}${s('M96 -50 Q110 -42 124 -54', '#5a6e88', 3)}${c(94, -60, 7, '#ff9ec4', 'opacity=".5"')}`;
+    let spikes = '';
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * Math.PI * 2, b = a + 0.18;
+      spikes += p(`M${(Math.cos(a) * 44).toFixed(1)} ${(-50 + Math.sin(a) * 44).toFixed(1)} L${(Math.cos(a + 0.09) * 60).toFixed(1)} ${(-50 + Math.sin(a + 0.09) * 60).toFixed(1)} L${(Math.cos(b) * 44).toFixed(1)} ${(-50 + Math.sin(b) * 44).toFixed(1)}Z`, '#e8b030');
+    }
+    const puffer = `
+    <g class="tail">${p('M-50 -50 L-80 -70 L-72 -50 L-80 -30Z', '#f0c040')}</g>
+    ${spikes}${c(0, -50, 46, '#ffd860')}${e(0, -34, 30, 16, '#fff4c0')}
+    ${c(-14, -60, 11, '#fff')}${c(16, -60, 11, '#fff')}${eyes(-12, 18, -60, 6)}${e(4, -36, 7, 6, '#e07a5a')}`;
+    return [
+      { id: 'qualle', name: 'Qualle', icon: '🪼', kind: 'swim', h: 130, eye: 82, speed: 70, art: jelly },
+      { id: 'delfin', name: 'Delfin', icon: '🐬', kind: 'swim', h: 134, eye: 70, speed: 240, art: dolphin, big: true },
+      { id: 'hai', name: 'Hai', icon: '🦈', kind: 'swim', h: 150, eye: 76, speed: 170, art: shark, big: true, w: 0.4 },
+      { id: 'kugelfisch', name: 'Kugelfisch', icon: '🐡', kind: 'swim', h: 110, eye: 60, speed: 100, art: puffer },
+    ];
+  })();
+
   FW.scene({
     id: 'meer', name: 'Meer', icon: '🐠', bg: '#5fd0f0',
     back, front,
@@ -135,6 +174,7 @@
       { id: 'seepferdchen', name: 'Seepferdchen', icon: '🐴', kind: 'swim', h: 150, eye: 118, speed: 90, art: seahorse },
       { id: 'schildkroete', name: 'Schildkröte', icon: '🐢', kind: 'swim', h: 90, eye: 56, speed: 130, art: turtle },
       { id: 'wal', name: 'Wal', icon: '🐳', kind: 'swim', h: 160, eye: 90, speed: 110, art: whale, big: true, s: 0.95 },
+      ...extra,
     ],
   });
 })();

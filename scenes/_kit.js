@@ -16,7 +16,9 @@
  *   hole                  – optional: Baumhöhle o. Ä. { x, y, rx, ry } nur für Flieger
  *   perches               – Sitzplätze für Flieger: { x, y }
  *   air                   – optional: Bereich zum freien Fliegen/Schwimmen { x0, x1, y0, y1 }
- *   animals               – 6 Tiere: { id, name, icon, kind: 'walk'|'fly'|'swim', h, eye,
+ *   shift                 – optional: so weit wird die Landschaft für mehr Wiese nach oben geschoben (Standard 120)
+ *   moodFixed             – optional: Stimmungsfigur bewegt sich mit der Landschaft (z. B. Hahn auf dem Dach)
+ *   animals               – Tierarten (w = Häufigkeit, Standard 1; selten z. B. 0.4): { id, name, icon, kind: 'walk'|'fly'|'swim', h, eye,
  *                            speed, hop, freq, tilt?, s?, lane?, area?, art }
  */
 (() => {
@@ -24,7 +26,8 @@
   const attrs = (x) => (x ? ' ' + x : '');
   const FW = {
     scenes: [],
-    scene(def) { FW.scenes.push(def); },
+    art: {}, // alle Tierbilder nach id, damit spätere Bereiche Tiere wiederverwenden können
+    scene(def) { FW.scenes.push(def); def.animals.forEach((a) => { FW.art[a.id] = a.art; }); },
 
     c: (cx, cy, r, fill, x) => `<circle cx="${n(cx)}" cy="${n(cy)}" r="${n(r)}" fill="${fill}"${attrs(x)}/>`,
     e: (cx, cy, rx, ry, fill, x) => `<ellipse cx="${n(cx)}" cy="${n(cy)}" rx="${n(rx)}" ry="${n(ry)}" fill="${fill}"${attrs(x)}/>`,

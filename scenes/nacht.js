@@ -100,6 +100,27 @@
   ${s('M20 -36 Q24 -46 30 -48 M16 -36 Q16 -46 20 -50', '#5a5070', 2)}
   ${eye(21, -29, 3)}`;
 
+  // ---- weitere Tiere ----
+  const extra = (() => {
+    const { c, e, p, s, r, eyes, eye, cheeks } = FW;
+    const moth = `
+    <g class="wings2">${e(-28, -50, 30, 24, '#b8a8d8', FW.rot(-20, -28, -50))}${e(28, -50, 30, 24, '#b8a8d8', FW.rot(20, 28, -50))}${c(-30, -52, 8, '#8a7ab0')}${c(30, -52, 8, '#8a7ab0')}</g>
+    ${e(0, -40, 8, 24, '#6a5a8a')}${c(0, -68, 10, '#7a6a9a')}
+    ${s('M-4 -76 Q-14 -94 -24 -92 M4 -76 Q14 -94 24 -92', '#6a5a8a', 2.5)}${eyes(-4, 4, -70, 2.5)}`;
+    const toad = `
+    ${e(-34, -8, 22, 10, '#8a7a4a')}${e(34, -8, 22, 10, '#8a7a4a')}
+    ${e(0, -36, 50, 32, '#9a8a5a')}${e(0, -28, 30, 18, '#d8c89a')}
+    ${c(-20, -46, 4, '#7a6a3a')}${c(18, -52, 5, '#7a6a3a')}${c(30, -36, 4, '#7a6a3a')}${c(-34, -34, 4, '#7a6a3a')}
+    ${c(-24, -68, 16, '#9a8a5a')}${c(24, -68, 16, '#9a8a5a')}${c(-24, -70, 10, '#f0c040')}${c(24, -70, 10, '#f0c040')}
+    ${eyes(-23, 25, -70, 5)}${s('M-24 -46 Q0 -36 24 -46', '#5a4a2a', 4)}`;
+    return [
+      { id: 'nachtfalter', name: 'Nachtfalter', icon: '🦋', kind: 'fly', h: 96, eye: 70, speed: 180, art: moth, perches: [], area: { x0: 100, x1: 1500, y0: 300, y1: 640 } },
+      { id: 'kroete', name: 'Kröte', icon: '🐸', kind: 'walk', h: 86, eye: 70, speed: 120, hop: 30, freq: 1.8, art: toad },
+      { id: 'igel', name: 'Igel', icon: '🦔', kind: 'walk', h: 95, eye: 40, speed: 70, hop: 3, freq: 6, tilt: 4, art: FW.art.igel },
+      { id: 'wolf', name: 'Wolf', icon: '🐺', kind: 'walk', h: 165, eye: 106, speed: 160, hop: 6, freq: 3, art: FW.art.wolf, w: 0.5 },
+    ];
+  })();
+
   FW.scene({
     id: 'nacht', name: 'Nacht', icon: '🌙', bg: '#141c44',
     back, front,
@@ -125,6 +146,7 @@
       { id: 'uhu', name: 'Uhu', icon: '🦉', kind: 'fly', h: 118, eye: 68, speed: 280, art: eagleOwl },
       { id: 'gluehwuermchen', name: 'Glühwürmchen', icon: '✨', kind: 'fly', h: 50, eye: 29, speed: 140, art: firefly, s: 1.3, perches: [],
         area: { x0: 100, x1: 1500, y0: 300, y1: 660 } },
+      ...extra,
     ],
   });
 })();

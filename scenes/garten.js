@@ -93,6 +93,40 @@
   ${e(0, -76, 13, 10, '#f29aa8')}${s('M-10 -78 L-30 -84 M-10 -74 L-30 -70 M10 -78 L30 -84 M10 -74 L30 -70', '#9a9aa4', 1.5)}
   ${s('M-18 -100 Q-12 -96 -6 -100 M6 -100 Q12 -96 18 -100', '#1a1a20', 3)}${cheeks(-22, 22, -86, 6, '#f2a5b5')}`;
 
+  // ---- weitere Tiere ----
+  const extra = (() => {
+    const { c, e, p, s, r, eyes, eye, cheeks } = FW;
+    const blackbird = `
+    ${p('M-22 -26 L-50 -14 L-20 -16Z', '#1e1e24')}
+    <g class="wing wl">${p('M-6 -50 C-30 -80 -56 -78 -60 -66 C-40 -62 -28 -54 -16 -40Z', '#2a2a32')}</g>
+    <g class="wing wr">${p('M6 -50 C30 -80 56 -78 60 -66 C40 -62 28 -54 16 -40Z', '#2a2a32')}</g>
+    ${e(0, -38, 26, 28, '#2a2a32')}${c(12, -70, 18, '#2a2a32')}
+    ${p('M26 -74 L46 -70 L26 -64Z', '#ffb02a')}${c(16, -74, 6, '#ffb02a')}${eye(16, -74, 3.5)}
+    ${s('M-4 -10 V0 M6 -10 V0', '#5a4a3a', 3)}`;
+    const ant = `
+    ${s('M-20 -20 L-34 0 M0 -20 L-6 0 M16 -20 L26 0', '#5a2a1a', 4)}
+    ${e(-34, -30, 22, 16, '#a8401e')}${e(0, -32, 14, 11, '#b84a24')}${c(30, -40, 15, '#c4542a')}
+    ${s('M36 -52 Q40 -70 52 -72 M30 -54 Q30 -72 40 -78', '#5a2a1a', 2.5)}
+    ${c(34, -44, 6, '#fff')}${eye(36, -44, 3.5)}${s('M36 -32 Q40 -30 44 -34', '#5a2a1a', 2)}`;
+    const caterpillar = `
+    <g class="wiggle">${[-60, -40, -20, 0, 20].map((x, i) => c(x, -18 - (i % 2) * 4, 16, i % 2 ? '#7ad04a' : '#8ae05a')).join('')}</g>
+    ${s('M-60 -2 v4 M-40 -2 v4 M-20 -2 v4 M0 -2 v4 M20 -2 v4', '#4a8a2a', 4)}
+    ${c(42, -34, 20, '#9ae86a')}${s('M36 -52 L30 -66 M48 -52 L54 -66', '#4a8a2a', 3)}${c(30, -68, 4, '#ff6a8a')}${c(54, -68, 4, '#ff6a8a')}
+    ${eyes(36, 50, -38, 4)}${s('M38 -26 Q44 -22 50 -26', '#3a6a1a', 2.5)}${cheeks(32, 54, -28, 4, '#ff9ec4')}`;
+    const grasshopper = `
+    ${s('M-20 -20 L-40 -50 L-50 0', '#5ab83a', 6)}${s('M10 -16 L6 0 M24 -16 L28 0', '#4aa82a', 4)}
+    ${e(-6, -28, 40, 14, '#6ac84a')}
+    <g class="wings2">${e(-10, -38, 30, 8, '#a8e888', 'opacity=".8"')}</g>
+    ${c(38, -38, 16, '#7ad85a')}${s('M42 -52 Q50 -80 70 -84 M36 -52 Q36 -80 50 -90', '#4a8a2a', 2.5)}
+    ${eye(44, -42, 4.5)}${s('M40 -28 Q46 -26 50 -30', '#3a6a1a', 2)}`;
+    return [
+      { id: 'amsel', name: 'Amsel', icon: '🐦‍⬛', kind: 'fly', h: 88, eye: 74, speed: 300, art: blackbird },
+      { id: 'ameise', name: 'Ameise', icon: '🐜', kind: 'walk', h: 80, eye: 44, speed: 140, hop: 2, freq: 8, art: ant, s: 1.1 },
+      { id: 'raupe', name: 'Raupe', icon: '🐛', kind: 'walk', h: 72, eye: 38, speed: 40, hop: 3, freq: 2.5, art: caterpillar },
+      { id: 'grashuepfer', name: 'Grashüpfer', icon: '🦗', kind: 'walk', h: 70, eye: 42, speed: 200, hop: 50, freq: 1.6, art: grasshopper, s: 1.1 },
+    ];
+  })();
+
   FW.scene({
     id: 'garten', name: 'Garten', icon: '🌷', bg: '#8fd3f4',
     back, front,
@@ -117,6 +151,7 @@
       { id: 'schnecke', name: 'Schnecke', icon: '🐌', kind: 'walk', h: 96, eye: 82, speed: 35, hop: 1, freq: 2, art: snail },
       { id: 'regenwurm', name: 'Regenwurm', icon: '🪱', kind: 'walk', h: 66, eye: 50, speed: 50, hop: 4, freq: 3, tilt: 5, art: worm },
       { id: 'maulwurf', name: 'Maulwurf', icon: '🐾', kind: 'walk', h: 130, eye: 100, speed: 90, hop: 4, freq: 3.4, art: mole },
+      ...extra,
     ],
   });
 })();

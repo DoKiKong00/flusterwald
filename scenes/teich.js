@@ -104,6 +104,36 @@
   ${p('M70 -170 L96 -160 L70 -154Z', '#ff8a2a')}${p('M64 -172 L72 -170 L72 -156 L64 -158Z', '#2b2b2b')}
   ${eye(58, -172, 4)}${c(52, -158, 5, '#ff9ec4', 'opacity=".5"')}`;
 
+  // ---- weitere Tiere ----
+  const extra = (() => {
+    const { c, e, p, s, r, eyes, eye, cheeks } = FW;
+    const chick = `
+    ${s('M-6 0 V-10 M6 0 V-10', '#ff9a2a', 4)}
+    ${e(0, -30, 28, 24, '#ffe066')}${e(-16, -30, 12, 8, '#ffd23f')}
+    ${c(10, -62, 18, '#ffe866')}${p('M22 -64 L38 -60 L22 -56Z', '#ff9a2a')}
+    ${eye(14, -66, 3.5)}${c(10, -56, 4, '#ff9ec4', 'opacity=".55"')}${s('M6 -80 Q10 -86 14 -80', '#ffd23f', 3)}`;
+    const kingfisher = `
+    ${p('M-24 -24 L-46 -8 L-18 -14Z', '#1a7ac8')}
+    <g class="wing wl">${p('M-6 -50 C-30 -80 -56 -78 -60 -66 C-40 -62 -28 -54 -16 -40Z', '#1a8ad8')}</g>
+    <g class="wing wr">${p('M6 -50 C30 -80 56 -78 60 -66 C40 -62 28 -54 16 -40Z', '#2aa0e8')}</g>
+    ${e(0, -38, 24, 26, '#2a9ae0')}${e(4, -30, 16, 18, '#ff8a3a')}
+    ${c(10, -68, 18, '#2a9ae0')}${e(16, -62, 8, 6, '#ff8a3a')}${e(4, -60, 6, 4, '#fff')}
+    ${p('M24 -72 L60 -66 L24 -62Z', '#2b2b2b')}${eye(14, -72, 4)}
+    ${s('M-4 -10 V0 M6 -10 V0', '#ff6a2a', 3)}`;
+    const otter = `
+    <g class="tail">${p('M-50 -20 Q-100 -14 -110 -30 Q-90 -34 -50 -36Z', '#7a5234')}</g>
+    ${r(-36, -20, 14, 20, 6, '#6a4428')}${r(16, -20, 14, 20, 6, '#6a4428')}
+    ${e(-4, -40, 52, 26, '#8a5e3c')}${e(10, -34, 30, 14, '#c8a07a')}
+    ${c(52, -60, 24, '#8a5e3c')}${e(64, -54, 14, 11, '#d8b48a')}${c(72, -58, 4, '#2b1d14')}
+    ${c(42, -78, 6, '#7a5234')}${eye(56, -66, 4.5)}${s('M60 -50 L84 -52 M60 -48 L84 -44', '#5a3a2a', 1.5)}`;
+    return [
+      { id: 'kueken', name: 'Küken', icon: '🐥', kind: 'walk', h: 84, eye: 66, speed: 110, hop: 6, freq: 5, tilt: 6, art: chick },
+      { id: 'eisvogel', name: 'Eisvogel', icon: '🐦', kind: 'fly', h: 86, eye: 72, speed: 360, art: kingfisher },
+      { id: 'otter', name: 'Otter', icon: '🦦', kind: 'walk', h: 92, eye: 66, speed: 160, hop: 8, freq: 3, art: otter },
+      { id: 'schildkroete', name: 'Schildkröte', icon: '🐢', kind: 'walk', h: 90, eye: 56, speed: 35, hop: 1, freq: 2, tilt: 2, art: FW.art.schildkroete, w: 0.6 },
+    ];
+  })();
+
   FW.scene({
     id: 'teich', name: 'Teich', icon: '🐸', bg: '#8ed6f6',
     back, front,
@@ -128,6 +158,7 @@
       { id: 'biber', name: 'Biber', icon: '🦫', kind: 'walk', h: 134, eye: 106, speed: 100, hop: 4, freq: 3.4, art: beaver },
       { id: 'storch', name: 'Storch', icon: '🪶', kind: 'walk', h: 260, eye: 242, speed: 90, hop: 3, freq: 1.6, art: stork, big: true },
       { id: 'schwan', name: 'Schwan', icon: '🦢', kind: 'walk', h: 186, eye: 172, speed: 80, hop: 2, freq: 2, tilt: 3, art: swan, big: true },
+      ...extra,
     ],
   });
 })();

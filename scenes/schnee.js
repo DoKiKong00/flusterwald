@@ -102,6 +102,48 @@
   ${c(-14, -58, 13, '#ffd23f')}${c(14, -58, 13, '#ffd23f')}${eyes(-13, 13, -57, 6.5)}
   ${p('M-6 -46 L6 -46 L0 -36Z', '#4a4a5a')}`;
 
+  // ---- weitere Tiere ----
+  const extra = (() => {
+    const { c, e, p, s, r, eyes, eye, cheeks } = FW;
+    const reindeer = `
+    <g class="legs">${r(-50, -80, 12, 82, 5, '#8a5a3a')}${r(32, -80, 12, 82, 5, '#8a5a3a')}</g>
+    ${r(-32, -80, 12, 82, 5, '#7a4a2a')}${r(14, -80, 12, 82, 5, '#7a4a2a')}
+    ${e(-6, -104, 62, 34, '#9a6a44')}${e(30, -110, 22, 26, '#f0e6d8')}
+    ${p('M30 -120 Q44 -160 64 -176 L86 -162 Q70 -140 56 -104Z', '#9a6a44')}
+    ${s('M68 -184 Q60 -220 40 -230 M60 -204 L44 -206 M76 -184 Q88 -222 108 -230 M84 -206 L100 -210', '#c8a070', 6)}
+    ${e(84, -170, 28, 18, '#a87a50', FW.rot(30, 84, -170))}${c(106, -156, 8, '#e8302a')}
+    ${eye(80, -176, 4.5)}${c(86, -164, 5, '#ff9ec4', 'opacity=".5"')}`;
+    const walrus = `
+    <g class="fin">${e(-30, -6, 24, 10, '#8a5a40', FW.rot(10, -30, -6))}${e(30, -6, 24, 10, '#8a5a40', FW.rot(-10, 30, -6))}</g>
+    ${p('M-70 -4 Q-80 -90 0 -110 Q80 -90 70 -4Z', '#a87050')}
+    ${c(0, -100, 40, '#b47a58')}
+    ${e(-14, -82, 16, 12, '#d8a888')}${e(14, -82, 16, 12, '#d8a888')}
+    ${p('M-12 -74 L-14 -36 L-6 -72Z', '#fffaf0')}${p('M12 -74 L14 -36 L6 -72Z', '#fffaf0')}
+    ${eyes(-14, 14, -110, 4.5)}${c(0, -92, 5, '#5a3a2a')}`;
+    const husky = `
+    <g class="tail">${s('M30 -20 Q76 -26 66 -70 Q58 -84 50 -70', '#6a6e7a', 12)}</g>
+    ${e(-18, -4, 14, 8, '#fff')}${e(18, -4, 14, 8, '#fff')}
+    ${e(0, -42, 40, 40, '#6a6e7a')}${e(0, -34, 22, 30, '#fff')}
+    ${p('M-36 -112 L-30 -150 L-8 -122Z', '#6a6e7a')}${p('M36 -112 L30 -150 L8 -122Z', '#6a6e7a')}
+    ${c(0, -100, 38, '#6a6e7a')}
+    ${p('M-24 -122 Q0 -100 24 -122 Q30 -86 0 -76 Q-30 -86 -24 -122Z', '#fff')}
+    ${e(0, -84, 8, 6, '#2b2b2b')}${p('M-4 -74 Q0 -66 4 -74Z', '#ff8aa0')}
+    <g class="blink">${c(-14, -106, 5.5, '#4ab0f0')}${c(14, -106, 5.5, '#4ab0f0')}</g>${c(-14, -106, 2.5, '#1a1a1a')}${c(14, -106, 2.5, '#1a1a1a')}`;
+    const puffin = `
+    <g class="wing wl">${e(-30, -46, 12, 26, '#2b2b30')}</g><g class="wing wr">${e(30, -46, 12, 26, '#2b2b30')}</g>
+    ${e(0, -40, 28, 34, '#2b2b30')}${e(0, -34, 18, 26, '#fff')}
+    ${s('M-8 0 V-8 M8 0 V-8', '#ff8a2a', 4)}
+    ${c(0, -80, 22, '#2b2b30')}${e(-2, -80, 16, 14, '#f4f4f4')}
+    ${p('M10 -88 Q34 -84 32 -70 Q20 -66 10 -72Z', '#ff7a2a')}${s('M14 -86 Q20 -78 14 -72', '#ffd23f', 3)}
+    ${eye(-2, -84, 4)}`;
+    return [
+      { id: 'rentier', name: 'Rentier', icon: '🦌', kind: 'walk', h: 236, eye: 176, speed: 150, hop: 8, freq: 2.4, art: reindeer, big: true },
+      { id: 'walross', name: 'Walross', icon: '🦭', kind: 'walk', h: 140, eye: 110, speed: 60, hop: 8, freq: 2, tilt: 4, art: walrus },
+      { id: 'husky', name: 'Husky', icon: '🐕', kind: 'walk', h: 150, eye: 106, speed: 210, hop: 10, freq: 4, art: husky },
+      { id: 'papageitaucher', name: 'Papageitaucher', icon: '🐦', kind: 'fly', h: 104, eye: 84, speed: 300, art: puffin },
+    ];
+  })();
+
   FW.scene({
     id: 'schnee', name: 'Schnee', icon: '❄️', bg: '#9fc8ef',
     back, front,
@@ -125,6 +167,7 @@
       { id: 'polarfuchs', name: 'Polarfuchs', icon: '🦊', kind: 'walk', h: 150, eye: 96, speed: 160, hop: 6, freq: 3.2, art: arcticFox },
       { id: 'schneehase', name: 'Schneehase', icon: '🐇', kind: 'walk', h: 200, eye: 106, speed: 170, hop: 30, freq: 2.4, art: snowHare },
       { id: 'schneeeule', name: 'Schneeeule', icon: '🦉', kind: 'fly', h: 100, eye: 57, speed: 300, art: snowOwl },
+      ...extra,
     ],
   });
 })();

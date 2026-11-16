@@ -103,6 +103,27 @@
   ${c(0, -84, 16, '#5ab0f0', 'stroke="#8a94a8" stroke-width="5"')}${eyes(-6, 6, -86, 3.5)}${s('M-5 -78 Q0 -74 5 -78', '#1a4a8a', 2)}
   ${r(-26, -24, 52, 14, 4, '#e83a3a')}`;
 
+  // ---- weitere Figuren und Dinge ----
+  const extra = (() => {
+    const satellite = `
+    ${r(-90, -56, 50, 24, 3, '#3a6ad8')}${r(40, -56, 50, 24, 3, '#3a6ad8')}${s('M-90 -44 H-40 M40 -44 H90 M-65 -56 V-32 M65 -56 V-32', '#8ab0f0', 2)}
+    ${s('M-40 -44 H40', '#8a94a8', 4)}
+    ${r(-22, -66, 44, 44, 8, '#d8dce8')}${c(0, -44, 12, '#5ab0f0')}${eyes(-5, 5, -46, 3)}
+    ${s('M0 -66 V-84', '#8a94a8', 3)}${c(0, -88, 5, '#ff5a5a', 'class="twinkle"')}`;
+    const comet = `
+    ${p('M-20 -40 Q-120 -60 -150 -30 Q-110 -36 -20 -24Z', '#ffe08a', 'opacity=".7"')}${p('M-20 -46 Q-100 -90 -140 -76 Q-100 -62 -20 -32Z', '#ffc04a', 'opacity=".5"')}
+    ${p('M0 -74 L10 -50 L36 -48 L16 -32 L22 -6 L0 -20 L-22 -6 L-16 -32 L-36 -48 L-10 -50Z', '#ffd23f', 'stroke="#ffb02a" stroke-width="4" stroke-linejoin="round"')}
+    ${eyes(-6, 6, -40, 3)}${s('M-5 -30 Q0 -26 5 -30', '#a86a10', 2)}`;
+    const moonBunny = FW.art.hase.split('#c9b6a4').join('#d8d0e8').split('#d6c4b2').join('#e4dcf0') + helmet(-106, 54);
+    const monster = alien.split('#6ad86a').join('#b07ae6').split('#5ac85a').join('#9a62d8').split('#2a7a2a').join('#5a2a8a');
+    return [
+      { id: 'satellit', name: 'Satellit', icon: '🛰️', kind: 'fly', h: 92, eye: 46, speed: 140, art: satellite, perches: [] },
+      { id: 'komet', name: 'Komet', icon: '☄️', kind: 'fly', h: 76, eye: 40, speed: 420, art: comet, perches: [], w: 0.5 },
+      { id: 'mondhase', name: 'Mondhase', icon: '🐰', kind: 'walk', h: 200, eye: 106, speed: 120, hop: 70, freq: 1.1, art: moonBunny },
+      { id: 'monster', name: 'Lila Monster', icon: '👾', kind: 'walk', h: 150, eye: 76, speed: 120, hop: 60, freq: 1.3, art: monster },
+    ];
+  })();
+
   FW.scene({
     id: 'weltall', name: 'Weltall', icon: '🚀', bg: '#0b0f2e',
     back, front,
@@ -124,6 +145,7 @@
       { id: 'roboter', name: 'Roboter', icon: '🤖', kind: 'walk', h: 184, eye: 124, speed: 90, hop: 3, freq: 4, tilt: 3, art: robot },
       { id: 'ufo', name: 'UFO', icon: '🛸', kind: 'fly', h: 90, eye: 62, speed: 260, art: ufo },
       { id: 'rakete', name: 'Rakete', icon: '🚀', kind: 'fly', h: 180, eye: 86, speed: 300, art: rocket, s: 0.8, perches: [] },
+      ...extra,
     ],
   });
 })();

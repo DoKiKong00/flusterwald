@@ -30,9 +30,6 @@
 
     <!-- ============ ANZEIGEN ============ -->
     <div id="hud">
-      <div id="progress" aria-label="Tiere im Wald">
-        <!-- wird per JS gefüllt -->
-      </div>
       <div id="next" title="Bis zum nächsten Tier">
         <svg viewBox="0 0 44 44"><circle class="track" cx="22" cy="22" r="18"/><circle class="ring" cx="22" cy="22" r="18"/></svg>
       </div>
@@ -58,10 +55,6 @@
 
     <div id="toast" role="status" aria-live="polite"></div>
 
-    <div id="celebrate" hidden>
-      <div class="banner">Juhu! Alle Tiere sind da! <span>⭐</span></div>
-    </div>
-
     <div id="paused" hidden><div class="banner">Pause</div></div>
 
     <!-- ============ STARTBILDSCHIRM ============ -->
@@ -86,6 +79,8 @@
       <form method="dialog">
         <h2>Einstellungen</h2>
 
+        <button type="button" id="btn-album" class="album-btn">📖 Sammelalbum <small>(Taste A)</small></button>
+
         <label class="row">
           <span>Bereich</span>
           <select id="set-scene"></select>
@@ -108,8 +103,10 @@
         <label class="row">
           <span>Ein neues Tier kommt nach</span>
           <select id="set-step">
+            <option value="3">3 Sekunden</option>
             <option value="5">5 Sekunden</option>
             <option value="10">10 Sekunden</option>
+            <option value="15">15 Sekunden</option>
             <option value="20">20 Sekunden</option>
             <option value="30">30 Sekunden</option>
             <option value="60">1 Minute</option>
@@ -121,7 +118,17 @@
           <span>Wenn es laut wird</span>
           <select id="set-mode">
             <option value="one">versteckt sich ein Tier</option>
+            <option value="some">verstecken sich einige Tiere</option>
             <option value="all">verstecken sich alle Tiere</option>
+          </select>
+        </label>
+
+        <label class="row">
+          <span>Höchstens so viele Tiere</span>
+          <select id="set-max">
+            <option value="10">10 Tiere</option>
+            <option value="20">20 Tiere</option>
+            <option value="30">30 Tiere</option>
           </select>
         </label>
 
@@ -140,6 +147,14 @@
           <button value="close" class="big">Fertig</button>
         </div>
       </form>
+    </dialog>
+    <!-- ============ SAMMELALBUM ============ -->
+    <dialog id="album" aria-labelledby="album-title">
+      <h2 id="album-title">📖 Sammelalbum</h2>
+      <p id="album-count" class="hint"></p>
+      <div id="album-tabs"></div>
+      <div id="album-grid"></div>
+      <div class="actions"><button type="button" id="album-close" class="big">Fertig</button></div>
     </dialog>
   </main>
 

@@ -1,25 +1,34 @@
 # 🌳 Flüsterwald
 
 Eine Lautstärke-Ampel für Kita und Grundschule (1./2. Klasse).
-Wenn es im Raum leise ist, trauen sich nach und nach die Tiere heraus.
-Welches Tier kommt und aus welchem Versteck, ist jedes Mal zufällig. Erst lugen die Tiere
-vorsichtig hervor, dann laufen, hoppeln, fliegen oder schwimmen sie herum.
-Wird es laut, flitzen sie ins nächste Versteck. Sind alle sechs Tiere da, gibt es einen Stern.
+Wenn es im Raum leise ist, trauen sich nach und nach die Tiere heraus – bis zu 30 auf einmal.
+Welches Tier kommt und aus welchem Versteck, ist jedes Mal zufällig; Tiere können auch mehrfach
+vorkommen, seltene Tiere tauchen nur ab und zu auf. Erst lugen sie vorsichtig hervor, dann laufen,
+hoppeln, fliegen oder schwimmen sie herum. Wird es laut, flitzen sie ins nächste Versteck.
+Ist die Höchstzahl erreicht, regnen still ein paar Sterne und es gibt einen Tagesstern.
 
-## Bereiche
+## Bereiche (je 10 Tierarten, insgesamt 100)
 
 | Bereich | Tiere | Stimmungsfigur |
 |---|---|---|
-| 🌳 Wald | Hase, Igel, Eichhörnchen, Fuchs, Eule, Reh | Sonne |
-| 🚜 Bauernhof | Huhn, Schwein, Schaf, Kuh, Katze, Schwalbe | Hahn auf dem Dach |
-| 🐠 Meer | Fisch, Krake, Krabbe, Seepferdchen, Schildkröte, Wal | Seestern |
-| 🌙 Nacht | Fledermaus, Waschbär, Dachs, Maus, Uhu, Glühwürmchen | Mond (schläft, solange es leise ist) |
-| 🦁 Savanne | Löwe, Giraffe, Zebra, Elefant, Erdmännchen, Papagei | Sonne |
-| ❄️ Schnee | Pinguin, Eisbär, Robbe, Polarfuchs, Schneehase, Schneeeule | Schneemann |
-| 🐸 Teich | Frosch, Ente, Libelle, Biber, Storch, Schwan | Wolke (regnet bei Lärm) |
-| 🌷 Garten | Marienkäfer, Schmetterling, Biene, Schnecke, Regenwurm, Maulwurf | Sonnenblume |
-| 🐒 Dschungel | Affe, Tukan, Faultier, Tiger, Schlange, Chamäleon | Sonne |
-| 🚀 Weltall | Astronauten-Katze, Astronauten-Hund, Alien, Roboter, UFO, Rakete | Saturn |
+| 🌳 Wald | Hase, Igel, Eichhörnchen, Fuchs, Eule, Reh, Wildschwein, Specht, Bär, Wolf* | Sonne |
+| 🚜 Bauernhof | Huhn, Schwein, Schaf, Kuh, Katze, Schwalbe, Pferd, Ziege, Gans, Hund | Hahn auf dem Dach |
+| 🐠 Meer | Fisch, Krake, Krabbe, Seepferdchen, Schildkröte, Wal, Qualle, Delfin, Hai*, Kugelfisch | Seestern |
+| 🌙 Nacht | Fledermaus, Waschbär, Dachs, Maus, Uhu, Glühwürmchen, Nachtfalter, Kröte, Igel, Wolf* | Mond |
+| 🦁 Savanne | Löwe, Giraffe, Zebra, Elefant, Erdmännchen, Papagei, Nashorn, Nilpferd, Strauß, Krokodil* | Sonne |
+| ❄️ Schnee | Pinguin, Eisbär, Robbe, Polarfuchs, Schneehase, Schneeeule, Rentier, Walross, Husky, Papageitaucher | Schneemann |
+| 🐸 Teich | Frosch, Ente, Libelle, Biber, Storch, Schwan, Küken, Eisvogel, Otter, Schildkröte* | Wolke |
+| 🌷 Garten | Marienkäfer, Schmetterling, Biene, Schnecke, Regenwurm, Maulwurf, Amsel, Ameise, Raupe, Grashüpfer | Sonnenblume |
+| 🐒 Dschungel | Affe, Tukan, Faultier, Tiger, Schlange, Chamäleon, Gorilla*, Kolibri, Pfeilgiftfrosch, Blauer Falter | Sonne |
+| 🚀 Weltall | Astronauten-Katze, Astronauten-Hund, Alien, Roboter, UFO, Rakete, Satellit, Komet*, Mondhase, Lila Monster | Saturn |
+
+\* selten
+
+## Sammelalbum
+
+In den Einstellungen (oder mit Taste A) gibt es das Sammelalbum. Jede Tierart, die einmal
+herausgekommen ist, erscheint dort farbig mit Zähler; noch nicht entdeckte Tiere sind nur als
+Schatten zu sehen. Ein roter Punkt am ⚙-Knopf zeigt, dass ein neues Tier entdeckt wurde.
 
 Den Bereich wählt man auf dem Startbildschirm, über den Knopf 🗺 (Taste B) oder in den Einstellungen.
 Dort lässt sich auch einstellen, dass bei jedem Start ein anderer Bereich kommt.
@@ -51,10 +60,12 @@ Updates werden beim nächsten Start mit Internet automatisch im Hintergrund gela
 | F | Vollbild |
 | E | Einstellungen |
 | B | Bereich wählen |
+| A | Sammelalbum |
 | L (gedrückt halten) | „Laut“ simulieren (nur Vorschau ohne Mikrofon) |
 
-Einstellungen: Bildschirm nicht abdunkeln/ausschalten (standardmäßig an), Grenze (wie leise muss es sein), „Raum einmessen“, Tempo (Sekunden pro Tier),
-ein Tier oder alle Tiere verstecken sich bei Lärm, Lautstärke-Balken ausblenden.
+Einstellungen: Sammelalbum, Bereich, Bildschirm nicht abdunkeln/ausschalten (standardmäßig an),
+Grenze (wie leise muss es sein), „Raum einmessen“, Tempo (Sekunden pro Tier), bei Lärm verstecken
+sich ein Tier / einige Tiere / alle Tiere, Höchstzahl (10/20/30), Lautstärke-Balken ausblenden.
 
 ### Bildschirm bleibt an
 

@@ -125,9 +125,59 @@
   ${p('M32 -48 L44 -44 L32 -40Z', '#2b2b2b')}${eye(24, -50, 3.5)}
   ${s('M-6 -8 L-6 0 M4 -8 L4 0', '#3a3530', 3)}`;
 
+  // ---- weitere Tiere ----
+  const extra = (() => {
+    const { c, e, p, s, r, eyes, eye, cheeks } = FW;
+    const horse = `
+    <g class="legs">${r(-56, -90, 14, 92, 6, '#8a5430')}${r(36, -90, 14, 92, 6, '#8a5430')}</g>
+    ${r(-38, -90, 14, 92, 6, '#7a4828')}${r(18, -90, 14, 92, 6, '#7a4828')}
+    ${s('M-70 -120 Q-96 -100 -86 -60', '#4a2a18', 12)}
+    ${e(-6, -118, 70, 38, '#9a6038')}
+    ${p('M34 -130 Q50 -180 74 -206 L102 -190 Q82 -160 64 -110Z', '#9a6038')}
+    ${p('M38 -146 Q52 -196 76 -214 L70 -200 Q56 -180 50 -140Z', '#4a2a18')}
+    ${e(100, -196, 36, 20, '#a86a40', FW.rot(30, 100, -196))}${e(122, -176, 14, 12, '#c4906a')}${c(124, -178, 3, '#5a3a2a')}
+    ${e(80, -220, 8, 14, '#9a6038', FW.rot(-10, 80, -220))}
+    ${eye(96, -204, 5)}${c(104, -188, 6, '#f2a5a5', 'opacity=".5"')}`;
+    const goat = `
+    <g class="legs">${r(-40, -58, 11, 60, 5, '#e8e2d4')}${r(26, -58, 11, 60, 5, '#e8e2d4')}</g>
+    ${r(-26, -58, 11, 60, 5, '#d8d0c0')}${r(12, -58, 11, 60, 5, '#d8d0c0')}
+    ${s('M-50 -90 l-10 -12', '#e8e2d4', 8)}
+    ${e(-6, -84, 52, 28, '#f4f0e6', 'stroke="#d8d0c0" stroke-width="2"')}
+    ${p('M26 -96 Q36 -126 50 -140 L70 -128 Q56 -110 46 -84Z', '#f4f0e6')}
+    ${e(64, -136, 24, 16, '#f4f0e6', FW.rot(30, 64, -136))}
+    ${s('M52 -150 Q46 -170 32 -172 M60 -152 Q58 -172 46 -178', '#a8906a', 6)}
+    ${e(42, -140, 12, 6, '#e8e2d4', FW.rot(-20, 42, -140))}
+    ${p('M70 -122 Q74 -104 66 -100 Q62 -112 64 -122Z', '#d8d0c0')}
+    ${eye(62, -142, 4.5)}${c(80, -128, 3, '#5a4a3a')}`;
+    const goose = `
+    ${s('M-8 0 V-20 M10 0 V-20', '#ff9a2a', 5)}${e(-12, -2, 10, 5, '#ff9a2a')}${e(14, -2, 10, 5, '#ff9a2a')}
+    ${p('M-56 -56 Q-70 -76 -58 -82 Q-48 -70 -40 -64Z', '#e8e8ec')}
+    ${e(-6, -46, 50, 30, '#fafafa', 'stroke="#d8dee6" stroke-width="2"')}
+    <g class="wiggle">${p('M-40 -56 Q-20 -76 14 -54 Q-10 -44 -40 -56Z', '#eef0f4')}</g>
+    ${s('M30 -60 Q46 -100 36 -128', '#fafafa', 16)}
+    ${c(40, -134, 16, '#fafafa', 'stroke="#d8dee6" stroke-width="2"')}
+    ${p('M52 -138 L76 -130 L52 -124Z', '#ff8a2a')}${eye(44, -140, 4)}${c(38, -126, 5, '#ff9ec4', 'opacity=".5"')}`;
+    const dog = `
+    <g class="tail">${s('M30 -20 Q66 -24 70 -60', '#c08a5a', 10)}</g>
+    ${e(-18, -4, 14, 8, '#f4e6d0')}${e(18, -4, 14, 8, '#f4e6d0')}
+    ${e(0, -40, 40, 40, '#c08a5a')}${e(0, -32, 22, 28, '#f4e6d0')}
+    ${s('M-26 -66 Q0 -56 26 -66', '#c8302a', 7)}${c(0, -60, 5, '#ffd23f')}
+    ${c(0, -102, 38, '#c08a5a')}
+    ${e(-38, -96, 14, 30, '#7a4a2a', FW.rot(16, -38, -96))}${e(38, -96, 14, 30, '#7a4a2a', FW.rot(-16, 38, -96))}
+    ${e(0, -86, 22, 17, '#f4e6d0')}${e(0, -94, 9, 7, '#2b1d14')}${p('M-5 -80 Q0 -70 5 -80Z', '#ff8aa0')}
+    ${c(14, -112, 12, '#7a4a2a', 'opacity=".5"')}${eyes(-14, 14, -110, 5.5)}`;
+    return [
+      { id: 'pferd', name: 'Pferd', icon: '🐴', kind: 'walk', h: 232, eye: 204, speed: 170, hop: 8, freq: 2.6, art: horse, big: true },
+      { id: 'ziege', name: 'Ziege', icon: '🐐', kind: 'walk', h: 178, eye: 142, speed: 130, hop: 14, freq: 3, art: goat },
+      { id: 'gans', name: 'Gans', icon: '🪿', kind: 'walk', h: 152, eye: 140, speed: 90, hop: 2, freq: 4, tilt: 7, art: goose },
+      { id: 'hund', name: 'Hund', icon: '🐶', kind: 'walk', h: 140, eye: 110, speed: 200, hop: 10, freq: 4, art: dog },
+    ];
+  })();
+
   FW.scene({
     id: 'bauernhof', name: 'Bauernhof', icon: '🚜', bg: '#9ad8f7',
     back, front,
+    shift: 90, moodFixed: true,
     under: '#7cc35a',
     ground: 700, lane: [762, 808],
     covers: [
@@ -148,6 +198,7 @@
       { id: 'kuh', name: 'Kuh', icon: '🐮', kind: 'walk', h: 215, eye: 166, speed: 80, hop: 3, freq: 2, art: cow, s: 1.05 },
       { id: 'katze', name: 'Katze', icon: '🐱', kind: 'walk', h: 145, eye: 102, speed: 160, hop: 6, freq: 3.5, art: cat },
       { id: 'schwalbe', name: 'Schwalbe', icon: '🐦', kind: 'fly', h: 70, eye: 50, speed: 380, art: swallow, s: 1 },
+      ...extra,
     ],
   });
 })();

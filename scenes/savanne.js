@@ -113,6 +113,45 @@
   ${p('M28 -84 Q46 -80 40 -62 Q34 -70 28 -68Z', '#3a3a3a')}${p('M28 -70 Q36 -66 34 -60 Q30 -62 28 -66Z', '#5a5a5a')}
   ${eye(16, -78, 4.5)}${s('M-6 -12 L-6 0 M6 -12 L6 0', '#5a5a5a', 3)}`;
 
+  // ---- weitere Tiere ----
+  const extra = (() => {
+    const { c, e, p, s, r, eyes, eye, cheeks } = FW;
+    const rhino = `
+    <g class="legs">${r(-64, -56, 26, 58, 10, '#8a8a92')}${r(30, -56, 26, 58, 10, '#8a8a92')}</g>
+    ${r(-40, -56, 24, 58, 10, '#7a7a82')}${r(8, -56, 24, 58, 10, '#7a7a82')}
+    ${e(-10, -90, 80, 48, '#9a9aa2')}
+    ${p('M50 -120 Q110 -126 130 -80 Q132 -56 100 -54 L50 -60Z', '#a4a4ac')}
+    ${p('M112 -100 L130 -150 L130 -96Z', '#e8e2d4')}${p('M96 -110 L102 -134 L108 -108Z', '#e8e2d4')}
+    ${e(64, -128, 10, 16, '#8a8a92', FW.rot(-20, 64, -128))}
+    ${eye(86, -100, 5)}${c(118, -68, 3, '#4a4a52')}${c(92, -80, 7, '#f2a5b5', 'opacity=".5"')}`;
+    const hippo = `
+    <g class="legs">${r(-56, -40, 24, 42, 10, '#8a7a9a')}${r(28, -40, 24, 42, 10, '#8a7a9a')}</g>
+    ${e(-6, -76, 78, 50, '#a090b4')}
+    ${e(70, -96, 46, 40, '#a898bc')}${e(104, -84, 28, 30, '#b4a4c8')}
+    ${c(112, -96, 4, '#5a4a6a')}${c(120, -90, 4, '#5a4a6a')}
+    ${c(60, -136, 10, '#8a7a9a')}${c(84, -138, 10, '#8a7a9a')}
+    ${eyes(66, 88, -118, 5)}${s('M96 -66 Q108 -62 120 -70', '#5a4a6a', 3)}${c(96, -78, 8, '#ffb0c8', 'opacity=".55"')}`;
+    const ostrich = `
+    <g class="legs">${s('M-10 0 L-6 -100', '#e8a8a0', 8)}</g>${s('M12 0 L8 -100', '#e8a8a0', 8)}
+    ${e(-6, -126, 56, 40, '#2b2b30')}${p('M-60 -140 Q-80 -160 -70 -110 Q-56 -100 -40 -120Z', '#fafafa')}${p('M30 -130 Q50 -150 54 -116Z', '#fafafa')}
+    ${s('M28 -150 Q40 -220 36 -260', '#e8b4a8', 12)}
+    ${c(40, -268, 18, '#e8b4a8')}${p('M54 -270 L76 -262 L54 -256Z', '#e8a060')}
+    ${eye(46, -274, 5)}${c(36, -258, 5, '#ff9ec4', 'opacity=".5"')}`;
+    const croc = `
+    <g class="legs">${r(-50, -22, 16, 22, 6, '#4a8a3a')}${r(20, -22, 16, 22, 6, '#4a8a3a')}</g>
+    ${p('M-130 -24 Q-60 -40 0 -50 L0 -20 Q-60 -14 -130 -24Z', '#5a9a4a')}
+    ${e(0, -36, 50, 22, '#5a9a4a')}${s('M-90 -32 l6 -8 l6 8 M-60 -38 l6 -8 l6 8 M-30 -46 l6 -8 l6 8 M0 -54 l6 -8 l6 8', '#4a8a3a', 4)}
+    ${p('M40 -50 Q110 -50 130 -34 Q110 -24 40 -22Z', '#6aaa5a')}
+    ${s('M60 -34 L126 -34', '#3a7a2a', 2)}${p('M70 -34 l4 6 l4 -6 M90 -34 l4 6 l4 -6 M110 -34 l4 6 l4 -6', '#fff')}
+    ${c(56, -58, 10, '#6aaa5a')}${eye(58, -60, 4.5)}`;
+    return [
+      { id: 'nashorn', name: 'Nashorn', icon: '🦏', kind: 'walk', h: 150, eye: 100, speed: 110, hop: 4, freq: 2.4, art: rhino, big: true },
+      { id: 'nilpferd', name: 'Nilpferd', icon: '🦛', kind: 'walk', h: 150, eye: 118, speed: 80, hop: 3, freq: 2, art: hippo, big: true },
+      { id: 'strauss', name: 'Strauß', icon: '🪶', kind: 'walk', h: 290, eye: 274, speed: 220, hop: 8, freq: 3.4, art: ostrich, big: true },
+      { id: 'krokodil', name: 'Krokodil', icon: '🐊', kind: 'walk', h: 70, eye: 60, speed: 90, hop: 1, freq: 3, tilt: 2, art: croc, w: 0.5 },
+    ];
+  })();
+
   FW.scene({
     id: 'savanne', name: 'Savanne', icon: '🦁', bg: '#8fd0f0',
     back, front,
@@ -136,6 +175,7 @@
       { id: 'elefant', name: 'Elefant', icon: '🐘', kind: 'walk', h: 200, eye: 164, speed: 80, hop: 3, freq: 1.8, art: elephant, big: true },
       { id: 'erdmaennchen', name: 'Erdmännchen', icon: '🐾', kind: 'walk', h: 124, eye: 104, speed: 180, hop: 14, freq: 4, art: meerkat },
       { id: 'papagei', name: 'Papagei', icon: '🦜', kind: 'fly', h: 100, eye: 78, speed: 330, art: parrot },
+      ...extra,
     ],
   });
 })();

@@ -100,6 +100,32 @@
   ${c(56, -54, 14, '#5ad0b0', 'stroke="#3aa890" stroke-width="3"')}${eye(58, -54, 5)}
   ${s('M64 -38 Q72 -36 78 -42', '#2a7a6a', 2.5)}`;
 
+  // ---- weitere Tiere ----
+  const extra = (() => {
+    const { c, e, p, s, r, eyes, eye, cheeks } = FW;
+    const gorilla = `
+    ${s('M-50 -90 Q-74 -50 -60 -6 M50 -90 Q74 -50 60 -6', '#3a3a40', 22)}
+    ${e(-20, -6, 18, 9, '#2a2a30')}${e(20, -6, 18, 9, '#2a2a30')}
+    ${e(0, -70, 56, 62, '#44444c')}${e(0, -60, 30, 34, '#6a6a74')}
+    ${c(0, -146, 40, '#44444c')}${e(0, -140, 28, 26, '#7a7a84')}
+    ${e(0, -128, 16, 10, '#5a5a64')}${c(-5, -130, 2.5, '#2a2a30')}${c(5, -130, 2.5, '#2a2a30')}
+    ${eyes(-12, 12, -150, 4.5)}${s('M-8 -118 Q0 -114 8 -118', '#2a2a30', 2.5)}`;
+    const hummingbird = `
+    ${p('M-20 -30 L-40 -24 L-18 -24Z', '#2a8a6a')}
+    <g class="wings2">${e(-10, -56, 10, 24, '#9ae0d0', FW.rot(-30, -10, -56) + ' opacity=".8"')}${e(10, -56, 10, 24, '#9ae0d0', FW.rot(30, 10, -56) + ' opacity=".8"')}</g>
+    ${e(0, -36, 18, 14, '#2ab08a')}${e(4, -30, 10, 8, '#e8f8f0')}
+    ${c(16, -50, 12, '#2ab08a')}${e(16, -42, 6, 4, '#e8302a')}${p('M26 -52 L60 -50 L26 -48Z', '#2b2b2b')}${eye(18, -54, 3)}`;
+    const recolor = (art, map) => Object.entries(map).reduce((a, [from, to]) => a.split(from).join(to), art);
+    const dartFrog = recolor(FW.art.frosch, { '#5ab84a': '#2a7af0', '#4aa23a': '#1a5ad0', '#c8e8a0': '#ffd23f', '#2a6a1a': '#0a2a6a' });
+    const blueButterfly = recolor(FW.art.schmetterling, { '#ff8ac4': '#2a8af0', '#ffb04a': '#5ad8f0' });
+    return [
+      { id: 'gorilla', name: 'Gorilla', icon: '🦍', kind: 'walk', h: 190, eye: 150, speed: 110, hop: 8, freq: 2, art: gorilla, big: true, w: 0.6 },
+      { id: 'kolibri', name: 'Kolibri', icon: '🐦', kind: 'fly', h: 70, eye: 54, speed: 380, art: hummingbird, s: 1.1 },
+      { id: 'pfeilgiftfrosch', name: 'Pfeilgiftfrosch', icon: '🐸', kind: 'walk', h: 92, eye: 72, speed: 180, hop: 40, freq: 2, art: dartFrog },
+      { id: 'morphofalter', name: 'Blauer Falter', icon: '🦋', kind: 'fly', h: 104, eye: 78, speed: 160, art: blueButterfly, s: 1.1 },
+    ];
+  })();
+
   FW.scene({
     id: 'dschungel', name: 'Dschungel', icon: '🐒', bg: '#9fe0c8',
     back, front,
@@ -123,6 +149,7 @@
       { id: 'tiger', name: 'Tiger', icon: '🐯', kind: 'walk', h: 154, eye: 110, speed: 150, hop: 5, freq: 3, art: tiger },
       { id: 'schlange', name: 'Schlange', icon: '🐍', kind: 'walk', h: 88, eye: 72, speed: 110, hop: 2, freq: 3, tilt: 6, art: snake },
       { id: 'chamaeleon', name: 'Chamäleon', icon: '🦎', kind: 'walk', h: 82, eye: 54, speed: 60, hop: 2, freq: 2, art: chameleon },
+      ...extra,
     ],
   });
 })();
