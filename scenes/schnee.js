@@ -137,15 +137,15 @@
     ${p('M10 -88 Q34 -84 32 -70 Q20 -66 10 -72Z', '#ff7a2a')}${s('M14 -86 Q20 -78 14 -72', '#ffd23f', 3)}
     ${eye(-2, -84, 4)}`;
     return [
-      { id: 'rentier', name: 'Rentier', icon: '🦌', kind: 'walk', h: 236, eye: 176, speed: 150, hop: 8, freq: 2.4, art: reindeer, big: true },
-      { id: 'walross', name: 'Walross', icon: '🦭', kind: 'walk', h: 140, eye: 110, speed: 60, hop: 8, freq: 2, tilt: 4, art: walrus },
-      { id: 'husky', name: 'Husky', icon: '🐕', kind: 'walk', h: 150, eye: 106, speed: 210, hop: 10, freq: 4, art: husky },
-      { id: 'papageitaucher', name: 'Papageitaucher', icon: '🐦', kind: 'fly', h: 104, eye: 84, speed: 300, art: puffin },
+      { id: 'rentier', name: 'Rentier', kind: 'walk', h: 236, eye: 176, speed: 150, hop: 8, freq: 2.4, art: reindeer, big: true },
+      { id: 'walross', name: 'Walross', kind: 'walk', h: 140, eye: 110, speed: 60, hop: 8, freq: 2, tilt: 4, art: walrus },
+      { id: 'husky', name: 'Husky', kind: 'walk', h: 150, eye: 106, speed: 210, hop: 10, freq: 4, art: husky },
+      { id: 'papageitaucher', name: 'Papageitaucher', kind: 'fly', h: 104, eye: 84, speed: 300, art: puffin },
     ];
   })();
 
   FW.scene({
-    id: 'schnee', name: 'Schnee', icon: '❄️', bg: '#9fc8ef',
+    id: 'schnee', name: 'Schnee', bg: '#9fc8ef',
     back, front,
     under: '#f6fbff',
     ground: 700, lane: [760, 808],
@@ -161,12 +161,12 @@
       { x: 1470, y: 604 }, { x: 600, y: 650 },
     ],
     animals: [
-      { id: 'pinguin', name: 'Pinguin', icon: '🐧', kind: 'walk', h: 150, eye: 116, speed: 90, hop: 2, freq: 4, tilt: 9, art: penguin },
-      { id: 'eisbaer', name: 'Eisbär', icon: '🐻‍❄️', kind: 'walk', h: 205, eye: 156, speed: 100, hop: 4, freq: 2.4, art: polarBear, big: true },
-      { id: 'robbe', name: 'Robbe', icon: '🦭', kind: 'walk', h: 122, eye: 96, speed: 70, hop: 10, freq: 2.6, tilt: 4, art: seal },
-      { id: 'polarfuchs', name: 'Polarfuchs', icon: '🦊', kind: 'walk', h: 150, eye: 96, speed: 160, hop: 6, freq: 3.2, art: arcticFox },
-      { id: 'schneehase', name: 'Schneehase', icon: '🐇', kind: 'walk', h: 200, eye: 106, speed: 170, hop: 30, freq: 2.4, art: snowHare },
-      { id: 'schneeeule', name: 'Schneeeule', icon: '🦉', kind: 'fly', h: 100, eye: 57, speed: 300, art: snowOwl },
+      { id: 'pinguin', name: 'Pinguin', kind: 'walk', h: 150, eye: 116, speed: 90, hop: 2, freq: 4, tilt: 9, art: penguin },
+      { id: 'eisbaer', name: 'Eisbär', kind: 'walk', h: 205, eye: 156, speed: 100, hop: 4, freq: 2.4, art: polarBear, big: true },
+      { id: 'robbe', name: 'Robbe', kind: 'walk', h: 122, eye: 96, speed: 70, hop: 10, freq: 2.6, tilt: 4, art: seal },
+      { id: 'polarfuchs', name: 'Polarfuchs', kind: 'walk', h: 150, eye: 96, speed: 160, hop: 6, freq: 3.2, art: arcticFox },
+      { id: 'schneehase', name: 'Schneehase', kind: 'walk', h: 200, eye: 106, speed: 170, hop: 30, freq: 2.4, art: snowHare },
+      { id: 'schneeeule', name: 'Schneeeule', kind: 'fly', h: 100, eye: 57, speed: 300, art: snowOwl },
       ...extra,
     ],
   });

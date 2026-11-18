@@ -94,6 +94,7 @@ Dann `http://localhost:3000` (bzw. `:8000`) öffnen.
 
 - `index.html` – Szene (SVG, alle Grafiken selbst gezeichnet) und Oberfläche
 - `style.css` – Gestaltung und Animationen
+- `icons.js` – eigene Icons im Buntstift-Stil (statt Emojis), alle mit einem gemeinsamen SVG-Filter
 - `app.js` – Pegelmessung (Web Audio API) und Spiellogik (für alle Bereiche gleich)
 - `scenes/_kit.js` – Baukasten für Bereiche (Formen, Augen, Gesichter); erklärt alle Felder einer Szene
 - `scenes/*.js` – je ein Bereich mit Hintergrund, Verstecken und sechs Tieren.

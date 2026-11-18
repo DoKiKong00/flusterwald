@@ -114,15 +114,15 @@
     ${c(-24, -68, 16, '#9a8a5a')}${c(24, -68, 16, '#9a8a5a')}${c(-24, -70, 10, '#f0c040')}${c(24, -70, 10, '#f0c040')}
     ${eyes(-23, 25, -70, 5)}${s('M-24 -46 Q0 -36 24 -46', '#5a4a2a', 4)}`;
     return [
-      { id: 'nachtfalter', name: 'Nachtfalter', icon: '🦋', kind: 'fly', h: 96, eye: 70, speed: 180, art: moth, perches: [], area: { x0: 100, x1: 1500, y0: 300, y1: 640 } },
-      { id: 'kroete', name: 'Kröte', icon: '🐸', kind: 'walk', h: 86, eye: 70, speed: 120, hop: 30, freq: 1.8, art: toad },
-      { id: 'igel', name: 'Igel', icon: '🦔', kind: 'walk', h: 95, eye: 40, speed: 70, hop: 3, freq: 6, tilt: 4, art: FW.art.igel },
-      { id: 'wolf', name: 'Wolf', icon: '🐺', kind: 'walk', h: 165, eye: 106, speed: 160, hop: 6, freq: 3, art: FW.art.wolf, w: 0.5 },
+      { id: 'nachtfalter', name: 'Nachtfalter', kind: 'fly', h: 96, eye: 70, speed: 180, art: moth, perches: [], area: { x0: 100, x1: 1500, y0: 300, y1: 640 } },
+      { id: 'kroete', name: 'Kröte', kind: 'walk', h: 86, eye: 70, speed: 120, hop: 30, freq: 1.8, art: toad },
+      { id: 'igel', name: 'Igel', kind: 'walk', h: 95, eye: 40, speed: 70, hop: 3, freq: 6, tilt: 4, art: FW.art.igel },
+      { id: 'wolf', name: 'Wolf', kind: 'walk', h: 165, eye: 106, speed: 160, hop: 6, freq: 3, art: FW.art.wolf, w: 0.5 },
     ];
   })();
 
   FW.scene({
-    id: 'nacht', name: 'Nacht', icon: '🌙', bg: '#141c44',
+    id: 'nacht', name: 'Nacht', bg: '#141c44',
     back, front,
     under: '#2e5a44',
     ground: 700, lane: [760, 805],
@@ -139,12 +139,12 @@
       { x: 1380, y: 90 }, { x: 1180, y: 648 },
     ],
     animals: [
-      { id: 'fledermaus', name: 'Fledermaus', icon: '🦇', kind: 'fly', h: 100, eye: 64, speed: 320, art: bat },
-      { id: 'waschbaer', name: 'Waschbär', icon: '🦝', kind: 'walk', h: 140, eye: 98, speed: 130, hop: 5, freq: 3.2, art: raccoon },
-      { id: 'dachs', name: 'Dachs', icon: '🦡', kind: 'walk', h: 80, eye: 52, speed: 90, hop: 3, freq: 4, tilt: 3, art: badger },
-      { id: 'maus', name: 'Maus', icon: '🐭', kind: 'walk', h: 84, eye: 50, speed: 240, hop: 4, freq: 7, art: mouse },
-      { id: 'uhu', name: 'Uhu', icon: '🦉', kind: 'fly', h: 118, eye: 68, speed: 280, art: eagleOwl },
-      { id: 'gluehwuermchen', name: 'Glühwürmchen', icon: '✨', kind: 'fly', h: 50, eye: 29, speed: 140, art: firefly, s: 1.3, perches: [],
+      { id: 'fledermaus', name: 'Fledermaus', kind: 'fly', h: 100, eye: 64, speed: 320, art: bat },
+      { id: 'waschbaer', name: 'Waschbär', kind: 'walk', h: 140, eye: 98, speed: 130, hop: 5, freq: 3.2, art: raccoon },
+      { id: 'dachs', name: 'Dachs', kind: 'walk', h: 80, eye: 52, speed: 90, hop: 3, freq: 4, tilt: 3, art: badger },
+      { id: 'maus', name: 'Maus', kind: 'walk', h: 84, eye: 50, speed: 240, hop: 4, freq: 7, art: mouse },
+      { id: 'uhu', name: 'Uhu', kind: 'fly', h: 118, eye: 68, speed: 280, art: eagleOwl },
+      { id: 'gluehwuermchen', name: 'Glühwürmchen', kind: 'fly', h: 50, eye: 29, speed: 140, art: firefly, s: 1.3, perches: [],
         area: { x0: 100, x1: 1500, y0: 300, y1: 660 } },
       ...extra,
     ],

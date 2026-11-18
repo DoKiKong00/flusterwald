@@ -127,15 +127,15 @@
     ${c(52, -60, 24, '#8a5e3c')}${e(64, -54, 14, 11, '#d8b48a')}${c(72, -58, 4, '#2b1d14')}
     ${c(42, -78, 6, '#7a5234')}${eye(56, -66, 4.5)}${s('M60 -50 L84 -52 M60 -48 L84 -44', '#5a3a2a', 1.5)}`;
     return [
-      { id: 'kueken', name: 'Küken', icon: '🐥', kind: 'walk', h: 84, eye: 66, speed: 110, hop: 6, freq: 5, tilt: 6, art: chick },
-      { id: 'eisvogel', name: 'Eisvogel', icon: '🐦', kind: 'fly', h: 86, eye: 72, speed: 360, art: kingfisher },
-      { id: 'otter', name: 'Otter', icon: '🦦', kind: 'walk', h: 92, eye: 66, speed: 160, hop: 8, freq: 3, art: otter },
-      { id: 'schildkroete', name: 'Schildkröte', icon: '🐢', kind: 'walk', h: 90, eye: 56, speed: 35, hop: 1, freq: 2, tilt: 2, art: FW.art.schildkroete, w: 0.6 },
+      { id: 'kueken', name: 'Küken', kind: 'walk', h: 84, eye: 66, speed: 110, hop: 6, freq: 5, tilt: 6, art: chick },
+      { id: 'eisvogel', name: 'Eisvogel', kind: 'fly', h: 86, eye: 72, speed: 360, art: kingfisher },
+      { id: 'otter', name: 'Otter', kind: 'walk', h: 92, eye: 66, speed: 160, hop: 8, freq: 3, art: otter },
+      { id: 'schildkroete', name: 'Schildkröte', kind: 'walk', h: 90, eye: 56, speed: 35, hop: 1, freq: 2, tilt: 2, art: FW.art.schildkroete, w: 0.6 },
     ];
   })();
 
   FW.scene({
-    id: 'teich', name: 'Teich', icon: '🐸', bg: '#8ed6f6',
+    id: 'teich', name: 'Teich', bg: '#8ed6f6',
     back, front,
     under: '#7cc35a',
     ground: 740, lane: [782, 815],
@@ -152,12 +152,12 @@
     ],
     air: { x0: 120, x1: 1500, y0: 300, y1: 640 },
     animals: [
-      { id: 'frosch', name: 'Frosch', icon: '🐸', kind: 'walk', h: 92, eye: 72, speed: 180, hop: 40, freq: 2, art: frog },
-      { id: 'ente', name: 'Ente', icon: '🦆', kind: 'walk', h: 110, eye: 86, speed: 100, hop: 2, freq: 4, tilt: 8, art: duck },
-      { id: 'libelle', name: 'Libelle', icon: '🪰', kind: 'fly', h: 60, eye: 46, speed: 260, art: dragonfly, s: 1.2 },
-      { id: 'biber', name: 'Biber', icon: '🦫', kind: 'walk', h: 134, eye: 106, speed: 100, hop: 4, freq: 3.4, art: beaver },
-      { id: 'storch', name: 'Storch', icon: '🪶', kind: 'walk', h: 260, eye: 242, speed: 90, hop: 3, freq: 1.6, art: stork, big: true },
-      { id: 'schwan', name: 'Schwan', icon: '🦢', kind: 'walk', h: 186, eye: 172, speed: 80, hop: 2, freq: 2, tilt: 3, art: swan, big: true },
+      { id: 'frosch', name: 'Frosch', kind: 'walk', h: 92, eye: 72, speed: 180, hop: 40, freq: 2, art: frog },
+      { id: 'ente', name: 'Ente', kind: 'walk', h: 110, eye: 86, speed: 100, hop: 2, freq: 4, tilt: 8, art: duck },
+      { id: 'libelle', name: 'Libelle', kind: 'fly', h: 60, eye: 46, speed: 260, art: dragonfly, s: 1.2 },
+      { id: 'biber', name: 'Biber', kind: 'walk', h: 134, eye: 106, speed: 100, hop: 4, freq: 3.4, art: beaver },
+      { id: 'storch', name: 'Storch', kind: 'walk', h: 260, eye: 242, speed: 90, hop: 3, freq: 1.6, art: stork, big: true },
+      { id: 'schwan', name: 'Schwan', kind: 'walk', h: 186, eye: 172, speed: 80, hop: 2, freq: 2, tilt: 3, art: swan, big: true },
       ...extra,
     ],
   });

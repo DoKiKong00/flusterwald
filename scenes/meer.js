@@ -146,15 +146,15 @@
     ${spikes}${c(0, -50, 46, '#ffd860')}${e(0, -34, 30, 16, '#fff4c0')}
     ${c(-14, -60, 11, '#fff')}${c(16, -60, 11, '#fff')}${eyes(-12, 18, -60, 6)}${e(4, -36, 7, 6, '#e07a5a')}`;
     return [
-      { id: 'qualle', name: 'Qualle', icon: '🪼', kind: 'swim', h: 130, eye: 82, speed: 70, art: jelly },
-      { id: 'delfin', name: 'Delfin', icon: '🐬', kind: 'swim', h: 134, eye: 70, speed: 240, art: dolphin, big: true },
-      { id: 'hai', name: 'Hai', icon: '🦈', kind: 'swim', h: 150, eye: 76, speed: 170, art: shark, big: true, w: 0.4 },
-      { id: 'kugelfisch', name: 'Kugelfisch', icon: '🐡', kind: 'swim', h: 110, eye: 60, speed: 100, art: puffer },
+      { id: 'qualle', name: 'Qualle', kind: 'swim', h: 130, eye: 82, speed: 70, art: jelly },
+      { id: 'delfin', name: 'Delfin', kind: 'swim', h: 134, eye: 70, speed: 240, art: dolphin, big: true },
+      { id: 'hai', name: 'Hai', kind: 'swim', h: 150, eye: 76, speed: 170, art: shark, big: true, w: 0.4 },
+      { id: 'kugelfisch', name: 'Kugelfisch', kind: 'swim', h: 110, eye: 60, speed: 100, art: puffer },
     ];
   })();
 
   FW.scene({
-    id: 'meer', name: 'Meer', icon: '🐠', bg: '#5fd0f0',
+    id: 'meer', name: 'Meer', bg: '#5fd0f0',
     back, front,
     under: '#e8c985',
     ground: 722, lane: [775, 815],
@@ -168,12 +168,12 @@
     air: { x0: 80, x1: 1520, y0: 230, y1: 620 },
     perches: [],
     animals: [
-      { id: 'fisch', name: 'Fisch', icon: '🐠', kind: 'swim', h: 80, eye: 48, speed: 220, art: fish },
-      { id: 'krake', name: 'Krake', icon: '🐙', kind: 'swim', h: 165, eye: 90, speed: 120, art: octo },
-      { id: 'krabbe', name: 'Krabbe', icon: '🦀', kind: 'walk', h: 110, eye: 86, speed: 110, hop: 2, freq: 6, tilt: 6, art: crab },
-      { id: 'seepferdchen', name: 'Seepferdchen', icon: '🐴', kind: 'swim', h: 150, eye: 118, speed: 90, art: seahorse },
-      { id: 'schildkroete', name: 'Schildkröte', icon: '🐢', kind: 'swim', h: 90, eye: 56, speed: 130, art: turtle },
-      { id: 'wal', name: 'Wal', icon: '🐳', kind: 'swim', h: 160, eye: 90, speed: 110, art: whale, big: true, s: 0.95 },
+      { id: 'fisch', name: 'Fisch', kind: 'swim', h: 80, eye: 48, speed: 220, art: fish },
+      { id: 'krake', name: 'Krake', kind: 'swim', h: 165, eye: 90, speed: 120, art: octo },
+      { id: 'krabbe', name: 'Krabbe', kind: 'walk', h: 110, eye: 86, speed: 110, hop: 2, freq: 6, tilt: 6, art: crab },
+      { id: 'seepferdchen', name: 'Seepferdchen', kind: 'swim', h: 150, eye: 118, speed: 90, art: seahorse },
+      { id: 'schildkroete', name: 'Schildkröte', kind: 'swim', h: 90, eye: 56, speed: 130, art: turtle },
+      { id: 'wal', name: 'Wal', kind: 'swim', h: 160, eye: 90, speed: 110, art: whale, big: true, s: 0.95 },
       ...extra,
     ],
   });

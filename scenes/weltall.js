@@ -117,15 +117,15 @@
     const moonBunny = FW.art.hase.split('#c9b6a4').join('#d8d0e8').split('#d6c4b2').join('#e4dcf0') + helmet(-106, 54);
     const monster = alien.split('#6ad86a').join('#b07ae6').split('#5ac85a').join('#9a62d8').split('#2a7a2a').join('#5a2a8a');
     return [
-      { id: 'satellit', name: 'Satellit', icon: '🛰️', kind: 'fly', h: 92, eye: 46, speed: 140, art: satellite, perches: [] },
-      { id: 'komet', name: 'Komet', icon: '☄️', kind: 'fly', h: 76, eye: 40, speed: 420, art: comet, perches: [], w: 0.5 },
-      { id: 'mondhase', name: 'Mondhase', icon: '🐰', kind: 'walk', h: 200, eye: 106, speed: 120, hop: 70, freq: 1.1, art: moonBunny },
-      { id: 'monster', name: 'Lila Monster', icon: '👾', kind: 'walk', h: 150, eye: 76, speed: 120, hop: 60, freq: 1.3, art: monster },
+      { id: 'satellit', name: 'Satellit', kind: 'fly', h: 92, eye: 46, speed: 140, art: satellite, perches: [] },
+      { id: 'komet', name: 'Komet', kind: 'fly', h: 76, eye: 40, speed: 420, art: comet, perches: [], w: 0.5 },
+      { id: 'mondhase', name: 'Mondhase', kind: 'walk', h: 200, eye: 106, speed: 120, hop: 70, freq: 1.1, art: moonBunny },
+      { id: 'monster', name: 'Lila Monster', kind: 'walk', h: 150, eye: 76, speed: 120, hop: 60, freq: 1.3, art: monster },
     ];
   })();
 
   FW.scene({
-    id: 'weltall', name: 'Weltall', icon: '🚀', bg: '#0b0f2e',
+    id: 'weltall', name: 'Weltall', bg: '#0b0f2e',
     back, front,
     under: '#c4c4d4',
     ground: 700, lane: [760, 808],
@@ -139,12 +139,12 @@
     air: { x0: 120, x1: 1500, y0: 260, y1: 620 },
     perches: [{ x: 250, y: 646 }, { x: 565, y: 602 }, { x: 920, y: 566 }, { x: 1470, y: 566 }],
     animals: [
-      { id: 'astrokatze', name: 'Astronauten-Katze', icon: '🐱', kind: 'walk', h: 166, eye: 122, speed: 110, hop: 60, freq: 1.2, art: astroCat },
-      { id: 'astrohund', name: 'Astronauten-Hund', icon: '🐶', kind: 'walk', h: 166, eye: 124, speed: 110, hop: 60, freq: 1.1, art: astroDog },
-      { id: 'alien', name: 'Alien', icon: '👽', kind: 'walk', h: 150, eye: 76, speed: 130, hop: 70, freq: 1.3, art: alien },
-      { id: 'roboter', name: 'Roboter', icon: '🤖', kind: 'walk', h: 184, eye: 124, speed: 90, hop: 3, freq: 4, tilt: 3, art: robot },
-      { id: 'ufo', name: 'UFO', icon: '🛸', kind: 'fly', h: 90, eye: 62, speed: 260, art: ufo },
-      { id: 'rakete', name: 'Rakete', icon: '🚀', kind: 'fly', h: 180, eye: 86, speed: 300, art: rocket, s: 0.8, perches: [] },
+      { id: 'astrokatze', name: 'Astronauten-Katze', kind: 'walk', h: 166, eye: 122, speed: 110, hop: 60, freq: 1.2, art: astroCat },
+      { id: 'astrohund', name: 'Astronauten-Hund', kind: 'walk', h: 166, eye: 124, speed: 110, hop: 60, freq: 1.1, art: astroDog },
+      { id: 'alien', name: 'Alien', kind: 'walk', h: 150, eye: 76, speed: 130, hop: 70, freq: 1.3, art: alien },
+      { id: 'roboter', name: 'Roboter', kind: 'walk', h: 184, eye: 124, speed: 90, hop: 3, freq: 4, tilt: 3, art: robot },
+      { id: 'ufo', name: 'UFO', kind: 'fly', h: 90, eye: 62, speed: 260, art: ufo },
+      { id: 'rakete', name: 'Rakete', kind: 'fly', h: 180, eye: 86, speed: 300, art: rocket, s: 0.8, perches: [] },
       ...extra,
     ],
   });

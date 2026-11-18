@@ -33,24 +33,24 @@
       <div id="next" title="Bis zum nächsten Tier">
         <svg viewBox="0 0 44 44"><circle class="track" cx="22" cy="22" r="18"/><circle class="ring" cx="22" cy="22" r="18"/></svg>
       </div>
-      <div id="stars" title="Sterne heute">⭐ <span id="star-count">0</span></div>
+      <div id="stars" title="Sterne heute"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-stern"/></svg> <span id="star-count">0</span></div>
     </div>
 
     <div id="controls">
-      <button id="btn-scenes" title="Bereich wählen (B)" aria-label="Bereich wählen">🗺</button>
-      <button id="btn-pause" title="Pause (Leertaste)" aria-label="Pause">⏸</button>
-      <button id="btn-reset" title="Neu starten (R)" aria-label="Neu starten">↺</button>
-      <button id="btn-full" title="Vollbild (F)" aria-label="Vollbild">⛶</button>
-      <button id="btn-settings" title="Einstellungen (E)" aria-label="Einstellungen">⚙</button>
+      <button id="btn-scenes" title="Bereich wählen (B)" aria-label="Bereich wählen"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-karte"/></svg></button>
+      <button id="btn-pause" title="Pause (Leertaste)" aria-label="Pause"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-pause"/></svg></button>
+      <button id="btn-reset" title="Neu starten (R)" aria-label="Neu starten"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-neu"/></svg></button>
+      <button id="btn-full" title="Vollbild (F)" aria-label="Vollbild"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-vollbild"/></svg></button>
+      <button id="btn-settings" title="Einstellungen (E)" aria-label="Einstellungen"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-zahnrad"/></svg></button>
     </div>
 
     <div id="meter" aria-hidden="true">
-      <span class="lbl">🤫</span>
+      <span class="lbl"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-leise"/></svg></span>
       <div class="bar">
         <div class="fill"></div>
         <div class="mark" title="Grenze"></div>
       </div>
-      <span class="lbl">📢</span>
+      <span class="lbl"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-laut"/></svg></span>
     </div>
 
     <div id="toast" role="status" aria-live="polite"></div>
@@ -62,13 +62,13 @@
         <h1>Flüsterwald</h1>
         <p class="lead">Wenn es ganz leise ist, trauen sich die Tiere heraus.<br>Wird es laut, verstecken sie sich schnell wieder.</p>
         <div id="scene-grid" role="radiogroup" aria-label="Bereich"></div>
-        <button id="btn-start" class="big">🎤 Los geht's</button>
-        <p class="privacy">🔒 Das Mikrofon misst nur, wie laut es ist. Es wird nichts aufgenommen, gespeichert oder verschickt. Alles bleibt auf diesem Gerät.</p>
+        <button id="btn-start" class="big"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-mikro"/></svg> Los geht's</button>
+        <p class="privacy"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-schloss"/></svg> Das Mikrofon misst nur, wie laut es ist. Es wird nichts aufgenommen, gespeichert oder verschickt. Alles bleibt auf diesem Gerät.</p>
         <p id="start-error" class="error" hidden></p>
         <button id="btn-demo" class="link">Ohne Mikrofon ausprobieren (Taste L = laut)</button>
         <div id="install" hidden>
-          <button id="btn-install" class="install">📲 Als App installieren</button>
-          <p id="install-ios" class="hint" hidden>Auf dem iPad: unten bzw. oben auf <b>Teilen</b> <span aria-hidden="true">⎙</span> tippen und <b>„Zum Home-Bildschirm“</b> wählen.</p>
+          <button id="btn-install" class="install"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-installieren"/></svg> Als App installieren</button>
+          <p id="install-ios" class="hint" hidden>Auf dem iPad: unten bzw. oben auf <b>Teilen</b> <svg class="ico" aria-hidden="true" focusable="false"><use href="#i-teilen"/></svg> tippen und <b>„Zum Home-Bildschirm“</b> wählen.</p>
         </div>
       </div>
     </section>
@@ -78,7 +78,7 @@
       <form method="dialog">
         <h2>Einstellungen</h2>
 
-        <button type="button" id="btn-album" class="album-btn">📖 Sammelalbum <small>(Taste A)</small></button>
+        <button type="button" id="btn-album" class="album-btn"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-album"/></svg> Sammelalbum <small>(Taste A)</small></button>
 
         <label class="row">
           <span>Bereich</span>
@@ -95,7 +95,7 @@
           <span class="scale"><span>sehr leise</span><span>etwas lauter ist okay</span></span>
         </label>
         <div class="row">
-          <button type="button" id="btn-calibrate">🎯 Raum einmessen</button>
+          <button type="button" id="btn-calibrate"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-ziel"/></svg> Raum einmessen</button>
           <small>Kurz still sein – die Grenze wird automatisch eingestellt.</small>
         </div>
 
@@ -156,7 +156,7 @@
     </dialog>
     <!-- ============ SAMMELALBUM ============ -->
     <dialog id="album" aria-labelledby="album-title">
-      <h2 id="album-title">📖 Sammelalbum</h2>
+      <h2 id="album-title"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-album"/></svg> Sammelalbum</h2>
       <p id="album-count" class="hint"></p>
       <div id="album-tabs"></div>
       <div id="album-grid"></div>
@@ -164,6 +164,7 @@
     </dialog>
   </main>
 
+  <script src="icons.js"></script>
   <script src="scenes/_kit.js"></script>
   <script src="scenes/wald.js"></script>
   <script src="scenes/bauernhof.js"></script>

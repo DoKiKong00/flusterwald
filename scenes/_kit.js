@@ -5,7 +5,7 @@
  * gezeichnet, nach oben sind die y-Werte negativ.
  *
  * Felder einer Szene:
- *   id, name, icon        – Kennung, Anzeigename, Emoji für die Auswahl
+ *   id, name              – Kennung und Anzeigename (das Bild für die Auswahl steht in icons.js unter der id)
  *   bg                    – Hintergrundfarbe der Seite
  *   back                  – SVG hinter den Tieren (Himmel, Stimmungsfigur mit id="mood", Hintergrund)
  *   front                 – SVG vor den versteckten Tieren (Boden und Verstecke)
@@ -18,7 +18,7 @@
  *   air                   – optional: Bereich zum freien Fliegen/Schwimmen { x0, x1, y0, y1 }
  *   shift                 – optional: so weit wird die Landschaft für mehr Wiese nach oben geschoben (Standard 120)
  *   moodFixed             – optional: Stimmungsfigur bewegt sich mit der Landschaft (z. B. Hahn auf dem Dach)
- *   animals               – Tierarten (w = Häufigkeit, Standard 1; selten z. B. 0.4): { id, name, icon, kind: 'walk'|'fly'|'swim', h, eye,
+ *   animals               – Tierarten (w = Häufigkeit, Standard 1; selten z. B. 0.4): { id, name, kind: 'walk'|'fly'|'swim', h, eye,
  *                            speed, hop, freq, tilt?, s?, lane?, area?, art }
  */
 (() => {

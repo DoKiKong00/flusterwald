@@ -119,15 +119,15 @@
     const dartFrog = recolor(FW.art.frosch, { '#5ab84a': '#2a7af0', '#4aa23a': '#1a5ad0', '#c8e8a0': '#ffd23f', '#2a6a1a': '#0a2a6a' });
     const blueButterfly = recolor(FW.art.schmetterling, { '#ff8ac4': '#2a8af0', '#ffb04a': '#5ad8f0' });
     return [
-      { id: 'gorilla', name: 'Gorilla', icon: '🦍', kind: 'walk', h: 190, eye: 150, speed: 110, hop: 8, freq: 2, art: gorilla, big: true, w: 0.6 },
-      { id: 'kolibri', name: 'Kolibri', icon: '🐦', kind: 'fly', h: 70, eye: 54, speed: 380, art: hummingbird, s: 1.1 },
-      { id: 'pfeilgiftfrosch', name: 'Pfeilgiftfrosch', icon: '🐸', kind: 'walk', h: 92, eye: 72, speed: 180, hop: 40, freq: 2, art: dartFrog },
-      { id: 'morphofalter', name: 'Blauer Falter', icon: '🦋', kind: 'fly', h: 104, eye: 78, speed: 160, art: blueButterfly, s: 1.1 },
+      { id: 'gorilla', name: 'Gorilla', kind: 'walk', h: 190, eye: 150, speed: 110, hop: 8, freq: 2, art: gorilla, big: true, w: 0.6 },
+      { id: 'kolibri', name: 'Kolibri', kind: 'fly', h: 70, eye: 54, speed: 380, art: hummingbird, s: 1.1 },
+      { id: 'pfeilgiftfrosch', name: 'Pfeilgiftfrosch', kind: 'walk', h: 92, eye: 72, speed: 180, hop: 40, freq: 2, art: dartFrog },
+      { id: 'morphofalter', name: 'Blauer Falter', kind: 'fly', h: 104, eye: 78, speed: 160, art: blueButterfly, s: 1.1 },
     ];
   })();
 
   FW.scene({
-    id: 'dschungel', name: 'Dschungel', icon: '🐒', bg: '#9fe0c8',
+    id: 'dschungel', name: 'Dschungel', bg: '#9fe0c8',
     back, front,
     under: '#5aae4a',
     ground: 700, lane: [760, 808],
@@ -143,12 +143,12 @@
       { x: 1330, y: 40 }, { x: 960, y: 220 }, { x: 700, y: 300 },
     ],
     animals: [
-      { id: 'affe', name: 'Affe', icon: '🐒', kind: 'walk', h: 150, eye: 112, speed: 190, hop: 24, freq: 2.8, art: monkey },
-      { id: 'tukan', name: 'Tukan', icon: '🐦', kind: 'fly', h: 96, eye: 76, speed: 320, art: toucan },
-      { id: 'faultier', name: 'Faultier', icon: '🦥', kind: 'walk', h: 148, eye: 106, speed: 28, hop: 2, freq: 1, tilt: 3, art: sloth },
-      { id: 'tiger', name: 'Tiger', icon: '🐯', kind: 'walk', h: 154, eye: 110, speed: 150, hop: 5, freq: 3, art: tiger },
-      { id: 'schlange', name: 'Schlange', icon: '🐍', kind: 'walk', h: 88, eye: 72, speed: 110, hop: 2, freq: 3, tilt: 6, art: snake },
-      { id: 'chamaeleon', name: 'Chamäleon', icon: '🦎', kind: 'walk', h: 82, eye: 54, speed: 60, hop: 2, freq: 2, art: chameleon },
+      { id: 'affe', name: 'Affe', kind: 'walk', h: 150, eye: 112, speed: 190, hop: 24, freq: 2.8, art: monkey },
+      { id: 'tukan', name: 'Tukan', kind: 'fly', h: 96, eye: 76, speed: 320, art: toucan },
+      { id: 'faultier', name: 'Faultier', kind: 'walk', h: 148, eye: 106, speed: 28, hop: 2, freq: 1, tilt: 3, art: sloth },
+      { id: 'tiger', name: 'Tiger', kind: 'walk', h: 154, eye: 110, speed: 150, hop: 5, freq: 3, art: tiger },
+      { id: 'schlange', name: 'Schlange', kind: 'walk', h: 88, eye: 72, speed: 110, hop: 2, freq: 3, tilt: 6, art: snake },
+      { id: 'chamaeleon', name: 'Chamäleon', kind: 'walk', h: 82, eye: 54, speed: 60, hop: 2, freq: 2, art: chameleon },
       ...extra,
     ],
   });

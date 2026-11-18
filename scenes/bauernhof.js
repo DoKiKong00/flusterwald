@@ -167,15 +167,15 @@
     ${e(0, -86, 22, 17, '#f4e6d0')}${e(0, -94, 9, 7, '#2b1d14')}${p('M-5 -80 Q0 -70 5 -80Z', '#ff8aa0')}
     ${c(14, -112, 12, '#7a4a2a', 'opacity=".5"')}${eyes(-14, 14, -110, 5.5)}`;
     return [
-      { id: 'pferd', name: 'Pferd', icon: '🐴', kind: 'walk', h: 232, eye: 204, speed: 170, hop: 8, freq: 2.6, art: horse, big: true },
-      { id: 'ziege', name: 'Ziege', icon: '🐐', kind: 'walk', h: 178, eye: 142, speed: 130, hop: 14, freq: 3, art: goat },
-      { id: 'gans', name: 'Gans', icon: '🪿', kind: 'walk', h: 152, eye: 140, speed: 90, hop: 2, freq: 4, tilt: 7, art: goose },
-      { id: 'hund', name: 'Hund', icon: '🐶', kind: 'walk', h: 140, eye: 110, speed: 200, hop: 10, freq: 4, art: dog },
+      { id: 'pferd', name: 'Pferd', kind: 'walk', h: 232, eye: 204, speed: 170, hop: 8, freq: 2.6, art: horse, big: true },
+      { id: 'ziege', name: 'Ziege', kind: 'walk', h: 178, eye: 142, speed: 130, hop: 14, freq: 3, art: goat },
+      { id: 'gans', name: 'Gans', kind: 'walk', h: 152, eye: 140, speed: 90, hop: 2, freq: 4, tilt: 7, art: goose },
+      { id: 'hund', name: 'Hund', kind: 'walk', h: 140, eye: 110, speed: 200, hop: 10, freq: 4, art: dog },
     ];
   })();
 
   FW.scene({
-    id: 'bauernhof', name: 'Bauernhof', icon: '🚜', bg: '#9ad8f7',
+    id: 'bauernhof', name: 'Bauernhof', bg: '#9ad8f7',
     back, front,
     shift: 90, moodFixed: true,
     under: '#7cc35a',
@@ -192,12 +192,12 @@
       { x: 192, y: 600 }, { x: 560, y: 600 },
     ],
     animals: [
-      { id: 'huhn', name: 'Huhn', icon: '🐔', kind: 'walk', h: 125, eye: 94, speed: 120, hop: 5, freq: 5, tilt: 5, art: chicken },
-      { id: 'schwein', name: 'Schwein', icon: '🐷', kind: 'walk', h: 150, eye: 110, speed: 100, hop: 4, freq: 4, art: pig },
-      { id: 'schaf', name: 'Schaf', icon: '🐑', kind: 'walk', h: 145, eye: 104, speed: 90, hop: 6, freq: 3, art: sheep },
-      { id: 'kuh', name: 'Kuh', icon: '🐮', kind: 'walk', h: 215, eye: 166, speed: 80, hop: 3, freq: 2, art: cow, s: 1.05 },
-      { id: 'katze', name: 'Katze', icon: '🐱', kind: 'walk', h: 145, eye: 102, speed: 160, hop: 6, freq: 3.5, art: cat },
-      { id: 'schwalbe', name: 'Schwalbe', icon: '🐦', kind: 'fly', h: 70, eye: 50, speed: 380, art: swallow, s: 1 },
+      { id: 'huhn', name: 'Huhn', kind: 'walk', h: 125, eye: 94, speed: 120, hop: 5, freq: 5, tilt: 5, art: chicken },
+      { id: 'schwein', name: 'Schwein', kind: 'walk', h: 150, eye: 110, speed: 100, hop: 4, freq: 4, art: pig },
+      { id: 'schaf', name: 'Schaf', kind: 'walk', h: 145, eye: 104, speed: 90, hop: 6, freq: 3, art: sheep },
+      { id: 'kuh', name: 'Kuh', kind: 'walk', h: 215, eye: 166, speed: 80, hop: 3, freq: 2, art: cow, s: 1.05 },
+      { id: 'katze', name: 'Katze', kind: 'walk', h: 145, eye: 102, speed: 160, hop: 6, freq: 3.5, art: cat },
+      { id: 'schwalbe', name: 'Schwalbe', kind: 'fly', h: 70, eye: 50, speed: 380, art: swallow, s: 1 },
       ...extra,
     ],
   });

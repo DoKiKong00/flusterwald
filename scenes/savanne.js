@@ -145,15 +145,15 @@
     ${s('M60 -34 L126 -34', '#3a7a2a', 2)}${p('M70 -34 l4 6 l4 -6 M90 -34 l4 6 l4 -6 M110 -34 l4 6 l4 -6', '#fff')}
     ${c(56, -58, 10, '#6aaa5a')}${eye(58, -60, 4.5)}`;
     return [
-      { id: 'nashorn', name: 'Nashorn', icon: '🦏', kind: 'walk', h: 150, eye: 100, speed: 110, hop: 4, freq: 2.4, art: rhino, big: true },
-      { id: 'nilpferd', name: 'Nilpferd', icon: '🦛', kind: 'walk', h: 150, eye: 118, speed: 80, hop: 3, freq: 2, art: hippo, big: true },
-      { id: 'strauss', name: 'Strauß', icon: '🪶', kind: 'walk', h: 290, eye: 274, speed: 220, hop: 8, freq: 3.4, art: ostrich, big: true },
-      { id: 'krokodil', name: 'Krokodil', icon: '🐊', kind: 'walk', h: 70, eye: 60, speed: 90, hop: 1, freq: 3, tilt: 2, art: croc, w: 0.5 },
+      { id: 'nashorn', name: 'Nashorn', kind: 'walk', h: 150, eye: 100, speed: 110, hop: 4, freq: 2.4, art: rhino, big: true },
+      { id: 'nilpferd', name: 'Nilpferd', kind: 'walk', h: 150, eye: 118, speed: 80, hop: 3, freq: 2, art: hippo, big: true },
+      { id: 'strauss', name: 'Strauß', kind: 'walk', h: 290, eye: 274, speed: 220, hop: 8, freq: 3.4, art: ostrich, big: true },
+      { id: 'krokodil', name: 'Krokodil', kind: 'walk', h: 70, eye: 60, speed: 90, hop: 1, freq: 3, tilt: 2, art: croc, w: 0.5 },
     ];
   })();
 
   FW.scene({
-    id: 'savanne', name: 'Savanne', icon: '🦁', bg: '#8fd0f0',
+    id: 'savanne', name: 'Savanne', bg: '#8fd0f0',
     back, front,
     under: '#e0b450',
     ground: 700, lane: [760, 808],
@@ -169,12 +169,12 @@
       { x: 565, y: 548 }, { x: 900, y: 600 }, { x: 960, y: 610 },
     ],
     animals: [
-      { id: 'loewe', name: 'Löwe', icon: '🦁', kind: 'walk', h: 170, eye: 116, speed: 140, hop: 5, freq: 3, art: lion },
-      { id: 'giraffe', name: 'Giraffe', icon: '🦒', kind: 'walk', h: 350, eye: 306, speed: 100, hop: 5, freq: 1.8, art: giraffe, big: true, s: 0.85 },
-      { id: 'zebra', name: 'Zebra', icon: '🦓', kind: 'walk', h: 225, eye: 200, speed: 150, hop: 8, freq: 2.6, art: zebra, big: true },
-      { id: 'elefant', name: 'Elefant', icon: '🐘', kind: 'walk', h: 200, eye: 164, speed: 80, hop: 3, freq: 1.8, art: elephant, big: true },
-      { id: 'erdmaennchen', name: 'Erdmännchen', icon: '🐾', kind: 'walk', h: 124, eye: 104, speed: 180, hop: 14, freq: 4, art: meerkat },
-      { id: 'papagei', name: 'Papagei', icon: '🦜', kind: 'fly', h: 100, eye: 78, speed: 330, art: parrot },
+      { id: 'loewe', name: 'Löwe', kind: 'walk', h: 170, eye: 116, speed: 140, hop: 5, freq: 3, art: lion },
+      { id: 'giraffe', name: 'Giraffe', kind: 'walk', h: 350, eye: 306, speed: 100, hop: 5, freq: 1.8, art: giraffe, big: true, s: 0.85 },
+      { id: 'zebra', name: 'Zebra', kind: 'walk', h: 225, eye: 200, speed: 150, hop: 8, freq: 2.6, art: zebra, big: true },
+      { id: 'elefant', name: 'Elefant', kind: 'walk', h: 200, eye: 164, speed: 80, hop: 3, freq: 1.8, art: elephant, big: true },
+      { id: 'erdmaennchen', name: 'Erdmännchen', kind: 'walk', h: 124, eye: 104, speed: 180, hop: 14, freq: 4, art: meerkat },
+      { id: 'papagei', name: 'Papagei', kind: 'fly', h: 100, eye: 78, speed: 330, art: parrot },
       ...extra,
     ],
   });

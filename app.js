@@ -505,7 +505,7 @@
     outStack.splice(outStack.length - n).forEach(flee);
     state.celebrated = false;
     render();
-    toast('Huch! Zu laut! 🙉');
+    toast(FWIcon('huch') + ' Huch! Zu laut!');
   }
 
   // Volle Karte: still ein paar Sterne regnen lassen (kein Text)
@@ -516,7 +516,8 @@
     for (let i = 0; i < 22; i++) {
       const s = document.createElement('span');
       s.className = 'sparkle';
-      s.textContent = ['⭐', '✨', '🌟'][i % 3];
+      s.innerHTML = FWIcon('stern');
+      s.style.fontSize = (22 + (i % 3) * 10) + 'px';
       s.style.left = Math.random() * 100 + 'vw';
       s.style.top = '0';
       s.style.animationDelay = Math.random() * 1.2 + 's';
@@ -534,7 +535,7 @@
 
   let toastTimer;
   function toast(msg, ms = 1600) {
-    els.toast.textContent = msg;
+    els.toast.innerHTML = msg;
     els.toast.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => els.toast.classList.remove('show'), ms);
@@ -567,7 +568,7 @@
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'album-tab';
       b.setAttribute('aria-pressed', String(sc.id === albumScene));
-      b.innerHTML = `<span class="ic">${sc.icon}</span><span class="nm">${sc.name}</span><span class="ct">${n}/${sc.animals.length}</span>`;
+      b.innerHTML = `<span class="ic">${FWIcon(sc.id)}</span><span class="nm">${sc.name}</span><span class="ct">${n}/${sc.animals.length}</span>`;
       b.addEventListener('click', () => { albumScene = sc.id; renderAlbum(); });
       els.albumTabs.appendChild(b);
     }
@@ -688,7 +689,7 @@
   function showAwake() {
     if (!wakeSupported) return;
     els.awakeStatus.hidden = !settings.awake || !state.running;
-    els.awakeStatus.textContent = wakeLock ? '✅ Der Bildschirm bleibt an.' : '⚠️ Gerade nicht möglich (z. B. Energiesparmodus). Wird beim nächsten Antippen erneut versucht.';
+    els.awakeStatus.innerHTML = wakeLock ? FWIcon('ok') + ' Der Bildschirm bleibt an.' : FWIcon('achtung') + ' Gerade nicht möglich (z. B. Energiesparmodus). Wird beim nächsten Antippen erneut versucht.';
   }
   document.addEventListener('visibilitychange', updateWakeLock);
   document.addEventListener('pointerdown', () => { if (settings.awake && state.running && !wakeLock) updateWakeLock(); });
@@ -699,10 +700,10 @@
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'scene-card'; b.dataset.id = sc.id;
     b.setAttribute('role', 'radio');
-    b.innerHTML = `<span class="ic">${sc.icon}</span><span class="nm">${sc.name}</span>`;
+    b.innerHTML = `<span class="ic">${FWIcon(sc.id)}</span><span class="nm">${sc.name}</span>`;
     b.addEventListener('click', () => { chosen = sc.id; syncScenePickers(); if (!state.running) loadScene(sc.id); });
     els.grid.appendChild(b);
-    els.scene.add(new Option(`${sc.icon} ${sc.name}`, sc.id));
+    els.scene.add(new Option(sc.name, sc.id));
   }
   function syncScenePickers() {
     for (const b of els.grid.children) b.setAttribute('aria-checked', String(b.dataset.id === chosen));
@@ -721,10 +722,10 @@
     const btn = $('#btn-calibrate');
     btn.disabled = true;
     let n = 3;
-    btn.textContent = `🤫 Psst … ${n}`;
+    btn.innerHTML = `${FWIcon('leise')} Psst … ${n}`;
     const iv = setInterval(() => {
       n--;
-      if (n > 0) { btn.textContent = `🤫 Psst … ${n}`; return; }
+      if (n > 0) { btn.innerHTML = `${FWIcon('leise')} Psst … ${n}`; return; }
       clearInterval(iv);
       const samples = state.calibrating.slice().sort((a, b) => a - b);
       state.calibrating = null;
@@ -732,8 +733,8 @@
       settings.threshold = Math.round(Math.min(90, Math.max(20, p90 + 12)));
       saveSettings(); applySettings();
       btn.disabled = false;
-      btn.textContent = '✅ Eingemessen';
-      setTimeout(() => { btn.textContent = '🎯 Raum einmessen'; }, 2000);
+      btn.innerHTML = FWIcon('ok') + ' Eingemessen';
+      setTimeout(() => { btn.innerHTML = FWIcon('ziel') + ' Raum einmessen'; }, 2000);
     }, 1000);
   }
 
@@ -772,14 +773,14 @@
     chosen = scene.id;
     syncScenePickers();
     els.start.hidden = false;
-    $('#btn-start').textContent = state.running ? '▶ Weiter' : "🎤 Los geht's";
+    $('#btn-start').innerHTML = state.running ? FWIcon('weiter') + ' Weiter' : FWIcon('mikro') + " Los geht's";
     $('#btn-demo').hidden = state.running;
   }
 
   function togglePause() {
     if (!state.running) return;
     state.paused = !state.paused;
-    $('#btn-pause').textContent = state.paused ? '▶' : '⏸';
+    $('#btn-pause').innerHTML = FWIcon(state.paused ? 'weiter' : 'pause');
     document.body.classList.toggle('is-paused', state.paused);
     // Das Mikrofon läuft in der Pause weiter (Anhalten und Fortsetzen ist in manchen Browsern unzuverlässig)
     if (!state.paused) checkMic();
@@ -857,7 +858,7 @@
     installPrompt = null;
     $('#install').hidden = true;
   });
-  window.addEventListener('appinstalled', () => { $('#install').hidden = true; toast('Installiert! 🎉', 2500); });
+  window.addEventListener('appinstalled', () => { $('#install').hidden = true; toast(FWIcon('stern') + ' Installiert!', 2500); });
 
   // Für Tests und Vorschau
   window.fluesterwald = {

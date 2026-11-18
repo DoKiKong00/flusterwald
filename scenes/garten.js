@@ -120,15 +120,15 @@
     ${c(38, -38, 16, '#7ad85a')}${s('M42 -52 Q50 -80 70 -84 M36 -52 Q36 -80 50 -90', '#4a8a2a', 2.5)}
     ${eye(44, -42, 4.5)}${s('M40 -28 Q46 -26 50 -30', '#3a6a1a', 2)}`;
     return [
-      { id: 'amsel', name: 'Amsel', icon: '🐦‍⬛', kind: 'fly', h: 88, eye: 74, speed: 300, art: blackbird },
-      { id: 'ameise', name: 'Ameise', icon: '🐜', kind: 'walk', h: 80, eye: 44, speed: 140, hop: 2, freq: 8, art: ant, s: 1.1 },
-      { id: 'raupe', name: 'Raupe', icon: '🐛', kind: 'walk', h: 72, eye: 38, speed: 40, hop: 3, freq: 2.5, art: caterpillar },
-      { id: 'grashuepfer', name: 'Grashüpfer', icon: '🦗', kind: 'walk', h: 70, eye: 42, speed: 200, hop: 50, freq: 1.6, art: grasshopper, s: 1.1 },
+      { id: 'amsel', name: 'Amsel', kind: 'fly', h: 88, eye: 74, speed: 300, art: blackbird },
+      { id: 'ameise', name: 'Ameise', kind: 'walk', h: 80, eye: 44, speed: 140, hop: 2, freq: 8, art: ant, s: 1.1 },
+      { id: 'raupe', name: 'Raupe', kind: 'walk', h: 72, eye: 38, speed: 40, hop: 3, freq: 2.5, art: caterpillar },
+      { id: 'grashuepfer', name: 'Grashüpfer', kind: 'walk', h: 70, eye: 42, speed: 200, hop: 50, freq: 1.6, art: grasshopper, s: 1.1 },
     ];
   })();
 
   FW.scene({
-    id: 'garten', name: 'Garten', icon: '🌷', bg: '#8fd3f4',
+    id: 'garten', name: 'Garten', bg: '#8fd3f4',
     back, front,
     under: '#7cc35a',
     ground: 700, lane: [760, 808],
@@ -145,12 +145,12 @@
       { x: 1480, y: 562 }, { x: 1200, y: 330 }, { x: 900, y: 580 }, { x: 380, y: 580 },
     ],
     animals: [
-      { id: 'marienkaefer', name: 'Marienkäfer', icon: '🐞', kind: 'fly', h: 80, eye: 54, speed: 200, art: ladybug, s: 1.1 },
-      { id: 'schmetterling', name: 'Schmetterling', icon: '🦋', kind: 'fly', h: 104, eye: 78, speed: 160, art: butterfly, s: 1.1 },
-      { id: 'biene', name: 'Biene', icon: '🐝', kind: 'fly', h: 80, eye: 44, speed: 240, art: bee, s: 1.1 },
-      { id: 'schnecke', name: 'Schnecke', icon: '🐌', kind: 'walk', h: 96, eye: 82, speed: 35, hop: 1, freq: 2, art: snail },
-      { id: 'regenwurm', name: 'Regenwurm', icon: '🪱', kind: 'walk', h: 66, eye: 50, speed: 50, hop: 4, freq: 3, tilt: 5, art: worm },
-      { id: 'maulwurf', name: 'Maulwurf', icon: '🐾', kind: 'walk', h: 130, eye: 100, speed: 90, hop: 4, freq: 3.4, art: mole },
+      { id: 'marienkaefer', name: 'Marienkäfer', kind: 'fly', h: 80, eye: 54, speed: 200, art: ladybug, s: 1.1 },
+      { id: 'schmetterling', name: 'Schmetterling', kind: 'fly', h: 104, eye: 78, speed: 160, art: butterfly, s: 1.1 },
+      { id: 'biene', name: 'Biene', kind: 'fly', h: 80, eye: 44, speed: 240, art: bee, s: 1.1 },
+      { id: 'schnecke', name: 'Schnecke', kind: 'walk', h: 96, eye: 82, speed: 35, hop: 1, freq: 2, art: snail },
+      { id: 'regenwurm', name: 'Regenwurm', kind: 'walk', h: 66, eye: 50, speed: 50, hop: 4, freq: 3, tilt: 5, art: worm },
+      { id: 'maulwurf', name: 'Maulwurf', kind: 'walk', h: 130, eye: 100, speed: 90, hop: 4, freq: 3.4, art: mole },
       ...extra,
     ],
   });

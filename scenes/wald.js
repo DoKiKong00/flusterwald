@@ -132,15 +132,15 @@
     ${p('M-44 -92 Q-30 -60 0 -62 Q30 -60 44 -92 Q30 -76 0 -78 Q-30 -76 -44 -92Z', '#e6e8ec')}
     ${e(0, -70, 16, 12, '#e6e8ec')}${c(0, -76, 6.5, '#2b1d14')}${eyes(-16, 16, -106, 5.5)}`;
     return [
-      { id: 'wildschwein', name: 'Wildschwein', icon: '🐗', kind: 'walk', h: 110, eye: 66, speed: 140, hop: 4, freq: 4, art: boar },
-      { id: 'specht', name: 'Specht', icon: '🐦', kind: 'fly', h: 100, eye: 78, speed: 320, art: woodpecker },
-      { id: 'baer', name: 'Bär', icon: '🐻', kind: 'walk', h: 190, eye: 142, speed: 90, hop: 4, freq: 2.2, art: bear, big: true },
-      { id: 'wolf', name: 'Wolf', icon: '🐺', kind: 'walk', h: 165, eye: 106, speed: 160, hop: 6, freq: 3, art: wolf, w: 0.4 },
+      { id: 'wildschwein', name: 'Wildschwein', kind: 'walk', h: 110, eye: 66, speed: 140, hop: 4, freq: 4, art: boar },
+      { id: 'specht', name: 'Specht', kind: 'fly', h: 100, eye: 78, speed: 320, art: woodpecker },
+      { id: 'baer', name: 'Bär', kind: 'walk', h: 190, eye: 142, speed: 90, hop: 4, freq: 2.2, art: bear, big: true },
+      { id: 'wolf', name: 'Wolf', kind: 'walk', h: 165, eye: 106, speed: 160, hop: 6, freq: 3, art: wolf, w: 0.4 },
     ];
   })();
 
   FW.scene({
-    id: 'wald', name: 'Wald', icon: '🌳', bg: '#8fd3f4',
+    id: 'wald', name: 'Wald', bg: '#8fd3f4',
     back, front,
     under: '#4a9a3a',
     ground: 700, lane: [758, 805],
@@ -156,12 +156,12 @@
       { x: 820, y: 642 }, { x: 900, y: 642 }, { x: 270, y: 672 }, { x: 560, y: 652 }, { x: 1450, y: 614 },
     ],
     animals: [
-      { id: 'hase', name: 'Hase', icon: '🐰', kind: 'walk', h: 200, eye: 106, speed: 170, hop: 30, freq: 2.4, art: bunny },
-      { id: 'igel', name: 'Igel', icon: '🦔', kind: 'walk', h: 95, eye: 40, speed: 70, hop: 3, freq: 6, tilt: 4, art: hedgehog },
-      { id: 'eichhoernchen', name: 'Eichhörnchen', icon: '🐿️', kind: 'walk', h: 135, eye: 88, speed: 230, hop: 22, freq: 3.6, art: squirrel },
-      { id: 'fuchs', name: 'Fuchs', icon: '🦊', kind: 'walk', h: 160, eye: 98, speed: 150, hop: 6, freq: 3.2, art: fox },
-      { id: 'eule', name: 'Eule', icon: '🦉', kind: 'fly', h: 100, eye: 57, speed: 300, art: owl },
-      { id: 'reh', name: 'Reh', icon: '🦌', kind: 'walk', h: 230, eye: 204, speed: 130, hop: 8, freq: 2.2, art: deer },
+      { id: 'hase', name: 'Hase', kind: 'walk', h: 200, eye: 106, speed: 170, hop: 30, freq: 2.4, art: bunny },
+      { id: 'igel', name: 'Igel', kind: 'walk', h: 95, eye: 40, speed: 70, hop: 3, freq: 6, tilt: 4, art: hedgehog },
+      { id: 'eichhoernchen', name: 'Eichhörnchen', kind: 'walk', h: 135, eye: 88, speed: 230, hop: 22, freq: 3.6, art: squirrel },
+      { id: 'fuchs', name: 'Fuchs', kind: 'walk', h: 160, eye: 98, speed: 150, hop: 6, freq: 3.2, art: fox },
+      { id: 'eule', name: 'Eule', kind: 'fly', h: 100, eye: 57, speed: 300, art: owl },
+      { id: 'reh', name: 'Reh', kind: 'walk', h: 230, eye: 204, speed: 130, hop: 8, freq: 2.2, art: deer },
       ...extra,
     ],
   });
