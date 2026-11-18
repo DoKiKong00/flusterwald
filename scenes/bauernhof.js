@@ -24,7 +24,7 @@
     <linearGradient id="hof-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9ad8f7"/><stop offset="1" stop-color="#fff3d6"/></linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#hof-sky)"/>
-  ${c(190, 150, 70, '#ffd23f')}${c(190, 150, 96, '#ffe680', 'opacity=".4" class="pulse"')}
+  ${c(190, 250, 70, '#ffd23f')}${c(190, 250, 96, '#ffe680', 'opacity=".4" class="pulse"')}
   ${cloud(520, 120)}${cloud(860, 190, 0.7, '#fff', 'cloud c2')}
   <path d="M0 600 Q300 520 620 590 T1200 570 T1600 560 V900 H0Z" fill="#b9e08f"/>
   <!-- Felder -->
@@ -32,7 +32,8 @@
   ${s('M40 650 Q400 615 780 650 M60 670 Q420 640 800 668', '#d4b958', 4)}
   <!-- Strommast mit Leitung (Sitzplatz für die Schwalbe) -->
   ${r(96, 210, 14, 460, 4, '#8a6a45')}${r(70, 226, 66, 10, 3, '#8a6a45')}
-  ${s('M76 228 Q420 300 760 236', '#4a4a4a', 3)}
+  ${r(754, 224, 12, 420, 4, '#8a6a45')}${r(732, 236, 56, 9, 3, '#8a6a45')}
+  ${s('M76 228 Q420 300 760 238', '#4a4a4a', 3)}
   <!-- Scheune -->
   ${p('M980 360 L1200 230 L1420 360Z', '#8e2b23')}
   ${r(1000, 350, 400, 360, 0, '#c0392b')}

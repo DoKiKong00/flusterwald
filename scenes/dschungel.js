@@ -19,12 +19,17 @@
   ${r(420, 120, 70, 600, 20, '#6a8a5a', 'opacity=".5"')}${r(1060, 100, 80, 620, 20, '#6a8a5a', 'opacity=".5"')}
   ${c(450, 140, 140, '#5aa060', 'opacity=".55"')}${c(1100, 120, 160, '#5aa060', 'opacity=".55"')}${c(800, 80, 130, '#5aa060', 'opacity=".45"')}
   <path d="M0 620 Q300 560 640 610 T1300 590 T1600 600 V900 H0Z" fill="#6cbf5a"/>
+  <!-- Felswand mit Wasserfall (hinter dem vorderen Felsen) -->
+  ${p('M820 720 Q815 520 850 470 Q905 430 965 468 Q1000 540 995 720Z', '#7a8478')}${p('M850 480 Q905 446 960 478', 'none', 'stroke="#94a090" stroke-width="10" stroke-linecap="round"')}
+  ${r(880, 462, 50, 260, 10, '#8ad8f8', 'opacity=".9"')}${s('M892 470 V700 M912 480 V700', '#d8f4ff', 4, 'class="twinkle"')}
   <!-- großer Baum mit Ast -->
+  <g transform="translate(-80 0)">
   ${p('M1290 740 Q1300 500 1286 200 L1380 200 Q1372 500 1392 740Z', '#7a5a3a')}
   ${s('M1300 380 Q1200 360 1120 380', '#7a5a3a', 22)}${s('M1370 300 Q1480 280 1560 300', '#7a5a3a', 20)}
   ${c(1330, 150, 120, '#3a9a4a')}${c(1460, 190, 100, '#3a9a4a')}${c(1200, 190, 90, '#45a855')}
   ${vine(700, 300, 'sway')}${vine(960, 220, 'sway d2')}${vine(1140, 390, 'sway')}${vine(1520, 300, 'sway d2')}
-  ${flower(1140, 380, '#ff5a8a', 10)}${flower(1530, 300, '#ffb02a', 9)}`;
+  ${flower(1140, 380, '#ff5a8a', 10)}${flower(1530, 300, '#ffb02a', 9)}
+  </g>`;
 
   const bigLeaves = (x, y, k, col1, col2) => [[-60, 0, 110, -150], [-30, -20, 120, -120], [0, -30, 130, -90], [30, -20, 120, -60], [60, 0, 110, -30]]
     .map(([dx, dy, len, ang], i) => leaf(x + dx * k + Math.cos(ang * Math.PI / 180) * len * k * 0.6, y + dy * k + Math.sin(ang * Math.PI / 180) * len * k * 0.6, len * k * 0.6, ang, i % 2 ? col1 : col2)).join('');
@@ -139,8 +144,8 @@
       { x: 1480, top: 570, w: 220, big: true },
     ],
     perches: [
-      { x: 1160, y: 372 }, { x: 1220, y: 366 }, { x: 1500, y: 290 }, { x: 1440, y: 284 }, { x: 900, y: 584 },
-      { x: 1330, y: 40 }, { x: 960, y: 220 }, { x: 700, y: 300 },
+      { x: 1080, y: 372 }, { x: 1140, y: 366 }, { x: 1420, y: 290 }, { x: 1360, y: 284 }, { x: 900, y: 584 },
+      { x: 1250, y: 40 }, { x: 960, y: 220 }, { x: 700, y: 300 },
     ],
     animals: [
       { id: 'affe', name: 'Affe', kind: 'walk', h: 150, eye: 112, speed: 190, hop: 24, freq: 2.8, art: monkey },
