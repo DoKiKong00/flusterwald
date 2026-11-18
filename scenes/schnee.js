@@ -14,7 +14,7 @@
   <rect width="1600" height="900" fill="url(#schnee-sky)"/>
   ${s('M300 120 Q700 40 1100 120 T1600 100', '#9ef0c8', 30, 'opacity=".35"')}${s('M200 170 Q700 90 1200 170', '#c8a0f0', 20, 'opacity=".25"')}
   <!-- Schneemann -->
-  <g id="mood" transform="translate(1062 588) scale(.62)">
+  <g id="mood" transform="translate(120 872) scale(.76)">
     <g class="shake-me">
       ${w(c(0, 40, 62, W))}${w(c(0, -50, 46, W))}${w(c(0, -122, 38, W))}
       ${r(-34, -168, 68, 10, 4, '#2b2b3a')}${r(-24, -214, 48, 50, 6, '#2b2b3a')}${r(-24, -178, 48, 8, 0, '#d9452a')}
@@ -147,7 +147,7 @@
   FW.scene({
     id: 'schnee', name: 'Schnee', bg: '#9fc8ef',
     back, front,
-    moodFixed: true,
+    moodFixed: true, moodFront: true,
     under: '#f6fbff',
     ground: 700, lane: [760, 808],
     covers: [

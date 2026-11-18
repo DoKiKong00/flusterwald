@@ -55,6 +55,7 @@
     fg: document.getElementById('fg'),
     back: document.getElementById('layer-back'),
     front: document.getElementById('layer-front'),
+    top: document.getElementById('layer-top'),
     hole: document.getElementById('layer-hole'),
   };
   const holeClip = document.getElementById('holeClipShape');
@@ -168,7 +169,8 @@
       + def.front;
     layers.bg.setAttribute('transform', shiftT);
     layers.fg.setAttribute('transform', shiftT);
-    for (const k of ['back', 'front', 'hole']) layers[k].replaceChildren();
+    for (const k of ['back', 'front', 'hole', 'top']) layers[k].replaceChildren();
+    layers.top.setAttribute('transform', shiftT);
     animals = []; outStack = [];
     const h = scene.hole;
     holeClip.setAttribute('cx', h ? h.x : -100); holeClip.setAttribute('cy', h ? h.y : -100);
@@ -184,6 +186,7 @@
     if (mood) { // Stimmungsfigur einpacken, damit sie immer im sichtbaren Bereich bleibt
       moodWrap = document.createElementNS(SVGNS, 'g');
       mood.before(moodWrap); moodWrap.appendChild(mood);
+      if (def.moodFront) layers.top.appendChild(moodWrap); // Stimmungsfigur ganz vorne (verdeckt von nichts)
     }
     fitScene();
     zOrder = '';
@@ -219,7 +222,8 @@
     svg.setAttribute('viewBox', `${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);
     if (moodWrap && scene) {
       const follow = scene.moodFixed ? 0 : scene.sh; // Stimmungsfigur nicht mit der Landschaft hochschieben
-      moodWrap.setAttribute('transform', `translate(${Math.max(0, x).toFixed(1)} ${(Math.max(0, y) + follow).toFixed(1)})`);
+      const dy = scene.moodFront ? 0 : Math.max(0, y) + follow; // vorne stehende Figur bleibt auf dem Boden
+      moodWrap.setAttribute('transform', `translate(${Math.max(0, x).toFixed(1)} ${dy.toFixed(1)})`);
     }
   }
   addEventListener('resize', fitScene);
