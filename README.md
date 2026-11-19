@@ -56,7 +56,7 @@ Updates werden beim nächsten Start mit Internet automatisch im Hintergrund gela
 | Taste | Funktion |
 |---|---|
 | Leertaste | Pause / weiter (Tiere bewegen sich weiter, es kommen und gehen aber keine) |
-| R | Neu starten |
+| R | Neu starten (auch als Knopf unten in den Einstellungen) |
 | F | Vollbild |
 | E | Einstellungen |
 | B | Bereich wählen |

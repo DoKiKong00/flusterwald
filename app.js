@@ -115,6 +115,7 @@
 
   // Pegel 0–100 (−60 dB … −10 dB)
   function readLevel(dt = 0) {
+    if (state.demo && state.demoLevel != null) return state.demoLevel; // fester Testpegel
     if (state.demo) return state.demoLoud ? 80 + Math.random() * 10 : 12 + Math.random() * 8;
     if (!analyser) return 0;
     analyser.getFloatTimeDomainData(buf);
@@ -616,10 +617,11 @@
 
       if (state.calibrating) state.calibrating.push(raw);
 
-      const loud = !state.paused && state.level > settings.threshold;
-      // Anzeige etwas ruhiger als die Erkennung: zügig steigen, sanft fallen
+      // Balken: zügig steigen, sanft fallen
       const tau = state.level > state.shown ? 0.2 : 0.6;
       state.shown += (state.level - state.shown) * (1 - Math.exp(-dt / tau));
+      // „Zu laut“ gilt erst, wenn der Balken im roten Bereich ist (gleicher Wert wie die Anzeige)
+      const loud = !state.paused && state.shown > settings.threshold;
       updateMeter(loud);
 
       if (!state.paused && !state.calibrating) {
@@ -799,7 +801,7 @@
   $('#btn-demo').addEventListener('click', () => begin(true));
   $('#btn-scenes').addEventListener('click', openScenes);
   $('#btn-pause').addEventListener('click', togglePause);
-  $('#btn-reset').addEventListener('click', reset);
+  $('#btn-reset').addEventListener('click', () => { reset(); els.dialog.close(); });
   $('#btn-full').addEventListener('click', toggleFullscreen);
   $('#btn-settings').addEventListener('click', () => els.dialog.showModal());
   $('#btn-calibrate').addEventListener('click', calibrate);
